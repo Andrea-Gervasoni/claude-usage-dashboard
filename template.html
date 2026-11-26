@@ -910,13 +910,15 @@ function huzCompose(glc) {
   if (since < .16) { c.globalAlpha = (1 - since / .16) * .85; c.fillStyle = "#fff"; c.fillRect(0, 0, 1080, 1920); c.globalAlpha = 1; }   // stacco
   if (te > C.end && !HZ.done) huzStop();
 }
-function huzStart() {
+async function huzStart() {
   HZ.done = false; HZ.blob = null; $("#hzSave").hidden = true; $("#hzAgain").hidden = true; $("#hzNote").textContent = "";
   const big = !coarse && (navigator.hardwareConcurrency || 4) >= 8; HZ.W = big ? 1080 : 720; HZ.H = big ? 1920 : 1280;
   const cv = $("#huzCv"); if (cv.width !== HZ.W) { cv.width = HZ.W; cv.height = HZ.H; HZ.bg = null; } if (!HZ.bg) huzLayers();
   let dest = null; const C = CLIP;
   try { HZ.actx = HZ.actx || new (window.AudioContext || window.webkitAudioContext)(); HZ.actx.resume(); const ctx = HZ.actx, out = ctx.createGain(); out.gain.value = .9; out.connect(ctx.destination); dest = ctx.createMediaStreamDestination(); out.connect(dest);
-    if (DATA && DATA.huss) { if (HZ.el) HZ.el.pause(); HZ.el = new Audio(DATA.huss); const src = ctx.createMediaElementSource(HZ.el); src.connect(out); HZ.el.play().catch(() => {}); }
+    if (DATA && DATA.huss) {   // decodifica diretta: niente elemento audio, quindi nessun blocco del contesto e partenza al campione
+      if (!HZ.buf) { const bin = atob(DATA.huss.split(",")[1]), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i); HZ.buf = await ctx.decodeAudioData(u8.buffer); }
+      HZ.src = ctx.createBufferSource(); HZ.src.buffer = HZ.buf; HZ.src.connect(out); HZ.src.start(ctx.currentTime + .03); }
     else { const t = ctx.currentTime + .03; for (let i = 0; i < 5; i++) hussBounce(ctx, (() => { const q = ctx.createGain(); q.gain.value = .12; q.connect(out); return q; })(), t + .05 + i * .1);
       C.hits.forEach((h) => { hussBreath(ctx, out, t + h - .16); hussBounce(ctx, out, t + h); }); hussChime(ctx, out, t + C.cut2 + .05); } } catch (_) {}
   try { const stream = cv.captureStream(60); if (dest) dest.stream.getAudioTracks().forEach((tr) => stream.addTrack(tr));
@@ -925,7 +927,7 @@ function huzStart() {
       HZ.rec.ondataavailable = (e) => e.data.size && chunks.push(e.data); HZ.rec.onstop = () => { HZ.blob = new Blob(chunks, { type: mime.split(";")[0] }); $("#hzSave").hidden = false; }; HZ.rec.start(); } else HZ.rec = null; } catch (_) { HZ.rec = null; }
   HZ.t0 = performance.now(); mascot.clipT = 0; mascot.clip(true, HZ.W, HZ.H);
 }
-function huzStop() { HZ.done = true; try { if (HZ.rec && HZ.rec.state !== "inactive") HZ.rec.stop(); } catch (_) {} if (HZ.el) HZ.el.pause(); $("#hzAgain").hidden = false; if (!HZ.rec) $("#hzNote").textContent = "This browser cannot record the clip. Use screen recording."; }
+function huzStop() { HZ.done = true; try { if (HZ.rec && HZ.rec.state !== "inactive") HZ.rec.stop(); } catch (_) {} try { if (HZ.src) HZ.src.stop(); } catch (_) {} $("#hzAgain").hidden = false; if (!HZ.rec) $("#hzNote").textContent = "This browser cannot record the clip. Use screen recording."; }
 function huzOpen() { if (!mascot || S.empty || HZ.on || !AU) return; HZ.on = true; $("#huz").classList.add("open"); document.documentElement.style.overflow = "hidden"; mascot.onClipFrame = huzCompose; huzStart(); }
 function huzClose() { if (!HZ.on) return; if (!HZ.done) huzStop(); HZ.on = false; mascot.clip(false); $("#huz").classList.remove("open"); document.documentElement.style.overflow = ""; }
 $("#hzClose").addEventListener("click", huzClose); $("#hzAgain").addEventListener("click", huzStart);
