@@ -1210,7 +1210,7 @@ gl_FragColor=vec4(mix(c1,c2,core*.9),a*k*edge*(.5+.45*nz));}` }));
   let hitSeen = -1, burst = false;
   function clipPose(ct, dt) {
     const C = CLIP, ss = (a, b, x) => { const u = clamp((x - a) / (b - a)); return u * u * (3 - 2 * u); };
-    world.position.y = 0; world.rotation.y = 0; cloud.rotation.z = 0; crab.position.set(0, 0, 0); crab.rotation.set(0, 0, 0); bodyG.rotation.z = 0; let by = 1.1, sy = 1;
+    arms.forEach((g) => (g.rotation.order = "XYZ")); world.position.y = 0; world.rotation.y = 0; cloud.rotation.z = 0; crab.position.set(0, 0, 0); crab.rotation.set(0, 0, 0); bodyG.rotation.z = 0; let by = 1.1, sy = 1;
     eyes.forEach((g, i) => { g.position.set(i ? .5 : -.5, .2, .76); g.scale.set(1, blink > 0 ? .12 : 1, 1); }); legs.forEach((l) => (l.rotation.x = 0));
     lap.visible = ct < C.cut1; ball.visible = ct >= C.cut1 && ct < C.cut2; lid.rotation.x = .22; let sm = 0, ak = AUK[level] * .6;
     if (ct < C.cut1) {            // 1. la frase: batte sui tasti, poi alza gli occhi e "parla"
@@ -1224,7 +1224,8 @@ gl_FragColor=vec4(mix(c1,c2,core*.9),a*k*edge*(.5+.45*nz));}` }));
       else { const ph = ((ct - t0) % per) / per; yn = 4 * ph * (1 - ph); since = (ct - t0) % per; }
       const hit = Math.exp(-since * 16); ball.position.set(1.72, r + H * yn - hit * .05, .55); ball.scale.set(1 + hit * .2, 1 - hit * .28, 1 + hit * .2); ball.rotation.x = ct * 7;
       crab.rotation.y = .16; crab.rotation.z = -.06; by = 1.02 + .08 * yn - hit * .04; sy = 1 - hit * .06; bodyG.rotation.z = -.07 + .05 * yn;
-      arms.forEach((g, i) => { if (i) g.rotation.set(.05 + .8 * (1 - yn), 1.25, 0); else g.rotation.set(-.3 - .15 * (1 - yn), -1.15, 0); });
+      // il gesto del meme: le braccia vanno su e giù, una in salita mentre l'altra scende, un colpo di fiato per mezza oscillazione
+      const ph = Math.PI * (ct - t0) / per; arms.forEach((g, i) => { const sd = i ? 1 : -1, sw = Math.sin(ph + (i ? Math.PI : 0)); g.rotation.order = "ZYX"; g.rotation.set(0, sd * 1.2, sd * (.2 + .95 * sw)); });
       eyes.forEach((g) => { g.position.x += .09; g.position.y = .12 + .05 * yn; }); legs.forEach((l, i) => (l.rotation.x = Math.sin(ct * 14 + i * 1.6) * .1));
       const idx = ct < t0 ? -1 : Math.min(2, Math.floor((ct - t0) / per)); if (idx > hitSeen) { hitSeen = idx; for (let i = 0; i < 3; i++) spawn(1.2); }
       const sh = Math.exp(-since * 13) * .06; camP.set(1.7 + Math.sin(ct * 61) * sh, 1.55 + Math.cos(ct * 47) * sh, 15.4 - (ct - C.cut1) * .45); camL.set(.5, .5, .4);
