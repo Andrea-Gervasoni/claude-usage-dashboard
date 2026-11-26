@@ -30,6 +30,12 @@ try {
   const m = url.match(/([^/:]+)\/([^/]+?)(?:\.git)?$/);
   if (m) repo = `${m[1]}/${m[2]}`;
 } catch {}
+if (!repo) {   // lanciato con npx: non c'è un remote, si legge package.json
+  try {
+    const m = JSON.parse(readFileSync(join(root, "package.json"), "utf8")).repository.url.match(/github\.com[/:]([^/]+)\/([^/]+?)(?:\.git)?$/);
+    if (m) repo = `${m[1]}/${m[2]}`;
+  } catch {}
+}
 
 // JSON sicuro dentro <script>
 const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, days: history.days })

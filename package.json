@@ -1,0 +1,10 @@
+{
+  "name": "vibelog",
+  "version": "0.1.0",
+  "description": "Your Claude Code usage as a playful local recap: 3D mascot, aura levels, trophies and a share card. Unofficial.",
+  "bin": { "vibelog": "bin/vibelog.mjs" },
+  "files": ["bin", "scripts", "fonts", "vendor", "template.html"],
+  "engines": { "node": ">=18" },
+  "repository": { "type": "git", "url": "git+https://github.com/Andrea-Gervasoni/claude-usage-dashboard.git" },
+  "keywords": ["claude-code", "ccusage", "usage", "dashboard", "recap", "wrapped"]
+}

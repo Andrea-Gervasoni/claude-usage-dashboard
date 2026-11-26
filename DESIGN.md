@@ -58,7 +58,11 @@ Il livello si calcola su tutta la storia, con una formula dichiarata nella pagin
 - La mascotte 3D della prima vista indossa l'equipaggiamento del livello. Gli occhiali stanno sulla fronte e calano sugli occhi quando la tocchi.
 - I livelli non raggiunti si vedono in sagoma, con la soglia e cosa sbloccano.
 - **The flex**: quattro tessere di misura diversa (romanzi scritti, quota nei weekend, picco contro giorno normale, contesto riletto). Le conversioni sono dichiarate come stime.
-- **Card da storie**: canvas 1080×1920 con logo, nome, repo, mascotte del livello, punti, quattro numeri e distanza dal livello successivo. Si salva in PNG; su telefono usa la condivisione di sistema.
+- **Card da storie**: manifesto 1080×1920 a tutta pagina. Cielo con raggi e alone del colore della rarità, granchio enorme con i piedi nella nuvola, nome del livello e punti di aura a scala manifesto, una riga di numeri, repo. La cornice dice la rarità (da Common a Secret). I testi stanno nella zona sicura delle storie. Nella pagina la card si inclina e ha un riflesso olografico che segue il puntatore; dalla scala dei livelli si guardano anche le carte degli altri livelli, quelle bloccate in sagoma.
+- **Trofei**: dodici, con forma diversa per famiglia (serie, giorni, volume, spesa, varietà). L'anello è il progresso reale.
+- **Recap**: sette storie a tutto schermo con cielo e granchio, tocco per avanzare, pressione per fermare; l'ultima è la card.
+- **Aura in 3D**: una fiamma morbida dietro la mascotte, colore e forza dal livello, che si accende quando la tocchi.
+- **Aggancio quotidiano**: la prima vista dice a che giorno è la serie in corso, o che è a rischio se oggi non hai ancora scritto.
 - Unico colore fuori palette: oro `#E9B44C`, solo per corona, catena e aureola.
 
 ## Tecnica

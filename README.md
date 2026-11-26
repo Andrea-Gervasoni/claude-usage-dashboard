@@ -1,42 +1,63 @@
-# Vibelog
+# vibelog
 
-Dashboard locale che si aggiorna da sola: legge i log di Claude Code con
-[`ccusage`](https://github.com/ryoppippi/ccusage), conserva la storia in
-`history.json` (i giorni salvati non vengono mai cancellati) e genera
-`index.html`, una pagina unica e autosufficiente (dati, font e libreria 3D incorporati, nessuna CDN).
+> Working name. See [MARKET.md](MARKET.md): the name is taken on npm, so it will change before a public launch.
 
-## Installazione (macOS)
+Your Claude Code usage as a playful, fully local recap. One HTML file, no account, no server.
+
+![First view: a crab mascot coding on a cloud next to the headline numbers](docs/hero.png)
+
+Sample data in the screenshots.
+
+## Try it
 
 ```bash
-git clone <questo-repo> ~/claude-usage-dashboard
+npx github:Andrea-Gervasoni/claude-usage-dashboard
+```
+
+It reads your usage with [`ccusage`](https://github.com/ryoppippi/ccusage), merges it into `~/.vibelog/history.json` and opens `~/.vibelog/index.html`. Run it again whenever you want fresh numbers. Needs Node 18 or newer. Works on macOS, Linux and Windows.
+
+## What you get
+
+- **A recap you can read in ten seconds.** Days, tokens, estimated cost at API prices, per-model split, a month-by-month ledger.
+- **Aura levels.** Seven levels computed from your whole history with a formula printed on the page: +1 per million tokens, +50 per day of your longest streak, +10 per active day. Each level unlocks gear for the mascot. Locked levels show what they unlock and how far away they are.
+- **Collectible share card.** A 1080×1920 card for stories with your level, aura, four numbers and the repo. One button saves the PNG.
+- **Trophies.** Twelve of them, each with a ring that shows your real progress.
+- **Story-style recap.** Seven fullscreen slides, tap to advance.
+- **The flex.** Rough conversions worth a screenshot, like how many novels of output Claude wrote for you.
+
+![Three collectible cards: legendary, rare, and a locked one shown as a silhouette](docs/cards.png)
+
+## It keeps your history
+
+Claude Code deletes its logs after 30 days by default. Every run merges the daily totals into `history.json` and never removes a day that is already there, so your streaks and totals survive the cleanup.
+
+## Privacy
+
+Everything runs on your machine. The page embeds its data, fonts and 3D library, and makes no network requests. Nothing is uploaded. The share card contains only what you see on it.
+
+## Update every day on macOS
+
+```bash
+git clone https://github.com/Andrea-Gervasoni/claude-usage-dashboard.git ~/claude-usage-dashboard
 cd ~/claude-usage-dashboard && ./install.sh
 ```
 
-La pagina calcola anche un livello di aura sulla storia completa e genera una card 1080×1920 da salvare per le storie, con logo, nome e repo (letta da `git remote` al momento della generazione).
+This installs a LaunchAgent that runs `update.sh` at 23:50 and at login, and keeps the page in the repo folder. `./uninstall.sh` removes it.
 
-`install.sh` esegue il primo aggiornamento, installa il LaunchAgent
-`~/Library/LaunchAgents/local.claude-usage-dashboard.plist` (ogni giorno alle 23:50
-e al login), lo carica con `launchctl`, apre la dashboard e stampa la prima data in storia.
+## How it is built
 
-Requisiti: Node.js (per `npx`). Log in `logs/`. Per rimuovere il job: `./uninstall.sh`.
+| File | Role |
+|---|---|
+| `bin/vibelog.mjs` | the one-command launcher |
+| `update.sh`, `install.sh` | the macOS scheduled setup |
+| `scripts/merge.mjs` | merges a ccusage export into the history, keyed by date |
+| `scripts/build.mjs` | template + history + fonts + three.js → one HTML file |
+| `template.html` | the page: sky shader, 3D mascot, charts, aura, card, recap |
+| `DESIGN.md` | design decisions (Italian) |
+| `MARKET.md` | market notes and launch plan (Italian) |
 
-## File
+Fonts: Instrument Serif and Instrument Sans (SIL OFL 1.1). 3D: three.js r149 (MIT), bundled.
 
-| File | Ruolo |
-| --- | --- |
-| `update.sh` | `npx ccusage@latest daily --breakdown --json` → merge → build |
-| `scripts/merge.mjs` | merge per data; un giorno esistente viene sostituito solo se il nuovo export ha almeno altrettanti token |
-| `scripts/build.mjs` | `template.html` + `history.json` + font → `index.html` |
-| `template.html` | la pagina: cielo animato, mascotte 3D, grafici in pannelli di vetro |
-| `DESIGN.md` | idea, token, principi e divieti del design |
-| `fonts/` | Instrument Serif e Instrument Sans (SIL OFL 1.1) |
-| `vendor/` | three.js r149 (MIT), incluso nel file generato |
-| `.backup/` | le versioni precedenti della pagina |
+## Not affiliated
 
-`history.json` e `index.html` sono dati personali e restano fuori da git.
-
-## Conservare i log più a lungo
-
-Claude Code cancella i log dopo `cleanupPeriodDays` (30 giorni di default).
-`history.json` protegge comunque i totali giornalieri; per conservare anche i log
-grezzi si può impostare `"cleanupPeriodDays": 3650` in `~/.claude/settings.json`.
+This is an unofficial community project. It is not affiliated with, endorsed by, or sponsored by Anthropic. Claude and Claude Code are trademarks of Anthropic. Costs shown are estimates from ccusage at public API prices.
