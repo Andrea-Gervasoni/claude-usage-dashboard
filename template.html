@@ -850,7 +850,8 @@ $("#ladMore").addEventListener("click", (e) => { const open = $("#ladder").class
 /* easter egg "huss huss huss": tre tocchi di fila sulla mascotte, o scrivi "huss" (vale anche "huz").
    Struttura del meme: la frase, stacco, tre palleggi con il fiato, stacco, il risultato.
    Il fiato è sintetizzato qui; se accanto alla pagina c'era sounds/huss.mp3, la build l'ha incluso e si usa quello. */
-const CLIP = { cut1: 2.6, hits: [2.92, 3.4, 3.88], cut2: 4.42, end: 7.4 };
+// tempi presi dal tuo audio: voce fino a ~3 s, poi tre «huss» a 3.18 / 3.39 / 3.58, poi un secondo gruppo da 4.15
+const CLIP = { cut1: 2.95, hits: [3.18, 3.39, 3.58], cut2: 4.1, end: 7.35 };
 const HZ = { on: false, t0: 0, rec: null, blob: null, ext: "webm", actx: null, done: false, pokes: [], W: 1080, H: 1920, bg: null, rays: null, el: null };
 function hussBreath(ctx, out, t) {   // "h" d'aria, poi la "ss" che sfiata
   const len = Math.floor(ctx.sampleRate * .5), nb = ctx.createBuffer(1, len, ctx.sampleRate), d = nb.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
@@ -1219,7 +1220,7 @@ gl_FragColor=vec4(mix(c1,c2,core*.9),a*k*edge*(.5+.45*nz));}` }));
       eyes.forEach((g) => { g.position.y = .2 + (typing ? -.05 : .03); }); by += Math.abs(Math.sin(ct * 9.5)) * .022 * talk; bodyG.rotation.z = Math.sin(ct * 4.2) * .035 * talk; crab.rotation.y = -.18 * ss(.45, .9, ct);
       const u = ct / C.cut1; camP.set(1.15 - u * .3, 1.9, 9.6 - u * .9); camL.set(0, .78, .5);
     } else if (ct < C.cut2) {     // 2. tre palleggi: huss, huss, huss
-      const per = C.hits[1] - C.hits[0], H = .92, r = .36, t0 = C.hits[0], tl = C.hits[2]; let yn, since = 9;
+      const per = C.hits[1] - C.hits[0], H = clamp(per * 2.4, .4, .92), r = .36, t0 = C.hits[0], tl = C.hits[2]; let yn, since = 9;
       if (ct < t0) { const u = clamp((ct - C.cut1) / (t0 - C.cut1)); yn = 1 - u * u; } else if (ct > tl) { const u = clamp((ct - tl) / (per * .5)); yn = 1 - (1 - u) * (1 - u); since = ct - tl; }
       else { const ph = ((ct - t0) % per) / per; yn = 4 * ph * (1 - ph); since = (ct - t0) % per; }
       const hit = Math.exp(-since * 16); ball.position.set(1.72, r + H * yn - hit * .05, .55); ball.scale.set(1 + hit * .2, 1 - hit * .28, 1 + hit * .2); ball.rotation.x = ct * 7;
