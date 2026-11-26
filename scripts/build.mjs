@@ -27,7 +27,10 @@ const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, days: histor
   .replace(/</g, "\\u003c");
 
 const template = readFileSync(join(root, "template.html"), "utf8");
+// libreria 3D inclusa nel file: nessuna richiesta di rete
+const three = readFileSync(join(root, "vendor", "three.min.js"), "utf8").replace(/<\/script/gi, "<\\/script");
 const html = template
+  .replace("/*__THREE__*/", () => three)
   .replace("/*__FONTS__*/", () => fontCss)
   .replace("/*__DATA__*/null", () => data);
 
