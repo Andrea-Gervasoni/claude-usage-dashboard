@@ -38,9 +38,9 @@ if (!repo) {   // lanciato con npx: non c'è un remote, si legge package.json
   } catch {}
 }
 
-// nickname per la card: VIBELOG_NAME, poi il nome dell'account Claude Code locale, poi l'utente del computer.
+// nickname per la card: VIBECRAB_NAME, poi il nome dell'account Claude Code locale, poi l'utente del computer.
 // L'indirizzo email non viene mai usato.
-let nick = (process.env.VIBELOG_NAME || "").trim();
+let nick = (process.env.VIBECRAB_NAME || "").trim();
 if (!nick) {
   try { nick = (JSON.parse(readFileSync(join(homedir(), ".claude.json"), "utf8")).oauthAccount?.displayName || "").trim().split(/\s+/)[0] || ""; } catch {}
 }

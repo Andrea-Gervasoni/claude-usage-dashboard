@@ -1,6 +1,4 @@
-# vibelog
-
-> Working name. See [MARKET.md](MARKET.md): the name is taken on npm, so it will change before a public launch.
+# vibecrab
 
 Your Claude Code usage as a playful, fully local recap. One HTML file, no account, no server.
 
@@ -14,7 +12,7 @@ Sample data in the screenshots.
 npx github:Andrea-Gervasoni/claude-usage-dashboard
 ```
 
-It reads your usage with [`ccusage`](https://github.com/ryoppippi/ccusage), merges it into `~/.vibelog/history.json` and opens `~/.vibelog/index.html`. Run it again whenever you want fresh numbers. Needs Node 18 or newer. Works on macOS, Linux and Windows.
+Unofficial, for Claude Code. It reads your usage with [`ccusage`](https://github.com/ryoppippi/ccusage), merges it into `~/.vibecrab/history.json` and opens `~/.vibecrab/index.html`. Run it again whenever you want fresh numbers. Needs Node 18 or newer. Works on macOS, Linux and Windows.
 
 ## What you get
 
@@ -48,7 +46,7 @@ This installs a LaunchAgent that runs `update.sh` at 23:50 and at login, and kee
 
 | File | Role |
 |---|---|
-| `bin/vibelog.mjs` | the one-command launcher |
+| `bin/vibecrab.mjs` | the one-command launcher |
 | `update.sh`, `install.sh` | the macOS scheduled setup |
 | `scripts/merge.mjs` | merges a ccusage export into the history, keyed by date |
 | `scripts/build.mjs` | template + history + fonts + three.js → one HTML file |

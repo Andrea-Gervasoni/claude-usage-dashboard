@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Vibelog</title>
+<title>Vibecrab</title>
 <meta name="description" content="My Claude Code usage, day by day: tokens, estimated cost, models. Local data read with ccusage.">
 <meta name="theme-color" content="#CFE2EC">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23DC6A32'%3E%3Crect x='4' y='5' width='16' height='10' rx='1.5'/%3E%3Crect x='1.5' y='9' width='21' height='3.4' rx='1'/%3E%3Crect x='5' y='15' width='2' height='4'/%3E%3Crect x='8.6' y='15' width='2' height='4'/%3E%3Crect x='13.4' y='15' width='2' height='4'/%3E%3Crect x='17' y='15' width='2' height='4'/%3E%3C/g%3E%3Crect x='8' y='7.4' width='1.8' height='3.6' fill='%230F1B24'/%3E%3Crect x='14.2' y='7.4' width='1.8' height='3.6' fill='%230F1B24'/%3E%3C/svg%3E">
@@ -335,15 +335,15 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
 
 <div id="cover" aria-hidden="true"><div class="boot">
   <svg viewBox="0 0 24 20"><g fill="#DC6A32"><rect x="4" y="2" width="16" height="10" rx="1.5"/><rect x="1.5" y="6" width="21" height="3.4" rx="1"/><rect x="5" y="12" width="2" height="4"/><rect x="8.6" y="12" width="2" height="4"/><rect x="13.4" y="12" width="2" height="4"/><rect x="17" y="12" width="2" height="4"/></g><rect class="eye" x="8" y="4.4" width="1.8" height="3.6" fill="#0F1B24"/><rect class="eye" x="14.2" y="4.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>
-  <b>vibelog</b><span id="bootLine">reading 0 days</span>
+  <b>vibecrab</b><span id="bootLine">reading 0 days</span>
 </div></div>
 <div id="recap" role="dialog" aria-label="Recap"><div class="rframe" id="rframe"><div class="rbars" id="rbars"></div><div class="rtop" id="rtop"></div><div id="rslide"></div></div></div>
 <div id="huz" role="dialog" aria-label="Secret clip"><div class="rframe"><canvas id="huzCv" width="1080" height="1920"></canvas><button class="rx" id="hzClose" aria-label="Close">×</button><p id="hzNote" aria-live="polite"></p><div class="hzbar"><button class="btn" id="hzSave" hidden>Save the clip</button><button class="btn ghost" id="hzAgain" hidden>Again</button></div></div></div>
 <svg id="defs" width="0" height="0" aria-hidden="true" style="position:absolute"></svg>
 
-<button class="glass" id="brand" aria-label="Vibelog, back to top">
+<button class="glass" id="brand" aria-label="Vibecrab, back to top">
   <svg viewBox="0 0 24 18" aria-hidden="true"><g fill="#DC6A32"><rect x="4" y="1" width="16" height="10" rx="1.5"/><rect x="1.5" y="5" width="21" height="3.4" rx="1"/><rect x="5" y="11" width="2" height="4"/><rect x="8.6" y="11" width="2" height="4"/><rect x="13.4" y="11" width="2" height="4"/><rect x="17" y="11" width="2" height="4"/></g><rect x="8" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/><rect x="14.2" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>
-  <span>vibelog</span>
+  <span>vibecrab</span>
 </button>
 <div class="glass" id="range" role="group" aria-label="Period"><div class="seg-in"><i class="ind"></i>
   <button class="press" data-range="7d" aria-pressed="false"><span>7D</span></button>
@@ -805,7 +805,7 @@ async function drawCard(lv) {
   const wg = c.createLinearGradient(0, 1500, 0, H); wg.addColorStop(0, "rgba(251,226,208,0)"); wg.addColorStop(1, "rgba(246,196,160,.75)"); c.fillStyle = wg; c.fillRect(0, 1500, W, H - 1500);
   // in alto solo il marchio, piccolo e bianco
   const mk = (x, y, k, eye) => { c.fillStyle = "#DC6A32"; [[4, 1, 16, 10], [1.5, 5, 21, 3.4], [5, 11, 2, 4], [8.6, 11, 2, 4], [13.4, 11, 2, 4], [17, 11, 2, 4]].forEach(([a1, b, w, h]) => c.fillRect(x + a1 * k, y + b * k, w * k, h * k)); c.fillStyle = eye; c.fillRect(x + 8 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); c.fillRect(x + 14.2 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); };
-  font(SER, "64px"); const ww = c.measureText("vibelog").width, hx = cx - (ww + 104) / 2; mk(hx, 222, 3.4, INK); c.fillStyle = "#FFFFFF"; c.textAlign = "left"; c.fillText("vibelog", hx + 104, 274);
+  font(SER, "64px"); const ww = c.measureText("vibecrab").width, hx = cx - (ww + 104) / 2; mk(hx, 222, 3.4, INK); c.fillStyle = "#FFFFFF"; c.textAlign = "left"; c.fillText("vibecrab", hx + 104, 274);
   // una frase sola: chi, cosa, quanto
   c.textAlign = "center"; c.fillStyle = INK; font(SAN, "600 50px"); c.fillText(locked ? (NICK ? `${NICK} is not yet a` : "Not yet a") : (NICK ? `${NICK} is a` : "Certified"), cx, 1192);
   c.fillStyle = INK; const sn = fit(c, L.name, SER, 228, W - 110); font(SER, sn + "px"); c.fillText(L.name, cx, 1192 + sn * .84);
@@ -837,9 +837,9 @@ $("#save").addEventListener("click", async () => {
   const cv = $("#card"), note = $("#saveNote");
   if (cardLv !== AU.level.n) { await drawCard(AU.level.n); $("#ladder").querySelectorAll(".view").forEach((x) => x.classList.remove("view")); $("#ladder .cur")?.classList.add("view"); }
   const blob = await new Promise((r) => cv.toBlob(r, "image/png")); if (!blob) return;
-  try { const file = new File([blob], "vibelog-aura.png", { type: "image/png" }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibelog" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
-  const a = document.createElement("a"), url = URL.createObjectURL(blob); a.href = url; a.download = "vibelog-aura.png"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
-  note.textContent = "Saved as vibelog-aura.png, 1080 by 1920. If nothing downloaded, right-click the card and save the image.";
+  try { const file = new File([blob], "vibecrab-aura.png", { type: "image/png" }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibecrab" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  const a = document.createElement("a"), url = URL.createObjectURL(blob); a.href = url; a.download = "vibecrab-aura.png"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+  note.textContent = "Saved as vibecrab-aura.png, 1080 by 1920. If nothing downloaded, right-click the card and save the image.";
 });
 $("#copy").addEventListener("click", async () => {
   const a = AU, txt = `Lv ${a.level.n} ${a.level.name}, +${int.format(a.pts)} aura. ${compact(a.tot)} tokens, ${a.best}-day streak with Claude Code.` + (REPO ? ` github.com/${REPO}` : "");
@@ -891,9 +891,9 @@ function huzCompose(glc) {
   const INK = "#0F1B24"; c.textAlign = "center"; c.textBaseline = "alphabetic";
   const pill = (txt, y, hi) => { font(SAN, "600 58px"); const w = c.measureText(txt).width + 64; c.fillStyle = "rgba(15,27,36,.94)"; c.beginPath(); c.roundRect(540 - w / 2, y - 66, w, 92, 26); c.fill(); c.fillStyle = hi ? "#F6B487" : "#FFFFFF"; c.fillText(txt, 540, y); };
   // marchio
-  font(SER, "60px"); const ww = c.measureText("vibelog").width, hx = 540 - (ww + 96) / 2, m = 3.2;
+  font(SER, "60px"); const ww = c.measureText("vibecrab").width, hx = 540 - (ww + 96) / 2, m = 3.2;
   c.fillStyle = "#DC6A32"; [[4, 1, 16, 10], [1.5, 5, 21, 3.4], [5, 11, 2, 4], [8.6, 11, 2, 4], [13.4, 11, 2, 4], [17, 11, 2, 4]].forEach(([a1, b, w, h]) => c.fillRect(hx + a1 * m, 226 + b * m, w * m, h * m));
-  c.fillStyle = INK; c.fillRect(hx + 8 * m, 226 + 3.4 * m, 1.8 * m, 3.6 * m); c.fillRect(hx + 14.2 * m, 226 + 3.4 * m, 1.8 * m, 3.6 * m); c.fillStyle = "#fff"; c.textAlign = "left"; font(SER, "60px"); c.fillText("vibelog", hx + 96, 276); c.textAlign = "center";
+  c.fillStyle = INK; c.fillRect(hx + 8 * m, 226 + 3.4 * m, 1.8 * m, 3.6 * m); c.fillRect(hx + 14.2 * m, 226 + 3.4 * m, 1.8 * m, 3.6 * m); c.fillStyle = "#fff"; c.textAlign = "left"; font(SER, "60px"); c.fillText("vibecrab", hx + 96, 276); c.textAlign = "center";
   if (shot === 0) {            // la frase, un pezzo alla volta, come una didascalia
     const n = Math.min(3, Math.floor((te - .5) / .5) + 1);
     if (te > .5) { pill("In this town,", 1440); if (n > 1) pill("everybody goes out partying", 1544); if (n > 2) pill("except me.", 1648, true); }
@@ -932,8 +932,8 @@ function huzOpen() { if (!mascot || S.empty || HZ.on || !AU) return; HZ.on = tru
 function huzClose() { if (!HZ.on) return; if (!HZ.done) huzStop(); HZ.on = false; mascot.clip(false); $("#huz").classList.remove("open"); document.documentElement.style.overflow = ""; }
 $("#hzClose").addEventListener("click", huzClose); $("#hzAgain").addEventListener("click", huzStart);
 $("#hzSave").addEventListener("click", async () => {
-  if (!HZ.blob) return; const name = `vibelog-huss.${HZ.ext}`;
-  try { const file = new File([HZ.blob], name, { type: HZ.blob.type }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibelog" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  if (!HZ.blob) return; const name = `vibecrab-huss.${HZ.ext}`;
+  try { const file = new File([HZ.blob], name, { type: HZ.blob.type }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibecrab" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
   const a = document.createElement("a"), url = URL.createObjectURL(HZ.blob); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 8000);
   $("#hzNote").textContent = `Saved as ${name}.`;
 });
@@ -963,7 +963,7 @@ function recapShow(i) {
     : `<div class="rs" style="background:${s.bg}">${s.img ? `<img class="rm" src="${s.img}" alt="">` : ""}<p class="rk">${s.k}</p><h3 class="rv" style="--fs:${s.fs}">${esc(s.v)}</h3><p class="rd">${s.d}</p></div>`;
 }
 function recapOpen() { if (S.empty) return; RC.slides = recapSlides(); RC.on = true; $("#recap").classList.add("open"); document.documentElement.style.overflow = "hidden";
-  $("#rbars").innerHTML = RC.slides.map(() => "<i><b></b></i>").join(""); $("#rtop").innerHTML = `${MARK}<span>vibelog</span><button class="rx" id="rclose" aria-label="Close recap">\u00D7</button>`;
+  $("#rbars").innerHTML = RC.slides.map(() => "<i><b></b></i>").join(""); $("#rtop").innerHTML = `${MARK}<span>vibecrab</span><button class="rx" id="rclose" aria-label="Close recap">\u00D7</button>`;
   drawCard(AU.level.n).then(() => recapShow(0)); }
 function recapClose() { RC.on = false; $("#recap").classList.remove("open"); document.documentElement.style.overflow = ""; $("#rslide").innerHTML = ""; }
 function recapFrame(now) {
@@ -1374,7 +1374,7 @@ function frame(now) {
 $("#range").addEventListener("click", (e) => {
   const b = e.target.closest("[data-range]"); if (!b || b.dataset.range === S.range) return;
   $("#range").querySelectorAll(".press").forEach((x) => x.setAttribute("aria-pressed", x === b)); moveInd($("#range"));
-  try { localStorage.setItem("vibelog-range", b.dataset.range); } catch (_) {}
+  try { localStorage.setItem("vibecrab-range", b.dataset.range); } catch (_) {}
   S.range = b.dataset.range; render(); replay(); measure();
 });
 function goTo(id) { const t = document.getElementById(id); if (t) scrollTo({ top: id === "top" ? 0 : t.getBoundingClientRect().top + scrollY - 6, behavior: reduced ? "auto" : "smooth" }); }
@@ -1405,7 +1405,7 @@ function opening() {
 }
 
 /* ── avvio ─────────────────────────────────────────────────── */
-try { const saved = localStorage.getItem("vibelog-range"); if (saved && ["7d", "30d", "6m", "all"].includes(saved)) { S.range = saved; $("#range").querySelectorAll(".press").forEach((x) => x.setAttribute("aria-pressed", x.dataset.range === saved)); } } catch (_) {}
+try { const saved = localStorage.getItem("vibecrab-range"); if (saved && ["7d", "30d", "6m", "all"].includes(saved)) { S.range = saved; $("#range").querySelectorAll(".press").forEach((x) => x.setAttribute("aria-pressed", x.dataset.range === saved)); } } catch (_) {}
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 scrollTo(0, 0);
 render(); sky.resize(); if (mascot) { mascot.resize(); mascot.onPoke = huzPoke; }

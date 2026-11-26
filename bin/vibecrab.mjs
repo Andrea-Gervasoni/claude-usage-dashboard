@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Un comando solo, su macOS, Linux e Windows: legge l'uso con ccusage, lo unisce
-// alla storia in ~/.vibelog e apre la pagina. La storia non viene mai cancellata.
+// alla storia in ~/.vibecrab e apre la pagina. La storia non viene mai cancellata.
 //
 //   npx github:<owner>/<repo>            aggiorna e apre
 //   npx github:<owner>/<repo> --no-open  aggiorna soltanto
@@ -11,7 +11,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const home = process.env.VIBELOG_HOME || join(homedir(), ".vibelog");
+const home = process.env.VIBECRAB_HOME || join(homedir(), ".vibecrab");
 const history = join(home, "history.json"), page = join(home, "index.html");
 const args = process.argv.slice(2);
 mkdirSync(home, { recursive: true });

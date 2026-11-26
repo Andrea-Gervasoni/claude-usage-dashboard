@@ -24,15 +24,11 @@ Di casa: Claude Code ha `/stats` con le serie [S]; Cursor ha fatto «Year in Cod
 
 ### 1. Il nome
 
-«vibelog» è occupato [V]:
+Il nome di lavoro «vibelog» era occupato [V]: esisteva un pacchetto npm con quel nome, uno strumento di analisi per Claude Code chiamato Vibe-Log, e 89 repo GitHub con «vibelog» nel nome.
 
-- esiste il pacchetto npm `vibelog` (un generatore di siti);
-- Vibe-Log (vibe-log.dev) è uno strumento di analisi per Claude Code, cioè nella stessa nicchia;
-- 89 repo GitHub hanno «vibelog» nel nome.
+Il progetto si chiama ora **vibecrab**. Il 26 novembre risultava libero su npm e PyPI e la ricerca dei repo GitHub dava 0 risultati. Marchi, domini e nomi utente non sono stati verificati. Alternative libere nello stesso controllo: `tokencrab`, `crabaura`.
 
-Nomi che risultano liberi su npm, PyPI e nella ricerca dei repo GitHub (controllo del 26 novembre; marchi, domini e nomi utente non verificati): `vibecrab`, `tokencrab`, `auramolt`, `moltmeter`, `crabaura`.
-
-Da evitare tutto ciò che contiene «claw» o «Claude». Anche «molt» porta con sé l'associazione con Moltbot.
+Da evitare tutto ciò che contiene «claw» o «Claude». Anche «molt» porta con sé l'associazione con Moltbot. Il repo si chiama ancora `claude-usage-dashboard`: va rinominato da GitHub (Settings) quando vuoi, ed è l'unico punto in cui «Claude» compare ancora nel nome.
 
 ### 2. La mascotte
 

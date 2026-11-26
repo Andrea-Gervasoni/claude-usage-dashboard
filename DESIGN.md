@@ -1,4 +1,4 @@
-# Vibelog: design
+# Vibecrab: design
 
 Tipo: progetto proprio / tech. Direzione scelta da Andrea (non sorteggiata): palette «Cielo», serif elegante, calore in stile Anthropic, tono da vibe coder. Lingua dell'interfaccia: inglese.
 
@@ -58,7 +58,7 @@ Il livello si calcola su tutta la storia, con una formula dichiarata nella pagin
 - La mascotte 3D della prima vista indossa l'equipaggiamento del livello. Gli occhiali stanno sulla fronte e calano sugli occhi quando la tocchi.
 - I livelli non raggiunti si vedono in sagoma, con la soglia e cosa sbloccano.
 - **The flex**: quattro tessere di misura diversa (romanzi scritti, quota nei weekend, picco contro giorno normale, contesto riletto). Le conversioni sono dichiarate come stime.
-- **Card da storie**: manifesto 1080×1920 con un'idea sola. Cielo profondo con raggi e alone nel colore del livello, granchio grande con i piedi nella nuvola, poi una frase: «andrea is a / Context Lord / +5,535 aura», un pulsante «What's your aura?» e il repo. Niente barre, righe di numeri o cornici. Il nickname viene da `VIBELOG_NAME`, poi dal nome dell'account Claude Code locale, poi dall'utente del computer; l'email non si usa mai. Nella pagina la card si inclina con un riflesso olografico e dalla scala dei livelli si guardano anche le altre carte, quelle bloccate in sagoma.
+- **Card da storie**: manifesto 1080×1920 con un'idea sola. Cielo profondo con raggi e alone nel colore del livello, granchio grande con i piedi nella nuvola, poi una frase: «andrea is a / Context Lord / +5,535 aura», un pulsante «What's your aura?» e il repo. Niente barre, righe di numeri o cornici. Il nickname viene da `VIBECRAB_NAME`, poi dal nome dell'account Claude Code locale, poi dall'utente del computer; l'email non si usa mai. Nella pagina la card si inclina con un riflesso olografico e dalla scala dei livelli si guardano anche le altre carte, quelle bloccate in sagoma.
 - **Trofei**: dodici, con forma diversa per famiglia (serie, giorni, volume, spesa, varietà). L'anello è il progresso reale.
 - **Recap**: sette storie a tutto schermo con cielo e granchio, tocco per avanzare, pressione per fermare; l'ultima è la card.
 - **Aura in 3D**: una fiamma morbida dietro la mascotte, colore e forza dal livello, che si accende quando la tocchi.
@@ -85,7 +85,7 @@ Il livello si calcola su tutta la storia, con una formula dichiarata nella pagin
 
 ```json
 {
-  "nome": "Vibelog (dashboard locale Claude Code)",
+  "nome": "Vibecrab (dashboard locale Claude Code)",
   "data": "2026-11",
   "percorso": "~/claude-usage-dashboard",
   "idea": "La mascotte di Claude Code programma su una nuvola; i numeri del diario stanno in lastre di vetro sopra un cielo che va dal mattino al tramonto.",
