@@ -262,6 +262,16 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
   box-shadow:0 16px 30px -14px rgba(15,27,36,.75);opacity:0;translate:0 12px;transition:opacity .8s .95s,translate .9s var(--ease-out) .95s,scale .12s ease-out}
 .hero.in .play{opacity:1;translate:0 0} .play:active{scale:.95} .play i{width:0;height:0;border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;transition:transform .3s var(--spring)} .play:hover i{transform:scale(1.25)}
 
+/* ── easter egg: tre colpi, un video ──────────────────────── */
+#huz{position:fixed;inset:0;z-index:80;display:none;place-items:center;background:#0F1B24}
+#huz.open{display:grid}
+#huz .rframe{cursor:default}
+#huzCv{width:100%;height:100%;display:block}
+.hzbar{position:absolute;left:0;right:0;bottom:8px;display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;padding:0 14px}
+.hzbar .btn{height:48px;padding:0 22px;font-size:15px} .hzbar .btn[hidden]{display:none}
+#hzClose{position:absolute;top:10px;right:8px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+#hzNote{position:absolute;left:0;right:0;bottom:76px;text-align:center;font-size:13px;color:#0F1B24;padding:0 18px}
+
 /* ── vetro dei comandi ────────────────────────────────────── */
 .glass{position:fixed;z-index:30;border-radius:999px;--rim:0deg;color:var(--ink);background:rgba(255,255,255,.7);
   -webkit-backdrop-filter:blur(18px) saturate(1.7);backdrop-filter:blur(18px) saturate(1.7);
@@ -328,6 +338,7 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
   <b>vibelog</b><span id="bootLine">reading 0 days</span>
 </div></div>
 <div id="recap" role="dialog" aria-label="Recap"><div class="rframe" id="rframe"><div class="rbars" id="rbars"></div><div class="rtop" id="rtop"></div><div id="rslide"></div></div></div>
+<div id="huz" role="dialog" aria-label="Secret clip"><div class="rframe"><canvas id="huzCv" width="720" height="1280"></canvas><button class="rx" id="hzClose" aria-label="Close">×</button><p id="hzNote" aria-live="polite"></p><div class="hzbar"><button class="btn" id="hzSave" hidden>Save the clip</button><button class="btn ghost" id="hzAgain" hidden>Again</button></div></div></div>
 <svg id="defs" width="0" height="0" aria-hidden="true" style="position:absolute"></svg>
 
 <button class="glass" id="brand" aria-label="Vibelog, back to top">
@@ -836,6 +847,69 @@ $("#copy").addEventListener("click", async () => {
 });
 $("#auraCta").addEventListener("click", () => goTo("aura"));
 $("#ladMore").addEventListener("click", (e) => { const open = $("#ladder").classList.toggle("open"); e.currentTarget.textContent = open ? "Show fewer" : "Show all 7 levels"; e.currentTarget.setAttribute("aria-expanded", open); });
+/* easter egg: tocca il granchio tre volte di fila, o scrivi "huz". Suono sintetizzato qui, nessun campione. */
+const HZ = { on: false, t0: 0, rec: null, blob: null, ext: "webm", actx: null, done: false, pokes: [] };
+function huzHit(ctx, out, t, f0) {
+  const o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sine"; o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(46, t + .15);
+  g.gain.setValueAtTime(.9, t); g.gain.exponentialRampToValueAtTime(.001, t + .22); o.connect(g).connect(out); o.start(t); o.stop(t + .24);
+  const v = ctx.createOscillator(), vg = ctx.createGain(); v.type = "sawtooth"; v.frequency.setValueAtTime(f0 * 1.3, t + .02); v.frequency.exponentialRampToValueAtTime(f0, t + .2);
+  vg.gain.setValueAtTime(.0001, t); vg.gain.linearRampToValueAtTime(.55, t + .05); vg.gain.exponentialRampToValueAtTime(.001, t + .3);
+  [[320, 6], [880, 9]].forEach(([fq, q]) => { const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = fq; bp.Q.value = q; v.connect(bp).connect(vg); });
+  vg.connect(out); v.start(t + .02); v.stop(t + .32);
+  const nb = ctx.createBuffer(1, Math.floor(ctx.sampleRate * .4), ctx.sampleRate), d = nb.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+  const n = ctx.createBufferSource(), hp = ctx.createBiquadFilter(), ng = ctx.createGain(); n.buffer = nb; hp.type = "highpass"; hp.frequency.value = 3200;
+  ng.gain.setValueAtTime(.2, t); ng.gain.exponentialRampToValueAtTime(.02, t + .05); ng.gain.setValueAtTime(.02, t + .16); ng.gain.linearRampToValueAtTime(.24, t + .22); ng.gain.exponentialRampToValueAtTime(.001, t + .36);
+  n.connect(hp).connect(ng).connect(out); n.start(t); n.stop(t + .4);
+}
+function huzCompose(glc) {
+  const c = $("#huzCv").getContext("2d"), W = 720, H = 1280, te = (performance.now() - HZ.t0) / 1000, a = AU, L = a.level, F = FRAME[L.n], cx = W / 2, my = 520, B = [.7, 1.08, 1.46];
+  const SER = '% "Instrument Serif", Georgia, serif', SAN = '% "Instrument Sans", system-ui, sans-serif', font = (f, sz) => (c.font = f.replace("%", sz));
+  const punch = Math.max(0, ...B.map((b) => (te >= b ? Math.exp(-(te - b) * 7) : 0)));
+  c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1;
+  const sg = c.createLinearGradient(0, 0, 0, 820); sg.addColorStop(0, "#27587C"); sg.addColorStop(.5, "#6FA6C6"); sg.addColorStop(.86, "#F2C9A6"); sg.addColorStop(1, "#F7DCC3"); c.fillStyle = sg; c.fillRect(0, 0, W, H);
+  const glow = L.n > 1 ? F[0] : "#CFE2EC", g = c.createRadialGradient(cx, my, 30, cx, my, 520 + punch * 90); g.addColorStop(0, "#FFFFFF"); g.addColorStop(.2, glow); g.addColorStop(.6, glow + "88"); g.addColorStop(1, glow + "00"); c.fillStyle = g; c.fillRect(0, 0, W, 900);
+  c.save(); c.translate(cx, my); c.rotate(te * .22); c.fillStyle = "#fff"; for (let i = 0; i < 18; i++) { c.rotate(Math.PI / 9); c.globalAlpha = (i % 2 ? .1 : .2) + punch * .12; c.beginPath(); c.moveTo(0, 0); c.lineTo(-44, -1000); c.lineTo(44, -1000); c.fill(); } c.restore(); c.globalAlpha = 1;
+  const disc = (x, y, r, col) => { c.fillStyle = col; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); };
+  [[30, 790, 130], [200, 756, 150], [380, 780, 140], [545, 752, 158], [700, 786, 130]].forEach(([x, y, r]) => disc(x, y - 12, r + 6, "#E4EDF2"));
+  c.save(); c.translate(cx, my + 60); c.scale(1 + punch * .07, 1 + punch * .07); c.drawImage(glc, -330, -390, 660, 660); c.restore();
+  [[30, 808, 130], [200, 776, 150], [380, 798, 140], [545, 772, 158], [700, 804, 130]].forEach(([x, y, r]) => disc(x, y, r, "#FFFFFF")); c.fillStyle = "#fff"; c.fillRect(0, 830, W, H - 830);
+  const wg = c.createLinearGradient(0, 1040, 0, H); wg.addColorStop(0, "rgba(251,226,208,0)"); wg.addColorStop(1, "rgba(246,196,160,.75)"); c.fillStyle = wg; c.fillRect(0, 1040, W, H - 1040);
+  // marchio
+  font(SER, "44px"); const ww = c.measureText("vibelog").width, hx = cx - (ww + 70) / 2, k = 2.3;
+  c.fillStyle = "#DC6A32"; [[4, 1, 16, 10], [1.5, 5, 21, 3.4], [5, 11, 2, 4], [8.6, 11, 2, 4], [13.4, 11, 2, 4], [17, 11, 2, 4]].forEach(([a1, b, w, h]) => c.fillRect(hx + a1 * k, 150 + b * k, w * k, h * k));
+  c.fillStyle = "#0F1B24"; c.fillRect(hx + 8 * k, 150 + 3.4 * k, 1.8 * k, 3.6 * k); c.fillRect(hx + 14.2 * k, 150 + 3.4 * k, 1.8 * k, 3.6 * k);
+  c.fillStyle = "#fff"; c.textAlign = "left"; c.textBaseline = "alphabetic"; c.fillText("vibelog", hx + 70, 186);
+  // tre colpi
+  c.textAlign = "center"; B.forEach((b, i) => { if (te < b) return; const q = clamp((te - b) / .22), sc = 1 + (1 - easeOut(q)) * 1.1; c.save(); c.translate(132 + i * 228, 960); c.rotate((i - 1) * .07); c.scale(sc, sc); c.globalAlpha = q; c.fillStyle = i === 2 ? "#DC6A32" : "#9A3D14"; font(SER, "118px"); c.fillText("HUZ", 0, 0); c.restore(); });
+  // chi e quanto
+  const q2 = clamp((te - 2.1) / .4); if (q2 > 0) { c.globalAlpha = q2; c.fillStyle = "#0F1B24"; const who = `${NICK ? NICK + ", " : ""}${L.name}`; const s1 = fit(c, who, SAN, 40, W - 90); font(SAN, "600 " + s1 + "px"); c.fillText(who, cx, 1052 + (1 - q2) * 14);
+    c.fillStyle = "#9A3D14"; font(SER, "92px"); c.fillText(`+${int.format(a.pts)} aura`, cx, 1146 + (1 - q2) * 14);
+    if (REPO) { c.fillStyle = "#0F1B24"; const r2 = "github.com/" + REPO, s2 = fit(c, r2, SAN, 24, W - 110); font(SAN, "600 " + s2 + "px"); c.fillText(r2, cx, 1196); } c.globalAlpha = 1; }
+  if (te > 4.3 && !HZ.done) huzStop();
+}
+function huzStart() {
+  HZ.done = false; HZ.blob = null; $("#hzSave").hidden = true; $("#hzAgain").hidden = true; $("#hzNote").textContent = "";
+  let dest = null;
+  try { HZ.actx = HZ.actx || new (window.AudioContext || window.webkitAudioContext)(); HZ.actx.resume(); const out = HZ.actx.createGain(); out.gain.value = .8; out.connect(HZ.actx.destination);
+    dest = HZ.actx.createMediaStreamDestination(); out.connect(dest); const t = HZ.actx.currentTime; [150, 165, 188].forEach((f, i) => huzHit(HZ.actx, out, t + [.7, 1.08, 1.46][i], f)); } catch (_) {}
+  try { const stream = $("#huzCv").captureStream(30); if (dest) dest.stream.getAudioTracks().forEach((tr) => stream.addTrack(tr));
+    const mime = ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm"].find((m) => window.MediaRecorder && MediaRecorder.isTypeSupported(m));
+    if (mime) { const chunks = []; HZ.ext = mime.startsWith("video/mp4") ? "mp4" : "webm"; HZ.rec = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 6e6 });
+      HZ.rec.ondataavailable = (e) => e.data.size && chunks.push(e.data); HZ.rec.onstop = () => { HZ.blob = new Blob(chunks, { type: mime.split(";")[0] }); $("#hzSave").hidden = false; }; HZ.rec.start(); } } catch (_) { HZ.rec = null; }
+  HZ.t0 = performance.now(); mascot.clip(true); mascot.huz();
+}
+function huzStop() { HZ.done = true; try { if (HZ.rec && HZ.rec.state !== "inactive") HZ.rec.stop(); } catch (_) {} $("#hzAgain").hidden = false; if (!HZ.rec) $("#hzNote").textContent = "This browser cannot record the clip. Use screen recording."; }
+function huzOpen() { if (!mascot || S.empty || HZ.on || !AU) return; HZ.on = true; $("#huz").classList.add("open"); document.documentElement.style.overflow = "hidden"; mascot.onClipFrame = huzCompose; huzStart(); }
+function huzClose() { if (!HZ.on) return; if (!HZ.done) huzStop(); HZ.on = false; mascot.clip(false); $("#huz").classList.remove("open"); document.documentElement.style.overflow = ""; }
+$("#hzClose").addEventListener("click", huzClose); $("#hzAgain").addEventListener("click", huzStart);
+$("#hzSave").addEventListener("click", async () => {
+  if (!HZ.blob) return; const name = `vibelog-huz.${HZ.ext}`;
+  try { const file = new File([HZ.blob], name, { type: HZ.blob.type }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibelog" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  const a = document.createElement("a"), url = URL.createObjectURL(HZ.blob); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 8000);
+  $("#hzNote").textContent = `Saved as ${name}.`;
+});
+function huzPoke() { const now = performance.now(); HZ.pokes = HZ.pokes.filter((x) => now - x < 1500); HZ.pokes.push(now); if (HZ.pokes.length >= 3) { HZ.pokes = []; huzOpen(); } }
+let typed = ""; addEventListener("keydown", (e) => { if (HZ.on && e.key === "Escape") return huzClose(); if (e.key.length !== 1) return; typed = (typed + e.key.toLowerCase()).slice(-3); if (typed === "huz") { typed = ""; huzOpen(); } });
 /* recap: sette storie, tocco per avanzare, pressione lunga per fermare */
 const RC = { i: 0, t0: 0, dur: 4600, on: false, hold: false, held: 0, slides: [] };
 function recapSlides() {
@@ -1003,7 +1077,9 @@ float e=.5+.3*nz-.22*p.y;float a=smoothstep(e,e-.4,r);float core=smoothstep(.6,.
 float edge=smoothstep(1.,.78,max(abs(p.x),abs(p.y)));
 gl_FragColor=vec4(mix(c1,c2,core*.9),a*k*edge*(.5+.45*nz));}` }));
   scene.add(auraMesh); const auraPos = new T.Vector3(), auraDir = new T.Vector3(); let auraK = 0;
-  let level = 1, shadeMix = 0;
+  let level = 1, shadeMix = 0, huz = -1, clipOn = false, pump = 0;
+  const clipCam = new T.PerspectiveCamera(26, 1, .1, 100); clipCam.position.set(0, 2.4, 10.4); clipCam.lookAt(0, 1.2, 0);
+  const HB = [.7, 1.08, 1.46];
   function applyLevel(n) { level = n; if (AUC[n]) { auraU.c1.value.set(AUC[n][0]); auraU.c2.value.set(AUC[n][1]); } gear.band.visible = n >= 2 && n <= 4; gear.shades.visible = n >= 3; gear.phones.visible = n === 4; gear.crown.visible = n >= 5; gear.chain.visible = n >= 6; gear.halo.visible = n >= 7; }
   applyLevel(1);
   // portatile: lo vediamo da dietro, la sua luce gli illumina il muso
@@ -1052,11 +1128,13 @@ gl_FragColor=vec4(mix(c1,c2,core*.9),a*k*edge*(.5+.45*nz));}` }));
     const r = cv.getBoundingClientRect(); ndc.set(((cx - r.left) / r.width) * 2 - 1, -((cy - r.top) / r.height) * 2 + 1);
     ray.setFromCamera(ndc, cam); const hit = ray.intersectObject(body, false).length > 0;
     if (hit !== hover) { hover = hit; cv.style.cursor = hit ? "pointer" : ""; }
+    if (click && api.onPoke && (hit || Math.hypot(cx - api.center.x, cy - api.center.y) < Math.min(w, h) * .2)) api.onPoke();
     if (click && hit && dropped && jumpY <= .001) { jumpV = 5.2; happy = 1.3; for (let i = 0; i < 16; i++) spawn(1.7); mode = "look"; modeT = 1.6; const pk = $("#poke"); pk.textContent = ["Hey!", "Again!", "Ship it.", "LGTM.", "One more.", "Vibes."][Math.floor(Math.random() * 6)]; pk.classList.remove("pop"); void pk.offsetWidth; pk.classList.add("pop"); }
   };
   cv.addEventListener("pointerdown", (e) => api.pointer(e.clientX, e.clientY, true));
   api.frame = (t, dt, mx, my) => {
-    if (!visible) return;
+    if (!visible && !clipOn) return;
+    const vc = clipOn ? clipCam : cam;
     // caduta d'ingresso con rimbalzo, poi il portatile si apre
     if (!dropped && api.go) { dropV -= 30 * dt; dropY += dropV * dt; if (dropY <= 0) { dropY = 0; dropped = true; squashV = -5.5; for (let i = 0; i < 8; i++) spawn(1.3); } }
     if (dropped) lidOpen = lerp(lidOpen, 1, 1 - Math.exp(-dt * 5));
@@ -1074,17 +1152,24 @@ gl_FragColor=vec4(mix(c1,c2,core*.9),a*k*edge*(.5+.45*nz));}` }));
     const tap = typing ? Math.sin(t * 21) : 0;
     world.position.y = reduced ? 0 : Math.sin(t * 1.3) * .05; cloud.rotation.z = reduced ? 0 : Math.sin(t * .7) * .012;
     crab.position.y = dropY + jumpY; crab.rotation.y = yaw + (jumpY > 0 ? jumpY * 1.6 : 0); crab.rotation.x = pitch;
+    // HUZ HUZ HUZ: tre colpi, un salto e una torsione a colpo, braccia in alto
+    pump = 0;
+    if (huz >= 0) { huz += dt; happy = Math.max(happy, huz < 3.6 ? .25 : 0); mode = "look"; modeT = 1;
+      HB.forEach((b, i) => { const ph = (huz - b) / .38; if (ph >= 0 && ph < 1) { crab.position.y += Math.sin(ph * Math.PI) * .6; crab.rotation.y = (clipOn ? 0 : yaw) + (i % 2 ? .55 : -.55) * (1 - ph); crab.rotation.z = (i % 2 ? -.12 : .12) * (1 - ph); pump = Math.sin(ph * Math.PI); if (ph < .08) squashV = -6; } });
+      if (huz > HB[2] + .38) crab.rotation.z = 0; if (clipOn) crab.rotation.x = 0;
+      if (huz > 4.6) { huz = -1; crab.rotation.z = 0; } }
     const sq = 1 + squash * .16 + (reduced ? 0 : Math.sin(t * 2.4) * .008);
     bodyG.scale.set(1 - (sq - 1) * .6, sq, 1 - (sq - 1) * .6); bodyG.position.y = 1.08 * sq + .02 + Math.abs(tap) * .012; bodyG.rotation.z = lookX * .06 * (1 - typeMix);
     eyes.forEach((g, i) => { g.position.x = (i ? .5 : -.5) + lookX * .09; g.position.y = .2 + lookY * .07; g.scale.y = happy > 0 ? .34 : blink > 0 ? .12 : 1; g.scale.x = happy > 0 ? 1.5 : 1; });
     arms.forEach((g, i) => { const sd = i ? 1 : -1;
       g.rotation.y = lerp(sd * 1.15, sd * -.42, typeMix); g.rotation.x = lerp(happy > 0 ? -.9 : 0, .52 + Math.sin(t * 21 + (i ? Math.PI : 0)) * .2, typeMix); });
-    legs.forEach((l, i) => { l.rotation.x = jumpY > 0 ? Math.sin(t * 22 + i) * .35 : 0; });
+    if (pump > 0) arms.forEach((g, i) => g.rotation.set(-1.25 * pump, (i ? 1 : -1) * 1.15, 0));
+    legs.forEach((l, i) => { l.rotation.x = jumpY > 0 || pump > 0 ? Math.sin(t * 22 + i) * .35 : 0; });
     // gli occhiali stanno sulla fronte e calano sugli occhi quando lo tocchi
     shadeMix = lerp(shadeMix, happy > 0 ? 1 : 0, 1 - Math.exp(-dt * (happy > 0 ? 16 : 5)));
     gear.shades.position.y = lerp(.63, .2, shadeMix); gear.shades.position.z = lerp(.72, .8, shadeMix); gear.shades.rotation.x = lerp(-.62, 0, shadeMix);
     auraK = lerp(auraK, dropped ? AUK[level] + (happy > 0 ? .45 : 0) : 0, 1 - Math.exp(-dt * 3.5)); auraU.k.value = auraK; auraU.t.value = t;
-    bodyG.getWorldPosition(auraPos); auraDir.copy(auraPos).sub(cam.position).normalize(); auraMesh.position.copy(auraPos).addScaledVector(auraDir, 1.6); auraMesh.position.y += .35; auraMesh.quaternion.copy(cam.quaternion);
+    bodyG.getWorldPosition(auraPos); auraDir.copy(auraPos).sub(vc.position).normalize(); auraMesh.position.copy(auraPos).addScaledVector(auraDir, 1.6); auraMesh.position.y += .35; auraMesh.quaternion.copy(vc.quaternion);
     auraMesh.scale.setScalar(1 + (happy > 0 ? .18 : 0) + Math.sin(t * 2.2) * .03);
     if (gear.halo.visible) { gear.halo.position.y = 1.42 + Math.sin(t * 2) * .04; gear.halo.rotation.z = t * .6; }
     lid.rotation.x = lerp(-Math.PI / 2, .22, easeOut(lidOpen));
@@ -1093,8 +1178,11 @@ gl_FragColor=vec4(mix(c1,c2,core*.9),a*k*edge*(.5+.45*nz));}` }));
     for (const c of cubes) { if (c.life <= 0) continue; c.life -= dt; if (c.life <= 0) { c.m.visible = false; continue; }
       const k = 1 - c.life / c.dur; c.m.position.x += c.vx * dt + Math.sin(t * 1.7 + c.rx) * .12 * dt; c.m.position.y += c.vy * dt; c.m.position.z += c.vz * dt; c.m.rotation.x += c.rx * dt; c.m.rotation.y += c.ry * dt;
       c.m.scale.setScalar(Math.max(.001, c.s * Math.min(1, k * 7) * Math.min(1, (1 - k) * 3.2))); }
-    R.render(scene, cam);
+    R.render(scene, vc);
+    if (clipOn && api.onClipFrame) api.onClipFrame(cv);
   };
+  api.huz = () => { huz = 0; };
+  api.clip = (on) => { clipOn = on; lap.visible = cloud.visible = !on; if (on) { world.rotation.y = -.3; world.position.y = 0; R.setPixelRatio(1); R.setSize(720, 720, false); } else { world.rotation.y = -.36; api.resize(); } };
   api.setLevel = applyLevel;
   /* scatto per la card: solo il granchio, di fronte, con gli occhiali calati */
   api.snapshot = (size, n) => {
@@ -1254,7 +1342,7 @@ function opening() {
 try { const saved = localStorage.getItem("vibelog-range"); if (saved && ["7d", "30d", "6m", "all"].includes(saved)) { S.range = saved; $("#range").querySelectorAll(".press").forEach((x) => x.setAttribute("aria-pressed", x.dataset.range === saved)); } } catch (_) {}
 if ("scrollRestoration" in history) history.scrollRestoration = "manual";
 scrollTo(0, 0);
-render(); sky.resize(); if (mascot) mascot.resize();
+render(); sky.resize(); if (mascot) { mascot.resize(); mascot.onPoke = huzPoke; }
 let rw = innerWidth, rt = 0;
 addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { sky.resize(); if (mascot) mascot.resize(); if (Math.abs(innerWidth - rw) > 2) { rw = innerWidth; if (!S.empty) { renderHeat(); renderDaily(); renderCost(); document.querySelectorAll(".panel.in").forEach(panelIn); } } glassLayout(); measure(); }, 150); });
 (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { glassLayout(); measure(); opening(); requestAnimationFrame(frame); setTimeout(measure, 1200); });

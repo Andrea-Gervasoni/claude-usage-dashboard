@@ -62,6 +62,7 @@ Il livello si calcola su tutta la storia, con una formula dichiarata nella pagin
 - **Trofei**: dodici, con forma diversa per famiglia (serie, giorni, volume, spesa, varietà). L'anello è il progresso reale.
 - **Recap**: sette storie a tutto schermo con cielo e granchio, tocco per avanzare, pressione per fermare; l'ultima è la card.
 - **Aura in 3D**: una fiamma morbida dietro la mascotte, colore e forza dal livello, che si accende quando la tocchi.
+- **Easter egg**: tre tocchi di fila sulla mascotte, o la parola `huz` sulla tastiera. Il granchio fa tre colpi con salto e braccia in alto, gli occhiali calano, e parte un suono «HUZ» sintetizzato nel browser (nessun campione audio). Il tutto viene registrato in un video verticale 720×1280 con nickname, livello, aura e repo, da salvare o condividere.
 - **Aggancio quotidiano**: la prima vista dice a che giorno è la serie in corso, o che è a rischio se oggi non hai ancora scritto.
 - Unico colore fuori palette: oro `#E9B44C`, solo per corona, catena e aureola.
 
