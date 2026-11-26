@@ -52,6 +52,7 @@ This installs a LaunchAgent that runs `update.sh` at 23:50 and at login, and kee
 | `update.sh`, `install.sh` | the macOS scheduled setup |
 | `scripts/merge.mjs` | merges a ccusage export into the history, keyed by date |
 | `scripts/build.mjs` | template + history + fonts + three.js → one HTML file |
+| `sounds/` | audio of the secret clip (see its README for provenance) |
 | `template.html` | the page: sky shader, 3D mascot, charts, aura, card, recap |
 | `DESIGN.md` | design decisions (Italian) |
 | `MARKET.md` | market notes and launch plan (Italian) |

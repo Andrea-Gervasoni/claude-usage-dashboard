@@ -850,8 +850,8 @@ $("#ladMore").addEventListener("click", (e) => { const open = $("#ladder").class
 /* easter egg "huss huss huss": tre tocchi di fila sulla mascotte, o scrivi "huss" (vale anche "huz").
    Struttura del meme: la frase, stacco, tre palleggi con il fiato, stacco, il risultato.
    Il fiato è sintetizzato qui; se accanto alla pagina c'era sounds/huss.mp3, la build l'ha incluso e si usa quello. */
-// tempi presi dal tuo audio: voce fino a ~3 s, poi tre «huss» a 3.18 / 3.39 / 3.58, poi un secondo gruppo da 4.15
-const CLIP = { cut1: 2.95, hits: [3.18, 3.39, 3.58], cut2: 4.1, end: 7.35 };
+// tempi presi dall'audio (tagliato a 0.47 s per togliere il click iniziale): voce fino a ~2.5 s, poi tre «huss» a 2.71 / 2.92 / 3.11, poi un secondo gruppo da 3.68; l'audio sfuma piano fino a 7.9 s
+const CLIP = { cut1: 2.48, hits: [2.71, 2.92, 3.11], cut2: 3.63, end: 7.9 };
 const HZ = { on: false, t0: 0, rec: null, blob: null, ext: "webm", actx: null, done: false, pokes: [], W: 1080, H: 1920, bg: null, rays: null, el: null };
 function hussBreath(ctx, out, t) {   // "h" d'aria, poi la "ss" che sfiata
   const len = Math.floor(ctx.sampleRate * .5), nb = ctx.createBuffer(1, len, ctx.sampleRate), d = nb.getChannelData(0); for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;

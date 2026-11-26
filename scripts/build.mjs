@@ -49,8 +49,7 @@ if (!nick) {
 }
 nick = nick.replace(/[<>"'&]/g, "").slice(0, 20);
 
-// audio facoltativo per la clip segreta: sounds/huss.(mp3|m4a|wav|ogg) accanto al progetto, se l'hai messo tu.
-// Resta sul tuo computer: la cartella sounds/ è esclusa da git.
+// audio della clip segreta: sounds/huss.(mp3|m4a|wav|ogg). Se manca, la clip usa un suono sintetizzato.
 let huss = "";
 for (const [ext, mime] of [["mp3", "audio/mpeg"], ["m4a", "audio/mp4"], ["wav", "audio/wav"], ["ogg", "audio/ogg"]]) {
   const f = join(root, "sounds", "huss." + ext);
