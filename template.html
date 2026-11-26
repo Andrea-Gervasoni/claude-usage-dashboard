@@ -65,8 +65,22 @@ main{position:relative;z-index:1}
 .hero.in .poke{opacity:1;scale:1}
 .poke.pop{animation:pop .45s var(--spring)}
 @keyframes pop{0%{scale:.7}100%{scale:1}}
+.cta{pointer-events:auto;margin-top:28px;display:inline-flex;align-items:center;gap:12px;height:58px;padding:0 24px 0 10px;border:0;border-radius:999px;cursor:pointer;text-align:left;
+  background:rgba(255,255,255,.52);-webkit-backdrop-filter:blur(16px) saturate(1.6);backdrop-filter:blur(16px) saturate(1.6);
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.9),inset 0 0 0 1px rgba(255,255,255,.35),0 1px 2px rgba(10,20,30,.12),0 14px 30px -12px rgba(10,20,30,.4);
+  opacity:0;translate:0 12px;transition:opacity .8s .85s,translate .9s var(--ease-out) .85s,scale .12s ease-out,background .2s}
+.hero.in .cta{opacity:1;translate:0 0} .cta:hover{background:rgba(255,255,255,.78)} .cta:active{scale:.96}
+.cta svg{width:42px;height:auto;flex:none;transition:transform .5s var(--spring)} .cta:hover svg{transform:rotate(-8deg) scale(1.08)}
+.cta b{display:block;font-weight:600;font-size:16px;line-height:1.2} .cta small{display:block;font-size:13px;color:var(--ink-soft);line-height:1.2}
 .fallback{display:none;position:absolute;right:12%;top:50%;width:min(34vw,380px);transform:translateY(-50%)}
 .no3d .fallback{display:block} .no3d #mascot,.no3d .poke{display:none}
+
+/* ── nastro: accelera con lo scroll ───────────────────────── */
+.ticker{position:relative;z-index:1;overflow:hidden;padding:16px 0 18px;background:rgba(255,255,255,.36);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.85),inset 0 -1.5px 0 rgba(255,255,255,.45),0 18px 40px -30px rgba(15,27,36,.5)}
+.ticker-in{display:flex;white-space:nowrap;will-change:transform;font-family:var(--serif);font-size:clamp(28px,3.6vw,50px);line-height:1}
+.ticker-in>span{display:inline-flex;align-items:center;gap:.55em;padding-right:.55em}
+.ticker svg{width:.95em;height:auto;flex:none} .ticker b{font-weight:400;color:var(--orange-text)}
 
 /* ── pannelli di vetro ────────────────────────────────────── */
 .sec{padding:clamp(40px,7vh,84px) max(var(--gutter),env(safe-area-inset-right,0px)) clamp(40px,7vh,84px) max(var(--gutter),env(safe-area-inset-left,0px));scroll-margin-top:60px}
@@ -144,9 +158,50 @@ td.cost{color:var(--orange-text);font-weight:600}
 tfoot td{border-bottom:0;border-top:1.5px solid var(--ink);font-weight:600} tfoot td:first-child{font-weight:400}
 tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .7s var(--ease-out);transition-delay:calc(var(--i)*70ms + .15s)}
 .in tbody tr,.in tfoot tr{opacity:1;translate:0 0}
+/* flex: quattro tessere di misura diversa */
+.flexg{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:14px}
+.tile{grid-column:span 7;position:relative;border-radius:26px;padding:22px 26px 24px;min-height:230px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+  background:linear-gradient(160deg,rgba(255,255,255,.72),rgba(255,255,255,.42));box-shadow:inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 0 0 1px rgba(255,255,255,.35),0 14px 30px -22px rgba(15,27,36,.55);
+  transition:translate .4s var(--ease-out)}
+.tile:hover{translate:0 -4px}
+.tile:nth-child(2),.tile:nth-child(3){grid-column:span 5}
+.tile .viz{margin-bottom:auto;padding-bottom:18px}
+.tile .n{font-family:var(--serif);font-size:clamp(50px,6.4vw,92px);line-height:.92;color:var(--orange-text);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tile p{font-size:16px;color:var(--ink-soft);margin-top:8px;max-width:34ch} .tile p b{color:var(--ink);font-weight:600}
+.books{display:flex;align-items:flex-end;gap:4px;height:70px;flex-wrap:nowrap;overflow:hidden}
+.books i{width:11px;flex:none;border-radius:3px 3px 1px 1px;transform:scaleY(0);transform-origin:50% 100%;transition:transform .7s var(--spring);transition-delay:calc(var(--i)*22ms + .2s)}
+.in .books i{transform:scaleY(1)}
+.ring{width:96px;height:96px;display:block} .ring circle{fill:none;stroke-width:13} .ring .tr{stroke:rgba(15,27,36,.1)}
+.ring .ar{stroke:var(--orange);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.5s var(--ease-out) .25s;transform:rotate(-90deg);transform-origin:50% 50%}
+.in .ring .ar{stroke-dashoffset:var(--o)}
+.duel{display:grid;gap:8px;max-width:300px} .duel span{font-size:13px;color:var(--ink-muted)}
+.pages{display:flex;gap:5px;flex-wrap:wrap;max-width:420px} .pages i{width:16px;height:22px;border-radius:3px;background:var(--d2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.7);scale:0;transition:scale .5s var(--spring);transition-delay:calc(var(--i)*16ms + .2s)}
+.pages i:nth-child(3n){background:var(--d4)} .pages i:nth-child(7n){background:var(--orange)} .in .pages i{scale:1}
+
+/* aura: livello, scala dei livelli, card da storie */
+.aura{display:grid;grid-template-columns:minmax(0,330px) minmax(0,1fr);gap:clamp(22px,4.4vw,60px);align-items:start}
+#card{width:100%;aspect-ratio:9/16;border-radius:28px;display:block;box-shadow:0 0 0 1px rgba(255,255,255,.7),0 34px 60px -30px rgba(15,27,36,.65);transition:transform .5s var(--ease-out)}
+#card:hover{transform:rotate(-1.2deg) scale(1.015)}
+.lvl small{font-size:15px;color:var(--ink-soft);font-weight:500}
+.lvl h3{font-family:var(--serif);font-weight:400;font-size:clamp(44px,5.6vw,80px);line-height:.96;margin:4px 0 10px;letter-spacing:-.02em}
+.lvl .tag{font-size:18px;color:var(--ink-soft)}
+.next{margin-top:24px} .next .tube{height:20px} .next p{font-size:15px;color:var(--ink-soft);margin-top:10px} .next p b{color:var(--ink);font-weight:600}
+.ladder{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:4px}
+.ladder li{display:grid;grid-template-columns:46px minmax(0,1fr) auto;gap:14px;align-items:center;padding:7px 16px 7px 10px;border-radius:18px;transition:background .2s,translate .3s var(--ease-out)}
+.ladder li:hover{translate:4px 0}
+.ladder li.cur{background:rgba(255,255,255,.66);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.4),0 10px 22px -16px rgba(15,27,36,.5)}
+.ladder svg{width:46px;height:auto;display:block}
+.ladder .ln{font-family:var(--serif);font-size:24px;line-height:1.1} .ladder .ls{display:block;font-family:var(--sans);font-size:13px;color:var(--ink-muted)}
+.ladder .lt{font-size:14px;font-variant-numeric:tabular-nums;color:var(--ink-soft);text-align:right}
+.ladder li.lock svg{filter:brightness(0);opacity:.26} .ladder li.lock .ln{color:var(--ink-muted)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.btn{height:54px;padding:0 26px;border-radius:999px;border:0;cursor:pointer;font-weight:600;font-size:16px;background:var(--ink);color:#fff;transition:scale .12s ease-out,background .2s,translate .3s var(--ease-out);box-shadow:0 14px 26px -14px rgba(15,27,36,.7)}
+.btn:hover{translate:0 -2px} .btn:active{scale:.95}
+.btn.ghost{background:rgba(255,255,255,.62);color:var(--ink);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.4),0 10px 22px -16px rgba(15,27,36,.5)}
+.note{font-size:13px;color:var(--ink-soft);margin-top:12px;min-height:1.5em}
 .foot{max-width:1180px;margin:0 auto;padding:26px 0 150px;display:flex;gap:14px;align-items:center;font-size:14px;color:var(--ink)}
 .foot svg{width:34px;flex:none}
-.is-empty .sec,.is-empty .poke{display:none}
+.is-empty .sec,.is-empty .poke,.is-empty .ticker,.is-empty .cta{display:none}
 
 /* ── vetro dei comandi ────────────────────────────────────── */
 .glass{position:fixed;z-index:30;border-radius:999px;--rim:0deg;color:var(--ink);background:rgba(255,255,255,.46);
@@ -173,12 +228,15 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
 
 @media (max-width:860px){
   .hero{align-items:flex-end}
-  .hero-text{padding-top:0;padding-bottom:104px}
+  .hero-text{padding-top:0;padding-bottom:96px}
   .hero h1{font-size:clamp(44px,13.5vw,84px)}
   .sub{margin-top:16px}
   .big{text-align:left}
   .mrow{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px} .mrow .tube{grid-column:1/-1;order:3}
   .fallback{right:50%;top:26%;transform:translate(50%,-50%);width:52vw}
+  .cta{margin-top:16px;height:54px}
+  .tile,.tile:nth-child(2),.tile:nth-child(3){grid-column:1/-1;min-height:0}
+  .aura{grid-template-columns:1fr} #card{max-width:300px;margin:0 auto}
 }
 @media (max-width:560px){
   .press{padding:0 11px;font-size:14px;height:44px}
@@ -213,11 +271,12 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
 </div></div>
 <nav class="glass" id="dock" aria-label="Sections"><div class="seg-in"><i class="ind"></i>
   <button class="press" data-go="top"><span>Home</span></button>
+  <button class="press" data-go="flex"><span>Flex</span></button>
   <button class="press" data-go="streak"><span>Streak</span></button>
   <button class="press" data-go="tokens"><span>Tokens</span></button>
   <button class="press" data-go="bill"><span>Bill</span></button>
   <button class="press" data-go="crew"><span>Crew</span></button>
-  <button class="press" data-go="receipts"><span>Receipts</span></button>
+  <button class="press" data-go="aura"><span>Aura</span></button>
 </div></nav>
 
 <main id="main">
@@ -227,9 +286,17 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
     <div class="hero-text">
       <h1 id="h1"></h1>
       <p class="sub" id="sub"></p>
+      <button class="cta" id="auraCta" aria-label="Check your aura"></button>
     </div>
     <p class="poke" id="poke">Poke me.</p>
   </section>
+
+  <div class="ticker" aria-hidden="true"><div class="ticker-in" id="ticker"></div></div>
+
+  <section class="sec" id="flex"><div class="panel">
+    <div class="head"><div><h2>The flex</h2><p class="line">Numbers worth a screenshot. Conversions are rough, the tokens are real.</p></div></div>
+    <div class="flexg" id="flexg"></div>
+  </div></section>
 
   <section class="sec" id="streak"><div class="panel">
     <div class="head"><div><h2>The streak</h2><p class="line" id="l-streak"></p></div><div class="big"><b id="b-streak">0</b><span id="s-streak">days in a row</span></div></div>
@@ -253,17 +320,31 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
     <div class="months" id="months"></div>
   </div></section>
 
-  <section class="sec" id="crew"><div class="panel">
-    <div class="head"><div><h2>The crew</h2><p class="line" id="l-crew"></p></div><div class="big"><b id="b-crew">0</b><span id="s-crew">models on the job</span></div></div>
-    <ul class="crew" id="crewList"></ul>
-  </div></section>
-
   <section class="sec" id="receipts"><div class="panel">
     <div class="head"><div><h2>The receipts</h2><p class="line">Every month, every token. Total at the bottom.</p></div></div>
     <div class="ledger"><table>
       <thead><tr><th>Month</th><th>Input</th><th>Output</th><th>Cache write</th><th>Cache read</th><th>Total</th><th>Cost</th></tr></thead>
       <tbody id="ledgerBody"></tbody><tfoot id="ledgerFoot"></tfoot>
     </table></div>
+  </div></section>
+
+  <section class="sec" id="crew"><div class="panel">
+    <div class="head"><div><h2>The crew</h2><p class="line" id="l-crew"></p></div><div class="big"><b id="b-crew">0</b><span id="s-crew">models on the job</span></div></div>
+    <ul class="crew" id="crewList"></ul>
+  </div></section>
+
+  <section class="sec" id="aura"><div class="panel">
+    <div class="head"><div><h2>Aura check</h2><p class="line">All-time. <b>+1</b> per million tokens, <b>+50</b> per day of your longest streak, <b>+10</b> per active day.</p></div><div class="big"><b id="b-aura">0</b><span>aura, and counting</span></div></div>
+    <div class="aura">
+      <canvas id="card" width="1080" height="1920" aria-label="Shareable aura card"></canvas>
+      <div>
+        <div class="lvl"><small id="lvN"></small><h3 id="lvName"></h3><p class="tag" id="lvTag"></p></div>
+        <div class="next"><div class="tube"><i id="nextBar" style="--w:0;--i:0;--c:var(--orange)"></i></div><p id="nextLine"></p></div>
+        <ul class="ladder" id="ladder"></ul>
+        <div class="btns"><button class="btn" id="save">Save for stories</button><button class="btn ghost" id="copy">Copy caption</button></div>
+        <p class="note" id="saveNote" aria-live="polite"></p>
+      </div>
+    </div>
   </div>
   <div class="foot">
     <svg viewBox="0 0 24 18" aria-hidden="true"><g fill="#DC6A32"><rect x="4" y="1" width="16" height="10" rx="1.5"/><rect x="1.5" y="5" width="21" height="3.4" rx="1"/><rect x="5" y="11" width="2" height="4"/><rect x="8.6" y="11" width="2" height="4"/><rect x="13.4" y="11" width="2" height="4"/><rect x="17" y="11" width="2" height="4"/></g><rect x="8" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/><rect x="14.2" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>
@@ -336,6 +417,47 @@ function countTo(el, value, fmt) {
   const t0 = performance.now();
   (function step(t) { const p = clamp((t - t0) / 1100); el.textContent = fmt(lerp(from, value, easeOut(p))); if (p < 1) requestAnimationFrame(step); })(t0);
 }
+
+/* ── aura: livelli calcolati su tutta la storia, formula dichiarata ── */
+const LEVELS = [
+  { n: 1, name: "NPC", at: 0, tag: "No aura detected. Touch keyboard." },
+  { n: 2, name: "Vibe Rookie", at: 250, tag: "It compiles. Sometimes." },
+  { n: 3, name: "Vibe Coder", at: 1000, tag: "Reads the diff? Never heard of it." },
+  { n: 4, name: "Ship Machine", at: 2500, tag: "Pushes to main on a Friday." },
+  { n: 5, name: "Context Lord", at: 5000, tag: "200K context, zero fear." },
+  { n: 6, name: "Token Whale", at: 12000, tag: "Rate limits fear you." },
+  { n: 7, name: "Final Boss", at: 30000, tag: "The model asks you for help." },
+];
+const GEAR = ["", "", "a headband", "pixel shades", "headphones", "the crown", "a gold chain", "a halo"];
+function auraAll() {
+  let tot = 0, out = 0, cost = 0, act = 0, best = 0, cur = 0, prev = null; const models = new Map();
+  for (const k of allDates) {
+    const v = days[k], t = v.total || (v.input || 0) + (v.output || 0) + (v.cacheCreation || 0) + (v.cacheRead || 0);
+    tot += t; out += v.output || 0; cost += v.cost || 0;
+    for (const m of v.models || []) { const nm = prettyModel(m.model); models.set(nm, (models.get(nm) || 0) + (m.cost || 0)); }
+    if (t <= 0) { cur = 0; prev = null; continue; }
+    act++; cur = prev && Math.round((parse(k) - parse(prev)) / 864e5) === 1 ? cur + 1 : 1; best = Math.max(best, cur); prev = k;
+  }
+  const pts = Math.floor(tot / 1e6) + 50 * best + 10 * act;
+  let li = 0; LEVELS.forEach((l, i) => { if (pts >= l.at) li = i; });
+  const top = [...models.entries()].sort((a, b) => b[1] - a[1])[0];
+  return { tot, out, cost, act, best, pts, level: LEVELS[li], next: LEVELS[li + 1] || null, topModel: top ? top[0] : "" };
+}
+/* mascotte in pixel con l'equipaggiamento del livello */
+function mascotSVG(lv) {
+  const G = "#E9B44C", K = "#0F1B24";
+  let g = `<g fill="#DC6A32"><rect x="4" y="7" width="16" height="10" rx="1.5"/><rect x="1.5" y="11" width="21" height="3.4" rx="1"/><rect x="5" y="17" width="2" height="4"/><rect x="8.6" y="17" width="2" height="4"/><rect x="13.4" y="17" width="2" height="4"/><rect x="17" y="17" width="2" height="4"/></g>`;
+  g += lv >= 3 ? `<g fill="${K}"><rect x="6.4" y="9.2" width="4.6" height="2.8" rx=".5"/><rect x="13" y="9.2" width="4.6" height="2.8" rx=".5"/><rect x="10.6" y="9.7" width="2.8" height=".9"/><rect x="3.6" y="9.7" width="3" height=".9"/><rect x="17.4" y="9.7" width="3" height=".9"/></g><rect x="7.1" y="9.8" width="1.4" height=".7" fill="#fff"/><rect x="13.7" y="9.8" width="1.4" height=".7" fill="#fff"/>`
+    : `<rect x="8" y="9.4" width="1.8" height="3.6" fill="${K}"/><rect x="14.2" y="9.4" width="1.8" height="3.6" fill="${K}"/>`;
+  if (lv >= 2 && lv <= 4) g += `<rect x="4" y="7.6" width="16" height="1.3" fill="#6E94AC"/>`;
+  if (lv === 4) g += `<g fill="${K}"><rect x="2.4" y="8.4" width="2" height="4.6" rx=".7"/><rect x="19.6" y="8.4" width="2" height="4.6" rx=".7"/><rect x="3" y="5.6" width="18" height="1.3" rx=".6"/></g>`;
+  if (lv >= 5) g += `<path d="M7.4 7.2V3.2l2.3 2 2.3-2.9 2.3 2.9 2.3-2v4z" fill="${G}"/>`;
+  if (lv >= 6) g += `<path d="M6.6 13.6q5.4 3.4 10.8 0" fill="none" stroke="${G}" stroke-width=".9" stroke-dasharray=".9 .7" stroke-linecap="round"/><rect x="11.1" y="15" width="1.8" height="1.8" rx=".3" fill="${G}"/>`;
+  if (lv >= 7) g += `<ellipse cx="12" cy="1.1" rx="5.4" ry=".9" fill="none" stroke="${G}" stroke-width=".8"/>`;
+  return `<svg viewBox="0 0 24 21.5" aria-hidden="true">${g}</svg>`;
+}
+const MARK = `<svg viewBox="0 0 24 18" aria-hidden="true"><g fill="#DC6A32"><rect x="4" y="1" width="16" height="10" rx="1.5"/><rect x="1.5" y="5" width="21" height="3.4" rx="1"/><rect x="5" y="11" width="2" height="4"/><rect x="8.6" y="11" width="2" height="4"/><rect x="13.4" y="11" width="2" height="4"/><rect x="17" y="11" width="2" height="4"/></g><rect x="8" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/><rect x="14.2" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>`;
+let AU = null, tickerW = 0, tickerX = 0;
 
 /* ── periodo ───────────────────────────────────────────────── */
 const today = new Date(); today.setHours(0, 0, 0, 0);
@@ -466,6 +588,10 @@ function render() {
   $("#h1").innerHTML = line(0, `${n} ${n === 1 ? "day" : "days"}.`) + line(1, `${compact(t.total)} tokens.`, true) + line(2, "Zero regrets.");
   $("#h1").setAttribute("aria-label", `${n} days. ${compact(t.total)} tokens. Zero regrets.`);
   $("#sub").innerHTML = `About <b class="num">${usd(t.cost)}</b> at API prices, across ${act.length} working ${act.length === 1 ? "day" : "days"}.` + (S.clipped ? ` Log starts ${longDate(allDates[0])}.` : "");
+  AU = auraAll();
+  $("#auraCta").innerHTML = `${mascotSVG(AU.level.n)}<span><b>Lv ${AU.level.n} ${AU.level.name}</b><small>Check your aura</small></span>`;
+  if (mascot) mascot.setLevel(AU.level.n);
+  renderFlex(); renderAura();
   // streak
   let best = 0, cur = 0; list.forEach((d) => { cur = d.total > 0 ? cur + 1 : 0; best = Math.max(best, cur); });
   const top = act.reduce((a, b) => (b.total > a.total ? b : a));
@@ -473,6 +599,10 @@ function render() {
   $("#b-streak").dataset.v = best; $("#s-streak").textContent = best === 1 ? "day in a row" : "days in a row";
   $("#l-streak").innerHTML = `<b>${act.length} of ${n}</b> days active. Peak: ${shortDate(top.date)}, ${compact(top.total)} tokens.` + (act.length > 13 ? ` You go hardest on ${WD[wd.indexOf(Math.max(...wd))]}.` : "");
   renderHeat();
+  const novels = t.output / 12e4;
+  const items = [`<b>${compact(t.total)}</b> tokens`, `<b>${best}</b>-day streak`, `<b>${usd0(t.cost)}</b> bill`, `<b>${novels >= 10 ? Math.round(novels) : fx(novels, 1)}</b> novels of output`, `<b>${Math.round(t.output ? t.cacheRead / t.output : 0)}×</b> re-read`, `Lv <b>${AU.level.n}</b> ${AU.level.name}`, `<b>${int.format(AU.pts)}</b> aura`];
+  const one = `<span>` + items.map((x) => `${x} ${MARK}`).join(" ") + `</span>`;
+  $("#ticker").innerHTML = one + one + one; tickerW = 0;
   // tokens
   $("#b-tokens").dataset.v = Math.round(t.output ? t.cacheRead / t.output : 0);
   $("#l-tokens").innerHTML = `<b>${pct(t.cacheRead / t.total)}</b> is context Claude re-reads every turn. The orange sliver is what it actually wrote: ${compact(t.output)} tokens.`;
@@ -503,7 +633,86 @@ function render() {
   const up = DATA && DATA.updatedAt ? new Date(DATA.updatedAt) : null;
   $("#foot").textContent = `Logging since ${longDate(allDates[0])}, ${allDates.length} days on file.` + (up ? ` Updated ${up.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}.` : "") + " Numbers come from ccusage reading local Claude Code logs.";
 }
-const BIG = { "b-streak": (v) => Math.round(v), "b-tokens": (v) => Math.round(v) + "×", "b-bill": (v) => usd0(v), "b-crew": (v) => Math.round(v) };
+function renderFlex() {
+  const { list, t, act } = S;
+  const novels = t.output / 12e4, wk = act.reduce((a, d) => a + (parse(d.date).getDay() % 6 === 0 ? d.total : 0), 0) / t.total;
+  const sorted = act.map((d) => d.total).sort((a, b) => a - b), med = sorted[Math.floor(sorted.length / 2)] || 1, peak = sorted[sorted.length - 1] || 0, mult = peak / med;
+  const wp = t.cacheRead / 78e4, nb = Math.min(46, Math.max(1, Math.round(novels))), np = Math.min(54, Math.max(1, Math.round(wp / Math.max(1, wp / 54))));
+  const hs = [58, 70, 50, 64, 44, 68, 54, 62, 48, 66], cs = ["var(--d4)", "var(--d2)", "var(--d5)", "var(--orange)", "var(--d3)"];
+  $("#flexg").innerHTML = `
+    <div class="tile"><div class="viz"><div class="books">${Array.from({ length: nb }, (_, i) => `<i style="--i:${i};height:${hs[i % 10]}px;background:${cs[(i * 3) % 5]}"></i>`).join("")}</div></div>
+      <div class="n">${novels >= 10 ? int.format(Math.round(novels)) : fx(novels, 1)}</div><p><b>novels of output.</b> Claude wrote ${compact(t.output)} tokens for you, at about 120K tokens a book.</p></div>
+    <div class="tile"><div class="viz"><svg class="ring" viewBox="0 0 100 100"><circle class="tr" cx="50" cy="50" r="42"/><circle class="ar" cx="50" cy="50" r="42" pathLength="1" style="--o:${(1 - wk).toFixed(4)}"/></svg></div>
+      <div class="n">${pct(wk)}</div><p><b>${wk >= .25 ? "Weekend warrior." : wk >= .1 ? "Weekends are for shipping too." : "Touches grass on weekends."}</b> Share of tokens burned on Saturdays and Sundays.</p></div>
+    <div class="tile"><div class="viz"><div class="duel"><span>a normal day, ${compact(med)}</span><div class="tube"><i style="--w:${Math.max(.03, 1 / Math.max(1, mult))};--i:0;--c:var(--d4)"></i></div><span>your peak, ${compact(peak)}</span><div class="tube"><i style="--w:1;--i:2;--c:var(--orange)"></i></div></div></div>
+      <div class="n">${fx(mult, 1)}×</div><p><b>Peak day energy.</b> Your biggest day against your median day.</p></div>
+    <div class="tile"><div class="viz"><div class="pages">${Array.from({ length: np }, (_, i) => `<i style="--i:${i}"></i>`).join("")}</div></div>
+      <div class="n">${wp >= 10 ? int.format(Math.round(wp)) : fx(wp, 1)}×</div><p><b>War and Peace, re-read.</b> That is how much context Claude went back over: ${compact(t.cacheRead)} tokens, at about 780K a read.</p></div>`;
+}
+function renderAura() {
+  const a = AU, L = a.level, N = a.next;
+  $("#b-aura").dataset.v = a.pts;
+  $("#lvN").textContent = `Level ${L.n} of ${LEVELS.length}`; $("#lvName").textContent = L.name; $("#lvTag").textContent = L.tag;
+  const prog = N ? clamp((a.pts - L.at) / (N.at - L.at)) : 1;
+  $("#nextBar").style.setProperty("--w", Math.max(.02, prog).toFixed(4));
+  $("#nextLine").innerHTML = N ? `<b>${int.format(N.at - a.pts)} aura</b> to ${N.name}. Unlocks ${GEAR[N.n]}. Keep the streak alive: every day in a row is +50.` : `<b>Max level.</b> There is nothing left to unlock. Go outside.`;
+  $("#ladder").innerHTML = LEVELS.slice().reverse().map((l) => `<li class="${l.n === L.n ? "cur" : l.n > L.n ? "lock" : ""}">${mascotSVG(l.n)}<span class="ln">${l.name}<span class="ls">${l.n > L.n ? "Locked. Unlocks " + GEAR[l.n] + "." : l.tag}</span></span><span class="lt">${l.n > L.n ? int.format(l.at) + " aura" : l.n === L.n ? "you are here" : "unlocked"}</span></li>`).join("");
+  drawCard();
+}
+/* card verticale 1080×1920 per le storie */
+const REPO = (DATA && DATA.repo) || "";
+function fit(c, text, font, size, maxW) { do { c.font = font.replace("%", size + "px"); if (c.measureText(text).width <= maxW) break; size -= 4; } while (size > 20); return size; }
+async function drawCard() {
+  const cv = $("#card"); if (!cv || !AU) return;
+  try { await Promise.all([document.fonts.load('80px "Instrument Serif"'), document.fonts.load('600 40px "Instrument Sans"'), document.fonts.load('40px "Instrument Sans"')]); } catch (_) {}
+  const c = cv.getContext("2d"), W = 1080, H = 1920, a = AU, L = a.level, N = a.next, INK = "#0F1B24", SOFT = "#2C3D4F", OR = "#9A3D14";
+  const SER = '% "Instrument Serif", Georgia, serif', SAN = '% "Instrument Sans", system-ui, sans-serif';
+  const sg = c.createLinearGradient(0, 0, 0, H); sg.addColorStop(0, "#7FAECB"); sg.addColorStop(.42, "#CFE2EC"); sg.addColorStop(.74, "#F8DEC8"); sg.addColorStop(1, "#F0A06C");
+  c.fillStyle = sg; c.fillRect(0, 0, W, H);
+  const puff = (x, y, r, al) => { const g = c.createRadialGradient(x, y, 0, x, y, r); g.addColorStop(0, `rgba(255,255,255,${al})`); g.addColorStop(1, "rgba(255,255,255,0)"); c.fillStyle = g; c.fillRect(x - r, y - r, r * 2, r * 2); };
+  [[160, 330, 300, .7], [420, 250, 260, .5], [900, 420, 340, .6], [760, 180, 220, .45], [120, 1180, 320, .4], [980, 1290, 300, .4]].forEach((p) => puff(...p));
+  // testata: logo e nome
+  const mk = (x, y, k) => { c.fillStyle = "#DC6A32"; [[4, 1, 16, 10], [1.5, 5, 21, 3.4], [5, 11, 2, 4], [8.6, 11, 2, 4], [13.4, 11, 2, 4], [17, 11, 2, 4]].forEach(([a1, b, w, h]) => c.fillRect(x + a1 * k, y + b * k, w * k, h * k)); c.fillStyle = INK; c.fillRect(x + 8 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); c.fillRect(x + 14.2 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); };
+  mk(72, 84, 4.6); c.fillStyle = INK; c.textBaseline = "alphabetic"; c.textAlign = "left"; c.font = SER.replace("%", "84px"); c.fillText("vibelog", 200, 150);
+  if (REPO) { c.fillStyle = SOFT; const sr = fit(c, "github.com/" + REPO, SAN, 30, W - 144); c.font = SAN.replace("%", sr + "px"); c.fillText("github.com/" + REPO, 72, 214); }
+  c.textAlign = "right"; c.font = SAN.replace("%", "600 34px"); c.fillStyle = SOFT; c.fillText("aura check", W - 72, 146);
+  // mascotte: resa 3D con l'equipaggiamento del livello, su una nuvola disegnata
+  const cx = W / 2, my = 600;
+  [[cx - 250, my + 215, 230], [cx, my + 200, 300], [cx + 260, my + 220, 240], [cx - 120, my + 265, 240], [cx + 130, my + 270, 250]].forEach(([x, y, r]) => { c.save(); c.translate(x, y); c.scale(1, .5); const g = c.createRadialGradient(0, 0, r * .2, 0, 0, r); g.addColorStop(0, "rgba(255,255,255,1)"); g.addColorStop(.75, "rgba(255,255,255,.96)"); g.addColorStop(1, "rgba(255,255,255,0)"); c.fillStyle = g; c.beginPath(); c.arc(0, 0, r, 0, 7); c.fill(); c.restore(); });
+  const shot = mascot && mascot.snapshot ? mascot.snapshot(900, L.n) : null;
+  if (shot) c.drawImage(shot, cx - 430, my - 500, 860, 860);
+  else { const k = 26; c.save(); c.translate(cx - 12 * k, my - 150); mk(0, 0, k); c.restore(); }
+  // livello
+  c.textAlign = "center"; c.fillStyle = SOFT; c.font = SAN.replace("%", "600 40px"); c.fillText(`LEVEL ${L.n} OF ${LEVELS.length}`, cx, 1040);
+  c.fillStyle = INK; const s1 = fit(c, L.name, SER, 168, W - 140); c.font = SER.replace("%", s1 + "px"); c.fillText(L.name, cx, 1040 + s1 * .98);
+  c.fillStyle = SOFT; const s2 = fit(c, L.tag, SAN, 44, W - 160); c.font = SAN.replace("%", s2 + "px"); c.fillText(L.tag, cx, 1270);
+  c.fillStyle = OR; c.font = SER.replace("%", "112px"); c.fillText(`+${int.format(a.pts)} aura`, cx, 1400);
+  // quattro numeri
+  const tiles = [[compact(a.tot), "tokens"], [a.best + (a.best === 1 ? " day" : " days"), "longest streak"], [usd0(a.cost), "at API prices"], [a.topModel || "n/a", "main model"]];
+  tiles.forEach(([v, lab], i) => { const tw = 456, th = 150, x = 72 + (i % 2) * (tw + 24), y = 1452 + Math.floor(i / 2) * (th + 20);
+    c.fillStyle = "rgba(255,255,255,.58)"; c.beginPath(); c.roundRect(x, y, tw, th, 38); c.fill(); c.strokeStyle = "rgba(255,255,255,.9)"; c.lineWidth = 2.5; c.stroke();
+    c.textAlign = "left"; c.fillStyle = INK; const sv = fit(c, v, SER, 76, tw - 64); c.font = SER.replace("%", sv + "px"); c.fillText(v, x + 32, y + 84);
+    c.fillStyle = SOFT; c.font = SAN.replace("%", "30px"); c.fillText(lab, x + 32, y + 126); });
+  // prossimo livello e firma
+  const by = 1808, bw = W - 144, pr = N ? clamp((a.pts - L.at) / (N.at - L.at)) : 1;
+  c.fillStyle = "rgba(15,27,36,.14)"; c.beginPath(); c.roundRect(72, by, bw, 20, 10); c.fill();
+  c.fillStyle = "#DC6A32"; c.beginPath(); c.roundRect(72, by, Math.max(20, bw * pr), 20, 10); c.fill();
+  c.fillStyle = INK; c.font = SAN.replace("%", "600 30px"); c.textAlign = "left"; c.fillText(N ? `${int.format(N.at - a.pts)} aura to ${N.name}` : "Max level", 72, by + 66);
+  c.textAlign = "right"; c.font = SAN.replace("%", "30px"); c.fillStyle = SOFT; c.fillText("made with Claude Code", W - 72, by + 66);
+}
+$("#save").addEventListener("click", async () => {
+  const cv = $("#card"), note = $("#saveNote");
+  const blob = await new Promise((r) => cv.toBlob(r, "image/png")); if (!blob) return;
+  try { const file = new File([blob], "vibelog-aura.png", { type: "image/png" }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibelog" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  const a = document.createElement("a"), url = URL.createObjectURL(blob); a.href = url; a.download = "vibelog-aura.png"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+  note.textContent = "Saved as vibelog-aura.png, 1080 by 1920. If nothing downloaded, right-click the card and save the image.";
+});
+$("#copy").addEventListener("click", async () => {
+  const a = AU, txt = `Lv ${a.level.n} ${a.level.name}, +${int.format(a.pts)} aura. ${compact(a.tot)} tokens, ${a.best}-day streak with Claude Code.` + (REPO ? ` github.com/${REPO}` : "");
+  try { await navigator.clipboard.writeText(txt); $("#saveNote").textContent = "Caption copied."; } catch (_) { $("#saveNote").textContent = txt; }
+});
+$("#auraCta").addEventListener("click", () => goTo("aura"));
+const BIG = { "b-streak": (v) => Math.round(v), "b-tokens": (v) => Math.round(v) + "×", "b-bill": (v) => usd0(v), "b-crew": (v) => Math.round(v), "b-aura": (v) => "+" + int.format(Math.round(v)) };
 function panelIn(p) {
   p.classList.add("in");
   p.querySelectorAll(".big b").forEach((b) => countTo(b, +b.dataset.v || 0, BIG[b.id]));
@@ -600,6 +809,23 @@ const mascot = (() => {
     const hl = new T.Mesh(rbox(.07, .09, .03, .015, 1), whiteM); hl.position.set(-.035, .14, .045); g.add(hl); bodyG.add(g); return g; });
   const arms = [-1, 1].map((sd) => { const g = new T.Group(); g.position.set(sd * 1.08, -.14, .3); const a = new T.Mesh(rbox(.36, .32, .68, .12, 2), orangeM); a.position.z = .26; a.castShadow = true; g.add(a); bodyG.add(g); return g; });
   const legs = [-.8, -.29, .29, .8].map((x) => { const l = new T.Mesh(rbox(.27, .5, .42, .09, 2), orangeM); l.position.set(x, .23, .1); l.castShadow = true; crab.add(l); return l; });
+  // equipaggiamento che si sblocca con i livelli
+  const goldM = new T.MeshStandardMaterial({ color: col("#E9B44C"), metalness: .55, roughness: .3, emissive: col("#E9B44C"), emissiveIntensity: .2 });
+  const inkM = new T.MeshStandardMaterial({ color: col("#10161B"), roughness: .22, metalness: .25 });
+  const add = (parent, geo, mat, x, y, z) => { const m = new T.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; parent.add(m); return m; };
+  const gear = { band: add(bodyG, rbox(2.36, .17, 1.56, .06, 2), new T.MeshStandardMaterial({ color: col("#6E94AC"), roughness: .6 }), 0, .38, 0), shades: new T.Group(), phones: new T.Group(), crown: new T.Group(), chain: new T.Group(), halo: null };
+  [-.5, .5].forEach((x) => { add(gear.shades, rbox(.58, .32, .1, .06, 2), inkM, x, 0, 0); add(gear.shades, rbox(.14, .07, .02, .01, 1), whiteM, x - .12, .06, .056); add(gear.shades, rbox(.4, .07, .07, .03, 1), inkM, x * 1.96, .06, 0); add(gear.shades, rbox(.07, .08, .86, .03, 1), inkM, x * 2.36, .06, -.4); });
+  add(gear.shades, rbox(.5, .08, .08, .03, 1), inkM, 0, .07, 0); gear.shades.position.set(0, .56, .8); bodyG.add(gear.shades);
+  [-1, 1].forEach((sd) => add(gear.phones, rbox(.17, .58, .64, .08, 2), inkM, sd * 1.23, .16, 0)); add(gear.phones, rbox(2.54, .11, .28, .05, 2), inkM, 0, .735, 0); bodyG.add(gear.phones);
+  add(gear.crown, rbox(1.14, .17, .84, .05, 2), goldM, 0, 0, 0);
+  [-.44, 0, .44].forEach((x) => [-.3, .3].forEach((z) => { const m = add(gear.crown, new T.ConeGeometry(.14, .36, 4), goldM, x, .25, z); m.rotation.y = Math.PI / 4; }));
+  add(gear.crown, new T.SphereGeometry(.07, 12, 10), new T.MeshStandardMaterial({ color: col("#DC6A32"), emissive: col("#DC6A32"), emissiveIntensity: .5 }), 0, 0, .43); gear.crown.position.y = .78; bodyG.add(gear.crown);
+  for (let i = 0; i < 9; i++) { const u = (i - 4) / 4; add(gear.chain, new T.SphereGeometry(.062, 10, 8), goldM, u * .72, -.2 - .24 * (1 - u * u), .775); }
+  add(gear.chain, rbox(.2, .2, .07, .04, 1), goldM, 0, -.58, .79); bodyG.add(gear.chain);
+  gear.halo = add(bodyG, new T.TorusGeometry(.66, .05, 10, 48), new T.MeshStandardMaterial({ color: col("#F4CE74"), emissive: col("#F4CE74"), emissiveIntensity: .9, roughness: .3 }), 0, 1.42, 0); gear.halo.rotation.x = Math.PI / 2; gear.halo.castShadow = false;
+  let level = 1, shadeMix = 0;
+  function applyLevel(n) { level = n; gear.band.visible = n >= 2 && n <= 4; gear.shades.visible = n >= 3; gear.phones.visible = n === 4; gear.crown.visible = n >= 5; gear.chain.visible = n >= 6; gear.halo.visible = n >= 7; }
+  applyLevel(1);
   // portatile: lo vediamo da dietro, la sua luce gli illumina il muso
   const lapM = new T.MeshStandardMaterial({ color: col("#EEF3F6"), roughness: .35, metalness: .25 });
   const lap = new T.Group(); world.add(lap); lap.position.set(0, .02, 1.62);
@@ -674,6 +900,10 @@ const mascot = (() => {
     arms.forEach((g, i) => { const sd = i ? 1 : -1;
       g.rotation.y = lerp(sd * 1.15, sd * -.42, typeMix); g.rotation.x = lerp(happy > 0 ? -.9 : 0, .52 + Math.sin(t * 21 + (i ? Math.PI : 0)) * .2, typeMix); });
     legs.forEach((l, i) => { l.rotation.x = jumpY > 0 ? Math.sin(t * 22 + i) * .35 : 0; });
+    // gli occhiali stanno sulla fronte e calano sugli occhi quando lo tocchi
+    shadeMix = lerp(shadeMix, happy > 0 ? 1 : 0, 1 - Math.exp(-dt * (happy > 0 ? 16 : 5)));
+    gear.shades.position.y = lerp(.56, .2, shadeMix); gear.shades.rotation.x = lerp(-.22, 0, shadeMix);
+    if (gear.halo.visible) { gear.halo.position.y = 1.42 + Math.sin(t * 2) * .04; gear.halo.rotation.z = t * .6; }
     lid.rotation.x = lerp(-Math.PI / 2, .22, easeOut(lidOpen));
     glow.intensity = lidOpen * (.75 + (typing ? Math.sin(t * 31) * .12 + Math.sin(t * 13.7) * .1 : 0));
     spawnT -= dt; if (dropped && !reduced && spawnT <= 0) { spawn(); spawnT = typing ? .26 + Math.random() * .3 : .9; }
@@ -681,6 +911,21 @@ const mascot = (() => {
       const k = 1 - c.life / c.dur; c.m.position.x += c.vx * dt + Math.sin(t * 1.7 + c.rx) * .12 * dt; c.m.position.y += c.vy * dt; c.m.position.z += c.vz * dt; c.m.rotation.x += c.rx * dt; c.m.rotation.y += c.ry * dt;
       c.m.scale.setScalar(Math.max(.001, c.s * Math.min(1, k * 7) * Math.min(1, (1 - k) * 3.2))); }
     R.render(scene, cam);
+  };
+  api.setLevel = applyLevel;
+  /* scatto per la card: solo il granchio, di fronte, con gli occhiali calati */
+  api.snapshot = (size, n) => {
+    const keep = level; applyLevel(n);
+    lap.visible = false; cloud.visible = false; cubes.forEach((c) => (c.m.visible = false));
+    world.position.y = 0; world.rotation.y = -.34; crab.position.y = 0; crab.rotation.set(.02, 0, 0); bodyG.scale.set(1, 1, 1); bodyG.position.y = 1.1; bodyG.rotation.z = 0;
+    eyes.forEach((g, i) => { g.position.set(i ? .5 : -.5, .2, .76); g.scale.set(1, 1, 1); });
+    arms.forEach((g, i) => { g.rotation.set(-.5, (i ? 1 : -1) * 1.15, 0); }); legs.forEach((l) => (l.rotation.x = 0));
+    gear.shades.position.y = .2; gear.shades.rotation.x = 0;
+    const c2 = new T.PerspectiveCamera(26, 1, .1, 100); c2.position.set(0, 2.5, 9.4); c2.lookAt(0, 1.02, 0);
+    R.setPixelRatio(1); R.setSize(size, size, false); R.render(scene, c2);
+    const out = document.createElement("canvas"); out.width = out.height = size; out.getContext("2d").drawImage(cv, 0, 0);
+    lap.visible = true; cloud.visible = true; cubes.forEach((c) => (c.m.visible = c.life > 0)); world.rotation.y = -.36; applyLevel(keep); api.resize();
+    return out;
   };
   new IntersectionObserver((es) => { visible = es[0].isIntersecting; }).observe(cv);
   return api;
@@ -765,7 +1010,7 @@ addEventListener("pointermove", (e) => {
 
 /* ── ciclo unico ───────────────────────────────────────────── */
 let lastT = performance.now(), lastSy = -1, velo = 0, activeNav = null, secs = [], docH = 1;
-function measure() { secs = ["top", "streak", "tokens", "bill", "crew", "receipts"].map((id) => ({ id, top: document.getElementById(id).getBoundingClientRect().top + scrollY })); docH = Math.max(1, document.documentElement.scrollHeight - innerHeight); lastSy = -1; }
+function measure() { secs = ["top", "flex", "streak", "tokens", "bill", "crew", "aura"].map((id) => ({ id, top: document.getElementById(id).getBoundingClientRect().top + scrollY })); docH = Math.max(1, document.documentElement.scrollHeight - innerHeight); lastSy = -1; }
 function frame(now) {
   requestAnimationFrame(frame);
   const dt = Math.min(.05, Math.max(.001, (now - lastT) / 1000)); lastT = now;
@@ -775,6 +1020,10 @@ function frame(now) {
   sky.frame(now, clamp(sy / docH), mx, my);
   if (mascot) mascot.frame(now / 1000, dt, mx, my);
   glassFrame(dt, velo);
+  if (!reduced && !S.empty) {   // il nastro scorre da solo e accelera con lo scroll
+    const tk = $("#ticker"); if (!tickerW && tk.firstChild) tickerW = tk.firstChild.getBoundingClientRect().width;
+    if (tickerW) { tickerX = (tickerX + (46 + Math.min(1400, Math.abs(velo)) * .5) * dt) % tickerW; tk.style.transform = `translate3d(${(-tickerX).toFixed(1)}px,0,0)`; }
+  }
   if (moving) {
     const mid = sy + innerHeight * .5; let cur = "top"; for (const s of secs) if (mid >= s.top) cur = s.id;
     if (cur !== activeNav) { activeNav = cur; document.querySelectorAll("#dock .press").forEach((b) => b.removeAttribute("aria-current")); document.querySelector(`#dock [data-go="${cur}"]`)?.setAttribute("aria-current", "true"); moveInd($("#dock")); }

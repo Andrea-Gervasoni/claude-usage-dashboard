@@ -12,6 +12,8 @@ git clone <questo-repo> ~/claude-usage-dashboard
 cd ~/claude-usage-dashboard && ./install.sh
 ```
 
+La pagina calcola anche un livello di aura sulla storia completa e genera una card 1080×1920 da salvare per le storie, con logo, nome e repo (letta da `git remote` al momento della generazione).
+
 `install.sh` esegue il primo aggiornamento, installa il LaunchAgent
 `~/Library/LaunchAgents/local.claude-usage-dashboard.plist` (ogni giorno alle 23:50
 e al login), lo carica con `launchctl`, apre la dashboard e stampa la prima data in storia.
@@ -29,7 +31,7 @@ Requisiti: Node.js (per `npx`). Log in `logs/`. Per rimuovere il job: `./uninsta
 | `DESIGN.md` | idea, token, principi e divieti del design |
 | `fonts/` | Instrument Serif e Instrument Sans (SIL OFL 1.1) |
 | `vendor/` | three.js r149 (MIT), incluso nel file generato |
-| `.backup/` | le due versioni precedenti della pagina |
+| `.backup/` | le versioni precedenti della pagina |
 
 `history.json` e `index.html` sono dati personali e restano fuori da git.
 

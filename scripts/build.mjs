@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync, existsSync, renameSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execSync } from "node:child_process";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const historyPath = process.argv[2] ?? join(root, "history.json");
@@ -22,8 +23,16 @@ const fontCss = `
 @font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;
   src:url(data:font/woff2;base64,${font("instrument-sans-latin-wght-normal.woff2")}) format("woff2")}`;
 
+// nome della repo (owner/nome) dal remote git, per la card da condividere
+let repo = "";
+try {
+  const url = execSync("git remote get-url origin", { cwd: root, stdio: ["ignore", "pipe", "ignore"] }).toString().trim();
+  const m = url.match(/([^/:]+)\/([^/]+?)(?:\.git)?$/);
+  if (m) repo = `${m[1]}/${m[2]}`;
+} catch {}
+
 // JSON sicuro dentro <script>
-const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, days: history.days })
+const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, days: history.days })
   .replace(/</g, "\\u003c");
 
 const template = readFileSync(join(root, "template.html"), "utf8");

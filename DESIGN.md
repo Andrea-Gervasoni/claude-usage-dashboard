@@ -41,6 +41,26 @@ Movimento: `--ease-out`, `--ease-io`, `--spring` per ciò che scatta in posa; mo
 
 Apertura: il logo saltella su fondo inchiostro mentre conta i giorni letti, poi il buio si chiude sul punto in cui atterra la mascotte; il portatile si apre e parte la prima sbuffata di cubetti.
 
+## Aura
+
+Il livello si calcola su tutta la storia, con una formula dichiarata nella pagina: +1 per milione di token, +50 per ogni giorno della serie più lunga, +10 per ogni giorno attivo. Niente percentili né confronti inventati.
+
+| Livello | Nome | Da | Sblocca |
+|---|---|---|---|
+| 1 | NPC | 0 | niente |
+| 2 | Vibe Rookie | 250 | fascia |
+| 3 | Vibe Coder | 1.000 | occhiali a pixel |
+| 4 | Ship Machine | 2.500 | cuffie |
+| 5 | Context Lord | 5.000 | corona |
+| 6 | Token Whale | 12.000 | catena d'oro |
+| 7 | Final Boss | 30.000 | aureola |
+
+- La mascotte 3D della prima vista indossa l'equipaggiamento del livello. Gli occhiali stanno sulla fronte e calano sugli occhi quando la tocchi.
+- I livelli non raggiunti si vedono in sagoma, con la soglia e cosa sbloccano.
+- **The flex**: quattro tessere di misura diversa (romanzi scritti, quota nei weekend, picco contro giorno normale, contesto riletto). Le conversioni sono dichiarate come stime.
+- **Card da storie**: canvas 1080×1920 con logo, nome, repo, mascotte del livello, punti, quattro numeri e distanza dal livello successivo. Si salva in PNG; su telefono usa la condivisione di sistema.
+- Unico colore fuori palette: oro `#E9B44C`, solo per corona, catena e aureola.
+
 ## Tecnica
 
 - Cielo: shader WebGL scritto a mano, a metà risoluzione, circa 25 fotogrammi al secondo.
