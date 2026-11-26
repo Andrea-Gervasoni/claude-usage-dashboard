@@ -12,7 +12,7 @@ Sample data in the screenshots.
 npx github:Andrea-Gervasoni/claude-usage-dashboard
 ```
 
-Unofficial, for Claude Code. It reads your usage with [`ccusage`](https://github.com/ryoppippi/ccusage), merges it into `~/.vibecrab/history.json` and opens `~/.vibecrab/index.html`. Run it again whenever you want fresh numbers. Needs Node 18 or newer. Works on macOS, Linux and Windows.
+Unofficial, for Claude Code. It reads your usage with [`ccusage`](https://github.com/ryoppippi/ccusage), merges it into `~/.vibecrab/history.json` and opens `~/.vibecrab/index.html`. Run it again whenever you want fresh numbers. Needs Node 18 or newer. Tested on Linux (Chromium). macOS and Windows should work but are not tested yet: the launcher opens the page with `open`, `start` or `xdg-open`, and the CI workflow runs the merge tests on all three. If it fails on your system, `--no-open` prints the page path.
 
 ## What you get
 
@@ -56,6 +56,25 @@ This installs a LaunchAgent that runs `update.sh` at 23:50 and at login, and kee
 | `MARKET.md` | market notes and launch plan (Italian) |
 
 Fonts: Instrument Serif and Instrument Sans (SIL OFL 1.1). 3D: three.js r149 (MIT), bundled.
+
+## Known limits
+
+- The 3D scene and the sky shader are heavy on very old GPUs. Safari is not tested; the glass refraction on the buttons only runs in Chromium, elsewhere it falls back to frosted glass.
+- The secret clip is recorded in the browser. Chromium writes VP9/WebM or MP4 with VP9; Instagram and TikTok may refuse some of these. Safari should produce H.264.
+- Aura levels use thresholds picked by hand (see the formula on the page). They are a game, not a benchmark, and nothing is compared with other people.
+- `sounds/huss.mp3` has no verified license, see `sounds/README.md`. Delete it and the clip uses a synthesized sound.
+
+## Tests
+
+```bash
+npm test
+```
+
+Runs the history merge tests: days are never deleted, partly deleted days never overwrite fuller ones.
+
+## License
+
+MIT, see [LICENSE](LICENSE). The audio in `sounds/` is not covered.
 
 ## Not affiliated
 
