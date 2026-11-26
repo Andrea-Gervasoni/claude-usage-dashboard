@@ -25,8 +25,10 @@ Requisiti: Node.js (per `npx`). Log in `logs/`. Per rimuovere il job: `./uninsta
 | `update.sh` | `npx ccusage@latest daily --breakdown --json` → merge → build |
 | `scripts/merge.mjs` | merge per data; un giorno esistente viene sostituito solo se il nuovo export ha almeno altrettanti token |
 | `scripts/build.mjs` | `template.html` + `history.json` + font → `index.html` |
-| `template.html` | la pagina (HTML/CSS/JS, grafici SVG scritti a mano) |
+| `template.html` | la pagina: un canvas con i giorni che cambiano posa fra i grafici, senza librerie |
+| `DESIGN.md` | idea, token, principi e divieti del design |
 | `fonts/` | Instrument Serif e Instrument Sans (SIL OFL 1.1) |
+| `.backup/` | la prima versione della pagina |
 
 `history.json` e `index.html` sono dati personali e restano fuori da git.
 

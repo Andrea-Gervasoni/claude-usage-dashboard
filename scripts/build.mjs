@@ -19,8 +19,6 @@ const font = (file) => readFileSync(join(root, "fonts", file)).toString("base64"
 const fontCss = `
 @font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;
   src:url(data:font/woff2;base64,${font("instrument-serif-latin-400-normal.woff2")}) format("woff2")}
-@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;
-  src:url(data:font/woff2;base64,${font("instrument-serif-latin-400-italic.woff2")}) format("woff2")}
 @font-face{font-family:"Instrument Sans";font-style:normal;font-weight:400 700;font-display:swap;
   src:url(data:font/woff2;base64,${font("instrument-sans-latin-wght-normal.woff2")}) format("woff2")}`;
 
