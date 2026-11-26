@@ -226,6 +226,8 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
 .medal.got .mp{stroke:var(--orange)} .medal.got .md{fill:var(--orange)} .medal.got text{fill:#fff}
 .medal b{display:block;font-weight:600;font-size:15px} .medal small{display:block;font-size:13px;color:var(--ink-soft);line-height:1.3;margin-top:2px}
 .medal:not(.got) b{color:var(--ink-muted)}
+#ladMore{display:none;align-items:center;margin-top:8px;height:44px;padding:0 18px;border-radius:999px;border:0;cursor:pointer;font-weight:600;font-size:14px;background:rgba(255,255,255,.6);box-shadow:inset 0 1px 0 #fff,inset 0 0 0 1px rgba(255,255,255,.4)}
+.swipe{display:none;font-size:13px;color:var(--ink-muted);margin-top:6px}
 .note{font-size:13px;color:var(--ink-soft);margin-top:12px;min-height:1.5em}
 .foot{max-width:1180px;margin:0 auto;padding:26px 0 150px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:14px;color:var(--ink)}
 .foot p{flex:1;min-width:240px} .foot a{display:inline-flex;align-items:center;text-decoration:none;height:48px}
@@ -293,17 +295,24 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
   .mrow{grid-template-columns:minmax(0,1fr) auto;gap:6px 12px} .mrow .tube{grid-column:1/-1;order:3}
   .fallback{right:50%;top:26%;transform:translate(50%,-50%);width:52vw}
   .cta,.play{margin-top:14px;height:54px}
-  .tile,.tile:nth-child(2),.tile:nth-child(3){grid-column:1/-1;min-height:0}
-  .aura{grid-template-columns:1fr} #card{max-width:300px;margin:0 auto}
+  .aura{grid-template-columns:1fr} .cardwrap{max-width:290px;margin:0 auto}
+  .sec{padding:22px 12px} .panel{padding:22px 18px 24px}
+  .head{margin-bottom:18px;gap:10px} .head .line{margin-top:8px}
+  .flexg{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:0 -18px;padding:0 18px 10px;scrollbar-width:none} .flexg::-webkit-scrollbar{display:none}
+  .tile,.tile:nth-child(2),.tile:nth-child(3){flex:0 0 84%;scroll-snap-align:center;min-height:300px}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin:0 -18px 14px;padding:0 18px 4px;scrollbar-width:none} .chips::-webkit-scrollbar{display:none} .chip{flex:none}
+  .medals{display:flex;overflow-x:auto;scroll-snap-type:x proximity;gap:8px;margin:0 -18px;padding:0 18px 8px;scrollbar-width:none} .medals::-webkit-scrollbar{display:none}
+  .medal{flex:0 0 128px;scroll-snap-align:start}
+  .ladder:not(.open) li.far{display:none} #ladMore{display:inline-flex}
+  .months{margin-top:20px} .troph{margin-top:28px;padding-top:20px}
+  th:nth-child(n+2):nth-child(-n+5),td:nth-child(n+2):nth-child(-n+5){display:none} table{min-width:0}
+  .swipe{display:block}
 }
 @media (max-width:560px){
   .press{padding:0 11px;font-size:14px;height:44px}
   #brand{height:54px;font-size:22px}
   #dock .press[data-go="top"]{display:none}
   .readout{min-height:4.6em;font-size:14px}
-  table{min-width:0} thead{display:none} tbody tr,tfoot tr{display:grid;grid-template-columns:1fr 1fr;gap:2px 16px;padding:14px 0;border-bottom:1px solid rgba(15,27,36,.14)}
-  td{border:0;padding:2px 0;text-align:left} td:first-child{grid-column:1/-1;font-size:24px;padding-bottom:6px} td[data-l]::before{content:attr(data-l);display:block;font-size:12px;color:var(--ink-muted);font-weight:400}
-  tfoot td{border-top:0} tfoot tr{border-top:1.5px solid var(--ink);border-bottom:0}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01s!important;transition-delay:0s!important;animation:none!important}
@@ -357,7 +366,7 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
 
   <section class="sec" id="flex"><div class="panel">
     <div class="head"><div><h2>The flex</h2><p class="line">Numbers worth a screenshot. Conversions are rough, the tokens are real.</p></div></div>
-    <div class="flexg" id="flexg"></div>
+    <div class="flexg" id="flexg"></div><p class="swipe">Swipe for more.</p>
   </div></section>
 
   <section class="sec" id="streak"><div class="panel">
@@ -403,11 +412,12 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
         <div class="lvl"><small id="lvN"></small><h3 id="lvName"></h3><p class="tag" id="lvTag"></p></div>
         <div class="next"><div class="tube"><i id="nextBar" style="--w:0;--i:0;--c:var(--orange)"></i></div><p id="nextLine"></p></div>
         <ul class="ladder" id="ladder"></ul>
+        <button id="ladMore" aria-expanded="false">Show all 7 levels</button>
         <div class="btns"><button class="btn" id="save">Save for stories</button><button class="btn ghost" id="copy">Copy caption</button></div>
         <p class="note" id="saveNote" aria-live="polite"></p>
       </div>
     </div>
-    <div class="troph"><h3 id="trophTitle">Trophies</h3><p>The ring around each one is your real progress.</p><div class="medals" id="medals"></div></div>
+    <div class="troph"><h3 id="trophTitle">Trophies</h3><p>The ring around each one is your real progress.</p><div class="medals" id="medals"></div><p class="swipe">Swipe for more.</p></div>
   </div>
   <div class="foot">
     <svg viewBox="0 0 24 18" aria-hidden="true"><g fill="#DC6A32"><rect x="4" y="1" width="16" height="10" rx="1.5"/><rect x="1.5" y="5" width="21" height="3.4" rx="1"/><rect x="5" y="11" width="2" height="4"/><rect x="8.6" y="11" width="2" height="4"/><rect x="13.4" y="11" width="2" height="4"/><rect x="17" y="11" width="2" height="4"/></g><rect x="8" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/><rect x="14.2" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>
@@ -726,10 +736,10 @@ function renderFlex() {
   const { list, t, act } = S;
   const novels = t.output / 12e4, wk = act.reduce((a, d) => a + (parse(d.date).getDay() % 6 === 0 ? d.total : 0), 0) / t.total;
   const sorted = act.map((d) => d.total).sort((a, b) => a - b), med = sorted[Math.floor(sorted.length / 2)] || 1, peak = sorted[sorted.length - 1] || 0, mult = peak / med;
-  const wp = t.cacheRead / 78e4, nb = Math.min(240, Math.max(1, Math.round(novels))), per = Math.max(1, Math.ceil(wp / 60)), np = Math.max(1, Math.round(wp / per)), tall = nb > 90 ? .5 : nb > 44 ? .7 : 1;
+  const wp = t.cacheRead / 78e4, perB = Math.max(1, Math.ceil(novels / 60)), nb = Math.max(1, Math.round(novels / perB)), per = Math.max(1, Math.ceil(wp / 60)), np = Math.max(1, Math.round(wp / per)), tall = nb > 30 ? .7 : 1;
   const hs = [58, 70, 50, 64, 44, 68, 54, 62, 48, 66], cs = ["var(--d4)", "var(--d2)", "var(--d5)", "var(--orange)", "var(--d3)"];
   $("#flexg").innerHTML = `
-    <div class="tile"><div class="viz"><div class="books" style="--bw:${nb > 90 ? 6 : 9}px">${Array.from({ length: nb }, (_, i) => `<i style="--i:${Math.min(i, 60)};height:${Math.round(hs[i % 10] * tall)}px;background:${cs[(i * 3) % 5]}"></i>`).join("")}</div><div class="key">1 spine = 1 novel${novels > 240 ? ", first 240 shown" : ""}</div></div>
+    <div class="tile"><div class="viz"><div class="books">${Array.from({ length: nb }, (_, i) => `<i style="--i:${Math.min(i, 60)};height:${Math.round(hs[i % 10] * tall)}px;background:${cs[(i * 3) % 5]}"></i>`).join("")}</div><div class="key">1 spine = ${perB} ${perB === 1 ? "novel" : "novels"}</div></div>
       <div class="n">${novels >= 10 ? int.format(Math.round(novels)) : fx(novels, 1)}</div><p><b>novels of output.</b> Claude wrote ${compact(t.output)} tokens for you, at about 120K tokens a book.</p></div>
     <div class="tile"><div class="viz"><svg class="ring" viewBox="0 0 100 100"><circle class="tr" cx="50" cy="50" r="42"/><circle class="ar" cx="50" cy="50" r="42" pathLength="1" style="--o:${(1 - wk).toFixed(4)}"/></svg></div>
       <div class="n">${pct(wk)}</div><p><b>${wk >= .25 ? "Weekend warrior." : wk >= .1 ? "Weekends are for shipping too." : "Touches grass on weekends."}</b> Share of tokens burned on Saturdays and Sundays.</p></div>
@@ -741,11 +751,11 @@ function renderFlex() {
 function renderAura() {
   const a = AU, L = a.level, N = a.next;
   $("#b-aura").dataset.v = a.pts;
-  $("#lvN").textContent = `Level ${L.n} of ${LEVELS.length}, ${RARITY[L.n].toLowerCase()}`; $("#lvName").textContent = L.name; $("#lvTag").textContent = L.tag;
+  $("#lvN").textContent = `${NICK ? NICK + ", level" : "Level"} ${L.n} of ${LEVELS.length}, ${RARITY[L.n].toLowerCase()}`; $("#lvName").textContent = L.name; $("#lvTag").textContent = L.tag;
   const prog = N ? clamp((a.pts - L.at) / (N.at - L.at)) : 1;
   $("#nextBar").style.setProperty("--w", Math.max(.02, prog).toFixed(4));
   $("#nextLine").innerHTML = N ? `<b>${int.format(N.at - a.pts)} aura</b> to ${N.name}. Unlocks ${GEAR[N.n]}. Every day in a row is +50.` : `<b>Max level.</b> There is nothing left to unlock. Go outside.`;
-  $("#ladder").innerHTML = LEVELS.slice().reverse().map((l) => `<li><button data-lv="${l.n}" class="${l.n === L.n ? "cur view" : l.n > L.n ? "lock" : ""}">${mascotSVG(l.n)}<span class="ln">${l.name}<span class="ls">${l.n > L.n ? "Locked. Unlocks " + GEAR[l.n] + "." : l.tag}</span></span><span class="lt">${l.n > L.n ? int.format(l.at) + " aura" : l.n === L.n ? "you are here" : "unlocked"}</span></button></li>`).join("");
+  $("#ladder").innerHTML = LEVELS.slice().reverse().map((l) => `<li class="${l.n === L.n || (N && l.n === N.n) ? "" : "far"}"><button data-lv="${l.n}" class="${l.n === L.n ? "cur view" : l.n > L.n ? "lock" : ""}">${mascotSVG(l.n)}<span class="ln">${l.name}<span class="ls">${l.n > L.n ? "Locked. Unlocks " + GEAR[l.n] + "." : l.tag}</span></span><span class="lt">${l.n > L.n ? int.format(l.at) + " aura" : l.n === L.n ? "you are here" : "unlocked"}</span></button></li>`).join("");
   let got = 0;
   $("#medals").innerHTML = BADGES.map((b, i) => { const [v, goal] = b.p(a), pr = clamp(v / goal), ok = pr >= 1; if (ok) got++;
     const d = SHAPE[b.sh], ty = b.sh === "s" ? 52 : 58;
@@ -755,48 +765,47 @@ function renderAura() {
   drawCard();
 }
 /* card da storie 1080×1920: una carta da collezione su cielo, dentro la zona sicura delle storie */
-const REPO = (DATA && DATA.repo) || "";
+const REPO = (DATA && DATA.repo) || "", NICK = (DATA && DATA.nick) || "";
 let cardLv = 0;
 function fit(c, text, font, size, maxW) { do { c.font = font.replace("%", size + "px"); if (c.measureText(text).width <= maxW) break; size -= 3; } while (size > 18); return size; }
 async function drawCard(lv) {
   const cv = $("#card"); if (!cv || !AU) return;
   try { await Promise.all([document.fonts.load('80px "Instrument Serif"'), document.fonts.load('600 40px "Instrument Sans"'), document.fonts.load('40px "Instrument Sans"')]); } catch (_) {}
-  const a = AU, n = lv || a.level.n, L = LEVELS[n - 1], locked = n > a.level.n, N = a.next; cardLv = n;
-  const c = cv.getContext("2d"), W = 1080, H = 1920, INK = "#0F1B24", SOFT = "#2C3D4F", OR = "#9A3D14", F = FRAME[n], cx = W / 2, my = 740;
+  const a = AU, n = lv || a.level.n, L = LEVELS[n - 1], locked = n > a.level.n; cardLv = n;
+  const c = cv.getContext("2d"), W = 1080, H = 1920, INK = "#0F1B24", SOFT = "#2C3D4F", OR = "#9A3D14", F = FRAME[n], cx = W / 2, my = 770;
   const SER = '% "Instrument Serif", Georgia, serif', SAN = '% "Instrument Sans", system-ui, sans-serif';
   const font = (f, sz) => (c.font = f.replace("%", sz)), rr = (x, y, w, h, r) => { c.beginPath(); c.roundRect(x, y, w, h, r); };
   const disc = (x, y, r, col) => { c.fillStyle = col; c.beginPath(); c.arc(x, y, r, 0, 7); c.fill(); };
   c.setTransform(1, 0, 0, 1, 0, 0); c.globalAlpha = 1; c.shadowColor = "transparent"; c.textBaseline = "alphabetic";
-  // cielo, alone del livello, raggi
-  const sg = c.createLinearGradient(0, 0, 0, 1200); sg.addColorStop(0, "#5E97BC"); sg.addColorStop(.55, "#B9D5E5"); sg.addColorStop(1, "#F3E2D2"); c.fillStyle = sg; c.fillRect(0, 0, W, H);
-  if (!locked && n > 1) { const g = c.createRadialGradient(cx, my, 40, cx, my, 760); g.addColorStop(0, F[0]); g.addColorStop(.45, F[0] + "B0"); g.addColorStop(1, F[0] + "00"); c.fillStyle = g; c.fillRect(0, 0, W, 1300); }
-  c.save(); c.translate(cx, my); c.globalAlpha = locked ? .1 : .2; c.fillStyle = "#fff"; for (let i = 0; i < 16; i++) { c.rotate(Math.PI / 8); c.beginPath(); c.moveTo(0, 0); c.lineTo(-58, -1500); c.lineTo(58, -1500); c.fill(); } c.restore();
-  // nuvola dietro, granchio enorme, nuvola davanti: i piedi affondano
-  [[60, 1066, 190], [300, 1022, 220], [560, 1052, 200], [800, 1016, 230], [1030, 1058, 190]].forEach(([x, y, r]) => disc(x, y - 16, r + 8, "#DDE9F0"));
+  // cielo profondo in alto, caldo verso la nuvola
+  const sg = c.createLinearGradient(0, 0, 0, 1220); sg.addColorStop(0, "#27587C"); sg.addColorStop(.5, "#6FA6C6"); sg.addColorStop(.86, "#F2C9A6"); sg.addColorStop(1, "#F7DCC3"); c.fillStyle = sg; c.fillRect(0, 0, W, H);
+  // l'aura: un alone grande nel colore del livello e raggi di luce
+  const glow = locked ? "#9FC3D8" : n > 1 ? F[0] : "#CFE2EC";
+  let g = c.createRadialGradient(cx, my, 60, cx, my, 820); g.addColorStop(0, "#FFFFFF"); g.addColorStop(.18, glow); g.addColorStop(.55, glow + "88"); g.addColorStop(1, glow + "00"); c.fillStyle = g; c.fillRect(0, 0, W, 1400);
+  c.save(); c.translate(cx, my); c.fillStyle = "#fff"; for (let i = 0; i < 18; i++) { c.rotate(Math.PI / 9); c.globalAlpha = i % 2 ? .1 : .2; c.beginPath(); c.moveTo(0, 0); c.lineTo(-64, -1500); c.lineTo(64, -1500); c.fill(); } c.restore();
+  // scintille
+  c.fillStyle = "#fff"; [[150, 470, 9], [930, 420, 12], [210, 860, 7], [905, 800, 8], [820, 250, 6], [300, 300, 6]].forEach(([x, y, r], i) => { c.globalAlpha = locked ? .3 : .9; c.beginPath(); c.moveTo(x, y - r * 2.4); c.quadraticCurveTo(x, y, x + r * 2.4, y); c.quadraticCurveTo(x, y, x, y + r * 2.4); c.quadraticCurveTo(x, y, x - r * 2.4, y); c.quadraticCurveTo(x, y, x, y - r * 2.4); c.fill(); }); c.globalAlpha = 1;
+  // nuvola dietro, granchio grande, nuvola davanti
+  [[40, 1120, 200], [290, 1070, 230], [560, 1105, 210], [810, 1064, 240], [1050, 1112, 200]].forEach(([x, y, r]) => disc(x, y - 18, r + 8, "#E4EDF2"));
   const shot = mascot && mascot.snapshot ? mascot.snapshot(900, n) : null;
-  if (shot) { if (locked) { const k = shot.getContext("2d"); k.globalCompositeOperation = "source-in"; k.fillStyle = "rgba(15,27,36,.88)"; k.fillRect(0, 0, 900, 900); } c.drawImage(shot, cx - 470, my - 500, 940, 940); }
-  [[60, 1090, 190], [300, 1050, 220], [560, 1080, 200], [800, 1046, 230], [1030, 1084, 190]].forEach(([x, y, r]) => disc(x, y, r, "#FFFFFF"));
-  const dg = c.createLinearGradient(0, 1120, 0, H); dg.addColorStop(0, "#FFFFFF"); dg.addColorStop(.6, "#FFFFFF"); dg.addColorStop(1, "#FBE6D6"); c.fillStyle = dg; c.fillRect(0, 1120, W, H - 1120);
-  // testata dentro la zona sicura delle storie
-  const mk = (x, y, k) => { c.fillStyle = "#DC6A32"; [[4, 1, 16, 10], [1.5, 5, 21, 3.4], [5, 11, 2, 4], [8.6, 11, 2, 4], [13.4, 11, 2, 4], [17, 11, 2, 4]].forEach(([a1, b, w, h]) => c.fillRect(x + a1 * k, y + b * k, w * k, h * k)); c.fillStyle = INK; c.fillRect(x + 8 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); c.fillRect(x + 14.2 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); };
-  mk(84, 250, 4); c.fillStyle = INK; c.textAlign = "left"; font(SER, "78px"); c.fillText("vibelog", 196, 312);
-  c.textAlign = "right"; font(SAN, "600 34px"); c.fillText(RARITY[n].toUpperCase(), W - 84, 284); font(SAN, "30px"); c.fillStyle = SOFT; c.fillText(`No. ${n} of ${LEVELS.length}`, W - 84, 324);
-  // nome, battuta e numero a scala manifesto
-  c.textAlign = "center"; c.fillStyle = INK; const sn = fit(c, L.name, SER, 214, W - 150); font(SER, sn + "px"); c.fillText(L.name, cx, 1296);
-  c.fillStyle = SOFT; const tg = "\u201C" + L.tag + "\u201D", st = fit(c, tg, SER, 46, W - 180); font(SER, st + "px"); c.fillText(tg, cx, 1358);
-  if (locked) { c.fillStyle = OR; font(SER, "150px"); c.fillText("Locked", cx, 1500); c.fillStyle = INK; font(SAN, "600 36px"); c.fillText(`${int.format(Math.max(0, L.at - a.pts))} aura to go. Unlocks ${GEAR[n]}.`, cx, 1562); }
-  else { const num = "+" + int.format(a.pts); font(SER, "168px"); const nw = c.measureText(num).width; font(SER, "84px"); const lw = c.measureText(" aura").width, x0 = cx - (nw + lw) / 2;
-    c.textAlign = "left"; c.fillStyle = OR; font(SER, "168px"); c.fillText(num, x0, 1506); font(SER, "84px"); c.fillText(" aura", x0 + nw, 1506);
-    c.textAlign = "center"; c.fillStyle = INK; const line = `${compact(a.tot)} tokens all-time    ${a.best}-day best streak    ${a.topModel || ""}`.trim(), sl = fit(c, line, SAN, 36, W - 170); font(SAN, "600 " + sl + "px"); c.fillText(line, cx, 1566); }
-  // prossimo livello e dove trovarlo
-  const bw = W - 200, pr = N ? clamp((a.pts - a.level.at) / (N.at - a.level.at)) : 1;
-  c.fillStyle = "rgba(15,27,36,.13)"; rr(100, 1604, bw, 20, 10); c.fill(); c.fillStyle = "#DC6A32"; rr(100, 1604, Math.max(20, bw * pr), 20, 10); c.fill();
-  c.fillStyle = SOFT; font(SAN, "32px"); c.fillText(N ? `${int.format(N.at - a.pts)} aura to ${N.name}` : "Max level reached", cx, 1670);
-  if (REPO) { c.fillStyle = INK; const r2 = "github.com/" + REPO, sr = fit(c, r2, SAN, 38, W - 200); font(SAN, "600 " + sr + "px"); c.fillText(r2, cx, 1736); }
-  // cornice: il colore dice la rarità
-  const fg = c.createLinearGradient(0, 0, W, H);
-  if (n === 7) [[0, "#FFE9A8"], [.25, "#FFFFFF"], [.45, "#8FD0F5"], [.65, "#FFC89A"], [.85, "#FFF4D0"], [1, "#9AD4F5"]].forEach(([o, col]) => fg.addColorStop(o, col)); else { fg.addColorStop(0, F[0]); fg.addColorStop(.5, F[1]); fg.addColorStop(1, F[0]); }
-  c.strokeStyle = fg; c.lineWidth = 26; rr(25, 25, W - 50, H - 50, 62); c.stroke(); c.strokeStyle = "rgba(255,255,255,.7)"; c.lineWidth = 3; rr(40, 40, W - 80, H - 80, 50); c.stroke();
+  if (shot) { if (locked) { const k = shot.getContext("2d"); k.globalCompositeOperation = "source-in"; k.fillStyle = "rgba(15,27,36,.9)"; k.fillRect(0, 0, 900, 900); } c.drawImage(shot, cx - 470, my - 500, 940, 940); }
+  [[40, 1150, 200], [290, 1104, 230], [560, 1136, 210], [810, 1098, 240], [1050, 1142, 200]].forEach(([x, y, r]) => disc(x, y, r, "#FFFFFF"));
+  c.fillStyle = "#FFFFFF"; c.fillRect(0, 1180, W, H - 1180);
+  const wg = c.createLinearGradient(0, 1500, 0, H); wg.addColorStop(0, "rgba(251,226,208,0)"); wg.addColorStop(1, "rgba(246,196,160,.75)"); c.fillStyle = wg; c.fillRect(0, 1500, W, H - 1500);
+  // in alto solo il marchio, piccolo e bianco
+  const mk = (x, y, k, eye) => { c.fillStyle = "#DC6A32"; [[4, 1, 16, 10], [1.5, 5, 21, 3.4], [5, 11, 2, 4], [8.6, 11, 2, 4], [13.4, 11, 2, 4], [17, 11, 2, 4]].forEach(([a1, b, w, h]) => c.fillRect(x + a1 * k, y + b * k, w * k, h * k)); c.fillStyle = eye; c.fillRect(x + 8 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); c.fillRect(x + 14.2 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); };
+  font(SER, "64px"); const ww = c.measureText("vibelog").width, hx = cx - (ww + 104) / 2; mk(hx, 222, 3.4, INK); c.fillStyle = "#FFFFFF"; c.textAlign = "left"; c.fillText("vibelog", hx + 104, 274);
+  // una frase sola: chi, cosa, quanto
+  c.textAlign = "center"; c.fillStyle = INK; font(SAN, "600 50px"); c.fillText(locked ? (NICK ? `${NICK} is not yet a` : "Not yet a") : (NICK ? `${NICK} is a` : "Certified"), cx, 1192);
+  c.fillStyle = INK; const sn = fit(c, L.name, SER, 228, W - 110); font(SER, sn + "px"); c.fillText(L.name, cx, 1192 + sn * .84);
+  const ny = 1192 + sn * .84 + 142;
+  if (locked) { c.fillStyle = OR; font(SER, "118px"); c.fillText(`${int.format(Math.max(0, L.at - a.pts))} aura to go`, cx, ny); }
+  else { const num = "+" + int.format(a.pts); font(SER, "164px"); const nw = c.measureText(num).width; font(SER, "86px"); const lw = c.measureText(" aura").width, x0 = cx - (nw + lw) / 2;
+    c.textAlign = "left"; c.fillStyle = OR; font(SER, "164px"); c.fillText(num, x0, ny); font(SER, "86px"); c.fillText(" aura", x0 + nw, ny); c.textAlign = "center"; }
+  // la domanda che fa aprire
+  const py = Math.min(1640, ny + 54), pw = 700; c.fillStyle = INK; rr(cx - pw / 2, py, pw, 112, 56); c.fill();
+  c.fillStyle = "#FFFFFF"; font(SAN, "600 50px"); c.fillText("What's your aura?", cx, py + 73);
+  if (REPO) { c.fillStyle = INK; const r2 = "github.com/" + REPO, sr = fit(c, r2, SAN, 34, W - 220); font(SAN, "600 " + sr + "px"); c.fillText(r2, cx, py + 176); }
 }
 /* inclinazione e riflesso olografico */
 (() => {
@@ -826,6 +835,7 @@ $("#copy").addEventListener("click", async () => {
   try { await navigator.clipboard.writeText(txt); $("#saveNote").textContent = "Caption copied."; } catch (_) { $("#saveNote").textContent = txt; }
 });
 $("#auraCta").addEventListener("click", () => goTo("aura"));
+$("#ladMore").addEventListener("click", (e) => { const open = $("#ladder").classList.toggle("open"); e.currentTarget.textContent = open ? "Show fewer" : "Show all 7 levels"; e.currentTarget.setAttribute("aria-expanded", open); });
 /* recap: sette storie, tocco per avanzare, pressione lunga per fermare */
 const RC = { i: 0, t0: 0, dur: 4600, on: false, hold: false, held: 0, slides: [] };
 function recapSlides() {
@@ -833,7 +843,7 @@ function recapSlides() {
   const fs = (v) => `clamp(56px,${Math.min(34, 170 / Math.max(4, String(v).length))}vmin,${String(v).length > 9 ? 92 : 156}px)`;
   const img = mascot && mascot.snapshot ? mascot.snapshot(700, a.level.n).toDataURL() : "";
   return [
-    { bg: "linear-gradient(180deg,#7FB0CC,#DCEAF1 62%,#F6E4D4)", fg: INK, k: "Your recap", v: `${n} ${n === 1 ? "day" : "days"}`, d: `You showed up on ${act.length} of them.`, img },
+    { bg: "linear-gradient(180deg,#7FB0CC,#DCEAF1 62%,#F6E4D4)", fg: INK, k: NICK ? `${NICK}'s recap` : "Your recap", v: `${n} ${n === 1 ? "day" : "days"}`, d: `You showed up on ${act.length} of them.`, img },
     { bg: "linear-gradient(180deg,#0F1B24,#1F4A66 70%,#6E94AC)", fg: LIGHT, k: "You and Claude moved", v: compact(t.total), d: "tokens. Give or take a few.", img },
     { bg: "linear-gradient(180deg,#8FB6CC,#C3D7E2 60%,#EAF2F6)", fg: INK, k: "Longest streak", v: `${f.best} ${f.best === 1 ? "day" : "days"}`, d: f.best >= 7 ? "No days off energy." : "Every streak starts somewhere.", img },
     { bg: "linear-gradient(180deg,#DC6A32,#F2A26F 64%,#FBD9BE)", fg: INK, k: "Carrying the team", v: f.top, d: `${pct(f.share)} of the spend.`, img },

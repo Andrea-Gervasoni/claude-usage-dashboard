@@ -7,6 +7,7 @@ import { readFileSync, writeFileSync, existsSync, renameSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
+import { homedir, userInfo } from "node:os";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const historyPath = process.argv[2] ?? join(root, "history.json");
@@ -37,8 +38,19 @@ if (!repo) {   // lanciato con npx: non c'è un remote, si legge package.json
   } catch {}
 }
 
+// nickname per la card: VIBELOG_NAME, poi il nome dell'account Claude Code locale, poi l'utente del computer.
+// L'indirizzo email non viene mai usato.
+let nick = (process.env.VIBELOG_NAME || "").trim();
+if (!nick) {
+  try { nick = (JSON.parse(readFileSync(join(homedir(), ".claude.json"), "utf8")).oauthAccount?.displayName || "").trim().split(/\s+/)[0] || ""; } catch {}
+}
+if (!nick) {
+  try { const u = userInfo().username; if (!/^(root|user|admin|ubuntu|runner|claude)$/i.test(u)) nick = u; } catch {}
+}
+nick = nick.replace(/[<>"'&]/g, "").slice(0, 20);
+
 // JSON sicuro dentro <script>
-const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, days: history.days })
+const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, nick, days: history.days })
   .replace(/</g, "\\u003c");
 
 const template = readFileSync(join(root, "template.html"), "utf8");
