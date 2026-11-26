@@ -833,13 +833,19 @@ $("#ladder").addEventListener("click", async (e) => {
   await drawCard(+b.dataset.lv); const t = $("#cardTilt"); t.classList.remove("swap"); void t.offsetWidth; t.classList.add("swap");
   $("#saveNote").textContent = +b.dataset.lv === AU.level.n ? "" : +b.dataset.lv > AU.level.n ? "Previewing a locked card. Saving always exports your own." : "Previewing an earlier card. Saving always exports your current one.";
 });
+/* salvataggio: nell'app/anteprima di Claude passa dal permesso "downloads"; nel file locale è un normale download */
+async function saveFile(blob, name) {
+  try { const dl = window.claude && window.claude.use ? await window.claude.use("downloads") : null;
+    if (dl) { await dl.save({ filename: name, data: blob }); return "saved"; } } catch (e) { if (e && e.code === "declined") return "declined"; if (e && e.code === "host_unavailable") return "host_unavailable"; }
+  const a = document.createElement("a"), url = URL.createObjectURL(blob); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 8000); return "anchor";
+}
 $("#save").addEventListener("click", async () => {
   const cv = $("#card"), note = $("#saveNote");
   if (cardLv !== AU.level.n) { await drawCard(AU.level.n); $("#ladder").querySelectorAll(".view").forEach((x) => x.classList.remove("view")); $("#ladder .cur")?.classList.add("view"); }
   const blob = await new Promise((r) => cv.toBlob(r, "image/png")); if (!blob) return;
   try { const file = new File([blob], "vibecrab-aura.png", { type: "image/png" }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibecrab" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
-  const a = document.createElement("a"), url = URL.createObjectURL(blob); a.href = url; a.download = "vibecrab-aura.png"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
-  note.textContent = "Saved as vibecrab-aura.png, 1080 by 1920. If nothing downloaded, right-click the card and save the image.";
+  const r = await saveFile(blob, "vibecrab-aura.png");
+  note.textContent = r === "declined" ? "Not saved." : r === "host_unavailable" ? "This app cannot save files. Open the page in a browser to save the card." : "Saved as vibecrab-aura.png, 1080 by 1920. If nothing downloaded, right-click the card and save the image.";
 });
 $("#copy").addEventListener("click", async () => {
   const a = AU, txt = `Lv ${a.level.n} ${a.level.name}, +${int.format(a.pts)} aura. ${compact(a.tot)} tokens, ${a.best}-day streak with Claude Code.` + (REPO ? ` github.com/${REPO}` : "");
@@ -934,8 +940,8 @@ $("#hzClose").addEventListener("click", huzClose); $("#hzAgain").addEventListene
 $("#hzSave").addEventListener("click", async () => {
   if (!HZ.blob) return; const name = `vibecrab-huss.${HZ.ext}`;
   try { const file = new File([HZ.blob], name, { type: HZ.blob.type }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibecrab" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
-  const a = document.createElement("a"), url = URL.createObjectURL(HZ.blob); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 8000);
-  $("#hzNote").textContent = `Saved as ${name}.`;
+  const r = await saveFile(HZ.blob, name);
+  $("#hzNote").textContent = r === "declined" ? "Not saved." : r === "host_unavailable" ? "This app cannot save files. Open the page in a browser to save the clip." : `Saved as ${name}.`;
 });
 function huzPoke() { const now = performance.now(); HZ.pokes = HZ.pokes.filter((x) => now - x < 1500); HZ.pokes.push(now); if (HZ.pokes.length >= 3) { HZ.pokes = []; huzOpen(); } }
 let typed = ""; addEventListener("keydown", (e) => { if (HZ.on && e.key === "Escape") return huzClose(); if (e.key.length !== 1) return; typed = (typed + e.key.toLowerCase()).slice(-4); if (typed === "huss" || typed.endsWith("huz")) { typed = ""; huzOpen(); } });
