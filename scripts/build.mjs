@@ -49,8 +49,16 @@ if (!nick) {
 }
 nick = nick.replace(/[<>"'&]/g, "").slice(0, 20);
 
+// audio facoltativo per la clip segreta: sounds/huss.(mp3|m4a|wav|ogg) accanto al progetto, se l'hai messo tu.
+// Resta sul tuo computer: la cartella sounds/ è esclusa da git.
+let huss = "";
+for (const [ext, mime] of [["mp3", "audio/mpeg"], ["m4a", "audio/mp4"], ["wav", "audio/wav"], ["ogg", "audio/ogg"]]) {
+  const f = join(root, "sounds", "huss." + ext);
+  if (existsSync(f)) { huss = `data:${mime};base64,${readFileSync(f).toString("base64")}`; break; }
+}
+
 // JSON sicuro dentro <script>
-const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, nick, days: history.days })
+const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, nick, huss, days: history.days })
   .replace(/</g, "\\u003c");
 
 const template = readFileSync(join(root, "template.html"), "utf8");

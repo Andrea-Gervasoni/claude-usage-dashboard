@@ -62,7 +62,7 @@ Il livello si calcola su tutta la storia, con una formula dichiarata nella pagin
 - **Trofei**: dodici, con forma diversa per famiglia (serie, giorni, volume, spesa, varietà). L'anello è il progresso reale.
 - **Recap**: sette storie a tutto schermo con cielo e granchio, tocco per avanzare, pressione per fermare; l'ultima è la card.
 - **Aura in 3D**: una fiamma morbida dietro la mascotte, colore e forza dal livello, che si accende quando la tocchi.
-- **Easter egg**: tre tocchi di fila sulla mascotte, o la parola `huz` sulla tastiera. Il granchio fa tre colpi con salto e braccia in alto, gli occhiali calano, e parte un suono «HUZ» sintetizzato nel browser (nessun campione audio). Il tutto viene registrato in un video verticale 720×1280 con nickname, livello, aura e repo, da salvare o condividere.
+- **Easter egg «huss huss huss»**: tre tocchi di fila sulla mascotte, o la parola `huss` (vale anche `huz`) sulla tastiera. Riprende la struttura del meme: la frase «In this town, everybody goes out partying except me» come didascalia, stacco, tre palleggi con un «huss» ciascuno, stacco, il risultato (nickname, livello, aura, repo) con gli occhiali che calano. Tre inquadrature 3D con stacco netto. Il fiato e il rimbalzo sono sintetizzati nel browser; se esiste `sounds/huss.mp3` (o m4a, wav, ogg), la build lo include e la clip usa quello. La cartella `sounds/` è fuori da git. Video verticale 1080×1920 a 60 fotogrammi (720×1280 sui computer meno potenti e sui telefoni).
 - **Aggancio quotidiano**: la prima vista dice a che giorno è la serie in corso, o che è a rischio se oggi non hai ancora scritto.
 - Unico colore fuori palette: oro `#E9B44C`, solo per corona, catena e aureola.
 
