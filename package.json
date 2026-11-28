@@ -6,12 +6,13 @@
     "vibecrab": "bin/vibecrab.mjs"
   },
   "files": [
+    "assets",
     "bin",
-    "scripts",
     "fonts",
-    "vendor",
+    "scripts",
     "sounds",
-    "template.html"
+    "template.html",
+    "vendor"
   ],
   "engines": {
     "node": ">=18"
@@ -32,7 +33,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "test": "node --test tests/merge.test.mjs tests/aura.test.mjs"
+    "test": "node --test tests/merge.test.mjs tests/aura.test.mjs tests/app.test.mjs"
   },
   "homepage": "https://github.com/Andrea-Gervasoni/vibecrab#readme",
   "bugs": {

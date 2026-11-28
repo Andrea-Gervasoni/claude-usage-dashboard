@@ -36,6 +36,22 @@ That reads your usage with [ccusage](https://github.com/ryoppippi/ccusage), keep
 | Use it from inside Claude Code | `/plugin install vibecrab --marketplace Andrea-Gervasoni/vibecrab`, then run its `vibecrab` command |
 | Refresh every night (macOS) | `git clone` this repo and run `./install.sh` |
 
+## Add it to your desktop (once)
+
+Typing the command every day is not the point. Run this **one time** and you get a real icon:
+
+```bash
+npx github:Andrea-Gervasoni/vibecrab --install-app
+```
+
+- **macOS**: `Vibecrab.app` in `~/Applications`. Drag it to the Dock.
+- **Windows**: a shortcut on the Desktop and in the Start menu. Right-click, Pin to taskbar.
+- **Linux**: an entry in your applications menu and on the Desktop.
+
+Click it as often as you like. It opens at once with the last numbers and refreshes them in the background, so the next click is up to date. It keeps its own copy in `~/.vibecrab/app`, so it works without `npx` and without a terminal. Remove it with `--uninstall-app` (your history stays). `--install-app --dry-run` shows what it would create without touching anything.
+
+The Linux path is tested; the macOS and Windows launchers are written to the platforms' documented formats but I could not run them on those systems. If one fails, open an issue with the message.
+
 ## What you get
 
 - **A level.** Seven aura levels computed from your whole history, from NPC to Final Boss. The mascot wears the gear you have unlocked.

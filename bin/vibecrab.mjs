@@ -22,6 +22,9 @@ Usage: vibecrab [options]
   (no options)     read usage with ccusage, update the history, build the page, open it
   --demo           open the page with made-up sample data (no Claude Code needed)
   --live           serve the page on http://127.0.0.1 and refresh the numbers every 2 minutes
+  --install-app    add a Vibecrab icon to your computer (once): click it any time, it opens at once and refreshes itself
+  --uninstall-app  remove that icon (your history stays)
+  --dry-run        with --install-app: show what would be created, change nothing
   --no-open        do not open the browser, just print the page path
   --home <dir>     where to keep history.json, index.html and badge.svg (default ~/.vibecrab)
   --version, --help
@@ -60,6 +63,32 @@ function update() {
   }
   const b = node("build.mjs", [history, page]); show(b);
   return b.status === 0;
+}
+
+if (flag("--install-app") || flag("--uninstall-app")) {
+  const app = await import("../scripts/app.mjs");
+  try {
+    if (flag("--uninstall-app")) { const t = app.uninstall({ home }); console.log(`Removed the icon and ${t.appDir}. Your history is still in ${home}.`); process.exit(0); }
+    // Build the page first so the very first click has something to show.
+    if (!flag("--dry-run") && !flag("--no-build") && !update()) process.exit(1);
+    const r = app.install({ home, dry: flag("--dry-run") });
+    console.log(flag("--dry-run") ? "Dry run, nothing changed. It would:" : "Done:");
+    for (const l of r.plan) console.log("  - " + l);
+    if (!flag("--dry-run")) console.log(r.plat === "darwin" ? "\nOpen ~/Applications and drag Vibecrab to your Dock (or right-click > Make Alias to the Desktop)." : r.plat === "win32" ? "\nThe shortcut is on your Desktop and in the Start menu. Right-click it > Pin to taskbar." : "\nThe icon is in your applications menu and on your Desktop (right-click > Allow Launching if your desktop asks).");
+  } catch (e) { console.error("Could not install the icon: " + e.message); process.exit(1); }
+  process.exit(0);
+}
+
+if (flag("--app")) {
+  // Icon mode: show the last page at once, refresh in the background so the next open is fresh.
+  const lock = join(home, ".refresh.lock"), age = (f) => existsSync(f) ? Date.now() - statSync(f).mtimeMs : Infinity;
+  if (!existsSync(page)) { if (!update()) process.exit(1); }
+  openFile(page);
+  if (age(lock) > 5 * 60 * 1000 && age(page) > 60 * 1000) {
+    writeFileSync(lock, String(process.pid));
+    update();
+  }
+  process.exit(0);
 }
 
 if (flag("--demo")) {

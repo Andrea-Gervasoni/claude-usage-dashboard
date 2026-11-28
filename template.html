@@ -456,7 +456,7 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
   </div>
   <div class="foot">
     <svg viewBox="0 0 24 18" aria-hidden="true"><g fill="#DC6A32"><rect x="4" y="1" width="16" height="10" rx="1.5"/><rect x="1.5" y="5" width="21" height="3.4" rx="1"/><rect x="5" y="11" width="2" height="4"/><rect x="8.6" y="11" width="2" height="4"/><rect x="13.4" y="11" width="2" height="4"/><rect x="17" y="11" width="2" height="4"/></g><rect x="8" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/><rect x="14.2" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>
-    <p id="foot"></p><button class="lnk" id="replay">Replay intro</button><a class="btn ghost" id="star" target="_blank" rel="noopener" hidden>Star it on GitHub</a>
+    <p id="foot"></p><button class="lnk" id="replay">Replay intro</button><button class="lnk" id="addapp" title="Copies the one-time install command">Add to desktop</button><a class="btn ghost" id="star" target="_blank" rel="noopener" hidden>Star it on GitHub</a>
   </div></section>
 </main>
 
@@ -1462,6 +1462,11 @@ function milestones() {
   const fresh = got.filter((g) => !(prev.got || []).includes(g)); if (fresh.length) return toast(`<b>New trophy${fresh.length > 1 ? "s" : ""}</b>${esc(fresh.slice(0, 2).join(", "))}${fresh.length > 2 ? " and more" : ""}.`, "See trophies", () => goTo("aura"));
   if (prev.week !== wk && S.act.length >= 3) toast(`<b>Your week is ready</b>A short recap, whenever you like.`, "Play", recapOpen);
 }
+$("#addapp").addEventListener("click", async () => {
+  const cmd = "npx github:" + (REPO || "Andrea-Gervasoni/vibecrab") + " --install-app";
+  try { await navigator.clipboard.writeText(cmd); toast("<b>Command copied</b>Paste it in a terminal once. After that, click the Vibecrab icon.", "OK", () => {}); }
+  catch (_) { toast("<b>Run this once in a terminal</b>" + esc(cmd), "OK", () => {}); }
+});
 $("#replay").addEventListener("click", () => { try { localStorage.removeItem("vc-skip"); } catch (_) {} location.search = ""; });
 $("#demoCopy").addEventListener("click", async (e) => { const cmd = `npx github:${REPO || "Andrea-Gervasoni/vibecrab"}`; try { await navigator.clipboard.writeText(cmd); e.currentTarget.textContent = "Copied"; } catch (_) { e.currentTarget.textContent = cmd; } });
 /* con "--live" la pagina arriva da http://127.0.0.1: quando i numeri cambiano si ricarica da sola, ma mai durante un recap o una clip */

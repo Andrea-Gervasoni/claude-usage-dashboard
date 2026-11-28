@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- `--install-app`: one-time desktop icon (macOS app, Windows shortcut, Linux entry) that opens instantly and refreshes in the background. `--uninstall-app`, `--dry-run`, and an "Add to desktop" button in the page.
+
 ## 0.2.0
 - `--demo` (sample data, no Claude Code needed), `--live` (local server, refreshes every 2 minutes), `--help`, `--version`.
 - Claude Code plugin: `/plugin install vibecrab --marketplace Andrea-Gervasoni/vibecrab`, then run its `vibecrab` command.
