@@ -1,5 +1,6 @@
 .DS_Store
 .update.lock/
+badge.svg
 history.json
 history.json.bak
 history.json.tmp
