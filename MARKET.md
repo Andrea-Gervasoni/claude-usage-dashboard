@@ -28,7 +28,7 @@ Il nome di lavoro «vibelog» era occupato [V]: esisteva un pacchetto npm con qu
 
 Il progetto si chiama ora **vibecrab**. Il 26 novembre risultava libero su npm e PyPI e la ricerca dei repo GitHub dava 0 risultati. Marchi, domini e nomi utente non sono stati verificati. Alternative libere nello stesso controllo: `tokencrab`, `crabaura`.
 
-Da evitare tutto ciò che contiene «claw» o «Claude». Anche «molt» porta con sé l'associazione con Moltbot. Il repo si chiama ancora `claude-usage-dashboard`: va rinominato da GitHub (Settings) quando vuoi, ed è l'unico punto in cui «Claude» compare ancora nel nome.
+Da evitare tutto ciò che contiene «claw» o «Claude». Anche «molt» porta con sé l'associazione con Moltbot. Il repo, prima chiamato `claude-usage-dashboard`, è stato rinominato `vibecrab` il 28 novembre: GitHub reindirizza il vecchio indirizzo.
 
 ### 2. La mascotte
 
@@ -37,7 +37,7 @@ Le linee guida sui marchi di Anthropic [V] coprono «nomi, loghi, elementi di ma
 Per l'uso personale sul tuo Mac non cambia niente. Per un progetto pubblico che cerca visibilità, una mascotte che ricalca quella di Claude Code con accessori sopra è il rischio più concreto. La via prudente:
 
 - un granchio originale, con forma e colore diversi;
-- niente «Claude» nel nome, nel pacchetto e nel dominio (oggi il repo si chiama `claude-usage-dashboard`);
+- niente «Claude» nel nome, nel pacchetto e nel dominio (fatto: il repo si chiama `vibecrab`);
 - la dicitura «for Claude Code» e una riga «unofficial, not affiliated with Anthropic».
 
 Non è un parere legale.

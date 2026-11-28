@@ -1463,7 +1463,7 @@ function milestones() {
   if (prev.week !== wk && S.act.length >= 3) toast(`<b>Your week is ready</b>A short recap, whenever you like.`, "Play", recapOpen);
 }
 $("#replay").addEventListener("click", () => { try { localStorage.removeItem("vc-skip"); } catch (_) {} location.search = ""; });
-$("#demoCopy").addEventListener("click", async (e) => { const cmd = `npx github:${REPO || "Andrea-Gervasoni/claude-usage-dashboard"}`; try { await navigator.clipboard.writeText(cmd); e.currentTarget.textContent = "Copied"; } catch (_) { e.currentTarget.textContent = cmd; } });
+$("#demoCopy").addEventListener("click", async (e) => { const cmd = `npx github:${REPO || "Andrea-Gervasoni/vibecrab"}`; try { await navigator.clipboard.writeText(cmd); e.currentTarget.textContent = "Copied"; } catch (_) { e.currentTarget.textContent = cmd; } });
 /* con "--live" la pagina arriva da http://127.0.0.1: quando i numeri cambiano si ricarica da sola, ma mai durante un recap o una clip */
 if (/^https?:$/.test(location.protocol)) { let ver = null; setInterval(async () => { try { const v = await (await fetch("/__v", { cache: "no-store" })).text(); if (ver && v !== ver && !RC.on && !HZ.on) location.reload(); ver = v; } catch (_) {} }, 20000); }
 

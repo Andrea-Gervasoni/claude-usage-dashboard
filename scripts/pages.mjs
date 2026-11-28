@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import { sampleHistory } from "./sample.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const base = (process.argv[2] || "https://andrea-gervasoni.github.io/claude-usage-dashboard/").replace(/\/?$/, "/");
+const base = (process.argv[2] || "https://andrea-gervasoni.github.io/vibecrab/").replace(/\/?$/, "/");
 const site = join(root, "site");
 mkdirSync(site, { recursive: true });
 const sample = join(site, "sample-history.json");

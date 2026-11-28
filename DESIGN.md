@@ -87,7 +87,7 @@ Il livello si calcola su tutta la storia, con una formula dichiarata nella pagin
 {
   "nome": "Vibecrab (dashboard locale Claude Code)",
   "data": "2026-11",
-  "percorso": "~/claude-usage-dashboard",
+  "percorso": "~/vibecrab",
   "idea": "La mascotte di Claude Code programma su una nuvola; i numeri del diario stanno in lastre di vetro sopra un cielo che va dal mattino al tramonto.",
   "direzione": "cielo (scelta da Andrea, fuori catalogo)",
   "font_display": "Instrument Serif",

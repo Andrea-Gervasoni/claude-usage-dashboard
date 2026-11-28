@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Andrea-Gervasoni/claude-usage-dashboard.git"
+    "url": "git+https://github.com/Andrea-Gervasoni/vibecrab.git"
   },
   "keywords": [
     "claude-code",
@@ -34,8 +34,8 @@
   "scripts": {
     "test": "node --test tests/merge.test.mjs tests/aura.test.mjs"
   },
-  "homepage": "https://github.com/Andrea-Gervasoni/claude-usage-dashboard#readme",
+  "homepage": "https://github.com/Andrea-Gervasoni/vibecrab#readme",
   "bugs": {
-    "url": "https://github.com/Andrea-Gervasoni/claude-usage-dashboard/issues"
+    "url": "https://github.com/Andrea-Gervasoni/vibecrab/issues"
   }
 }

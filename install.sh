@@ -6,7 +6,7 @@ set -euo pipefail
 [ "$(uname)" = "Darwin" ] || { echo "install.sh è pensato per macOS (launchd)." >&2; exit 1; }
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-LABEL="local.claude-usage-dashboard"
+LABEL="local.vibecrab"
 PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
 NODE_BIN="$(dirname "$(command -v node || echo /usr/local/bin/node)")"
 chmod +x "$DIR/update.sh"

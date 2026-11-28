@@ -4,7 +4,7 @@ labels: [bug]
 body:
   - type: input
     id: version
-    attributes: { label: vibecrab version, description: "Output of `npx github:Andrea-Gervasoni/claude-usage-dashboard --version`" }
+    attributes: { label: vibecrab version, description: "Output of `npx github:Andrea-Gervasoni/vibecrab --version`" }
     validations: { required: true }
   - type: dropdown
     id: os

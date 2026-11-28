@@ -5,8 +5,8 @@ Thanks for helping. This project is small on purpose: no dependencies, no build 
 ## Setup
 
 ```bash
-git clone https://github.com/Andrea-Gervasoni/claude-usage-dashboard
-cd claude-usage-dashboard
+git clone https://github.com/Andrea-Gervasoni/vibecrab
+cd vibecrab
 npm test                          # needs Node 18+
 node bin/vibecrab.mjs --demo      # opens the page with sample data
 ```

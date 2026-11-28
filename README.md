@@ -8,7 +8,7 @@
 A local recap of your Claude Code usage with a 3D mascot, aura levels, trophies and a card made for stories.</p>
 
 <p align="center">
-  <a href="https://github.com/Andrea-Gervasoni/claude-usage-dashboard/actions/workflows/test.yml"><img alt="tests" src="https://github.com/Andrea-Gervasoni/claude-usage-dashboard/actions/workflows/test.yml/badge.svg"></a>
+  <a href="https://github.com/Andrea-Gervasoni/vibecrab/actions/workflows/test.yml"><img alt="tests" src="https://github.com/Andrea-Gervasoni/vibecrab/actions/workflows/test.yml/badge.svg"></a>
   <a href="LICENSE"><img alt="MIT license" src="https://img.shields.io/badge/license-MIT-0F1B24"></a>
   <img alt="Node 18 or newer" src="https://img.shields.io/badge/node-%E2%89%A518-0F1B24">
   <img alt="100% local" src="https://img.shields.io/badge/100%25-local-DC6A32">
@@ -17,23 +17,23 @@ A local recap of your Claude Code usage with a 3D mascot, aura levels, trophies 
 
 <p align="center"><sub>Unofficial. Not affiliated with, endorsed by or sponsored by Anthropic. Nothing leaves your machine.</sub></p>
 
-<p align="center"><a href="https://andrea-gervasoni.github.io/claude-usage-dashboard/"><b>Try the live demo</b></a> (sample data, no install) · <a href="#run-it">Run it on your own usage</a></p>
+<p align="center"><a href="https://andrea-gervasoni.github.io/vibecrab/"><b>Try the live demo</b></a> (sample data, no install) · <a href="#run-it">Run it on your own usage</a></p>
 
 <p align="center"><img src="docs/demo.gif" alt="15 second tour: the crab, the numbers, the level cards, the secret clip" width="300"></p>
 
 ## Run it
 
 ```bash
-npx github:Andrea-Gervasoni/claude-usage-dashboard
+npx github:Andrea-Gervasoni/vibecrab
 ```
 
 That reads your usage with [ccusage](https://github.com/ryoppippi/ccusage), keeps a permanent history, builds one HTML file and opens it. Needs Node 18 or newer and Claude Code logs on the same machine.
 
 | You want | Run |
 | --- | --- |
-| Try it with fake numbers | `npx github:Andrea-Gervasoni/claude-usage-dashboard --demo` |
-| Keep the page open and fresh | `npx github:Andrea-Gervasoni/claude-usage-dashboard --live` |
-| Use it from inside Claude Code | `/plugin install vibecrab --marketplace Andrea-Gervasoni/claude-usage-dashboard`, then run its `vibecrab` command |
+| Try it with fake numbers | `npx github:Andrea-Gervasoni/vibecrab --demo` |
+| Keep the page open and fresh | `npx github:Andrea-Gervasoni/vibecrab --live` |
+| Use it from inside Claude Code | `/plugin install vibecrab --marketplace Andrea-Gervasoni/vibecrab`, then run its `vibecrab` command |
 | Refresh every night (macOS) | `git clone` this repo and run `./install.sh` |
 
 ## What you get

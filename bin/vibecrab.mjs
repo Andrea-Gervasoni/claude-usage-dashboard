@@ -55,7 +55,7 @@ function update() {
     const tmp = join(tmpdir(), `ccusage-${process.pid}.json`); writeFileSync(tmp, cc.stdout);
     show(node("merge.mjs", [tmp, history]));
   } else {
-    console.error(existsSync(history) ? "ccusage failed: rebuilding from the saved history." : "ccusage failed. Is Claude Code installed and used on this machine?\nTry it first with fake numbers:  npx github:Andrea-Gervasoni/claude-usage-dashboard --demo");
+    console.error(existsSync(history) ? "ccusage failed: rebuilding from the saved history." : "ccusage failed. Is Claude Code installed and used on this machine?\nTry it first with fake numbers:  npx github:Andrea-Gervasoni/vibecrab --demo");
     if (cc.stderr) console.error(cc.stderr.split("\n").slice(0, 4).join("\n"));
   }
   const b = node("build.mjs", [history, page]); show(b);
