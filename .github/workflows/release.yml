@@ -1,0 +1,29 @@
+name: release
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+  id-token: write
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, registry-url: "https://registry.npmjs.org" }
+      - run: npm test
+      - name: Check the tag matches package.json
+        run: test "v$(node -p "require('./package.json').version")" = "${GITHUB_REF_NAME}"
+      - run: node scripts/pages.mjs
+      - name: GitHub Release with the demo page attached
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          cp site/index.html vibecrab-demo.html
+          sha256sum vibecrab-demo.html > vibecrab-demo.html.sha256
+          gh release create "$GITHUB_REF_NAME" vibecrab-demo.html vibecrab-demo.html.sha256 --generate-notes
+      # Publishing to npm is off until the owner turns it on: repo Settings > Variables > NPM_PUBLISH = true,
+      # and a trusted publisher is configured for this repository on npmjs.com.
+      - name: Publish to npm with provenance
+        if: ${{ vars.NPM_PUBLISH == 'true' }}
+        run: npm publish --provenance --access public

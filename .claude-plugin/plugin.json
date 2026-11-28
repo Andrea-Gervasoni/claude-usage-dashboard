@@ -1,0 +1,9 @@
+{
+  "name": "vibecrab",
+  "description": "Your Claude Code usage as a playful local recap: 3D mascot, aura levels, trophies and a story-ready share card. Unofficial, local only.",
+  "version": "0.2.0",
+  "author": { "name": "Andrea Gervasoni" },
+  "license": "MIT",
+  "homepage": "https://github.com/Andrea-Gervasoni/claude-usage-dashboard",
+  "keywords": ["usage", "ccusage", "recap", "dashboard"]
+}

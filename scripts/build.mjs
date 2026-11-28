@@ -8,6 +8,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { execSync } from "node:child_process";
 import { homedir, userInfo } from "node:os";
+import { LEVELS, computeAura, badgeSvg } from "./aura.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const historyPath = process.argv[2] ?? join(root, "history.json");
@@ -17,6 +18,7 @@ const history = existsSync(historyPath)
   ? JSON.parse(readFileSync(historyPath, "utf8"))
   : { version: 1, days: {} };
 
+const demo = process.env.VIBECRAB_DEMO === "1";
 const font = (file) => readFileSync(join(root, "fonts", file)).toString("base64");
 const fontCss = `
 @font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;
@@ -57,7 +59,7 @@ for (const [ext, mime] of [["mp3", "audio/mpeg"], ["m4a", "audio/mp4"], ["wav", 
 }
 
 // JSON sicuro dentro <script>
-const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, nick, huss, days: history.days })
+const data = JSON.stringify({ updatedAt: history.updatedAt ?? null, repo, nick, huss: process.env.VIBECRAB_NO_AUDIO === "1" ? "" : huss, demo, badge: Object.keys(history.days).length ? badgeSvg(computeAura(history.days)) : "", days: history.days })
   .replace(/</g, "\\u003c");
 
 const template = readFileSync(join(root, "template.html"), "utf8");
@@ -65,6 +67,7 @@ const template = readFileSync(join(root, "template.html"), "utf8");
 const three = readFileSync(join(root, "vendor", "three.min.js"), "utf8").replace(/<\/script/gi, "<\\/script");
 const html = template
   .replace("/*__THREE__*/", () => three)
+  .replace("/*__LEVELS__*/[]", () => JSON.stringify(LEVELS))
   .replace("/*__FONTS__*/", () => fontCss)
   .replace("/*__DATA__*/null", () => data);
 
@@ -72,3 +75,10 @@ const tmp = outPath + ".tmp";
 writeFileSync(tmp, html);
 renameSync(tmp, outPath);
 console.log(`build: ${outPath} (${Object.keys(history.days).length} giorni, ${(html.length / 1024).toFixed(0)} KB)`);
+
+// badge SVG accanto alla pagina: da copiare nel README del proprio profilo GitHub
+if (!demo && Object.keys(history.days).length) {
+  const badge = join(dirname(outPath), "badge.svg");
+  writeFileSync(badge, badgeSvg(computeAura(history.days)));
+  console.log(`badge: ${badge}`);
+}

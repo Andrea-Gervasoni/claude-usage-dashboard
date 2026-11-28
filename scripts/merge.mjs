@@ -24,8 +24,17 @@ if (!Array.isArray(rows)) throw new Error("export ccusage senza array 'daily'");
 
 let history = { version: 1, days: {} };
 if (existsSync(historyPath)) {
-  history = JSON.parse(readFileSync(historyPath, "utf8"));
-  history.days ??= {};
+  try {
+    history = JSON.parse(readFileSync(historyPath, "utf8"));
+    if (!history || typeof history !== "object" || typeof history.days !== "object") throw new Error("no days object");
+  } catch (e) {
+    // a damaged history is never silently thrown away: keep it next to the new one and say so
+    const bad = `${historyPath}.corrupt-${Date.now()}`; copyFileSync(historyPath, bad);
+    console.error(`history.json could not be read (${e.message}). A copy was kept at ${bad}. Starting a new history.`);
+    history = { version: 1, days: {} };
+  }
+  history.version ??= 1;
+  if (history.version > 1) { console.error(`history.json comes from a newer vibecrab (schema ${history.version}). Update vibecrab before running it again.`); process.exit(3); }
   copyFileSync(historyPath, historyPath + ".bak");
 }
 

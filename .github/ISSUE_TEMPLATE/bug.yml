@@ -1,0 +1,23 @@
+name: Bug report
+description: Something does not work
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes: { label: vibecrab version, description: "Output of `npx github:Andrea-Gervasoni/claude-usage-dashboard --version`" }
+    validations: { required: true }
+  - type: dropdown
+    id: os
+    attributes: { label: Operating system, options: [macOS, Linux, Windows, Other] }
+    validations: { required: true }
+  - type: input
+    id: node
+    attributes: { label: Node version, description: "`node --version`" }
+    validations: { required: true }
+  - type: input
+    id: browser
+    attributes: { label: Browser and version }
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: "What you ran, what you expected, what you saw. Do not paste your usage logs." }
+    validations: { required: true }

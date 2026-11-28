@@ -34,3 +34,16 @@ test("today grows as the day goes on", () => {
 test("rows with a bad date are ignored", () => {
   const dir = mkdtempSync(join(tmpdir(), "vc-")); assert.deepEqual(Object.keys(run(dir, [row("not-a-date", 5), row("2026-03-03", 5)])), ["2026-03-03"]);
 });
+
+test("a damaged history is kept aside and a new one is started", () => {
+  const dir = mkdtempSync(join(tmpdir(), "vc-")); writeFileSync(join(dir, "history.json"), "{ not json");
+  const days = run(dir, [row("2026-04-04", 7)]);
+  assert.deepEqual(Object.keys(days), ["2026-04-04"]);
+});
+
+test("a history from a newer schema is never overwritten", () => {
+  const dir = mkdtempSync(join(tmpdir(), "vc-")); writeFileSync(join(dir, "history.json"), JSON.stringify({ version: 9, days: { "2026-01-01": { total: 5 } } }));
+  const exp = join(dir, "export.json"); writeFileSync(exp, JSON.stringify({ daily: [row("2026-02-02", 3)] }));
+  const r = spawnSync(process.execPath, [merge, exp, join(dir, "history.json")], { encoding: "utf8" });
+  assert.equal(r.status, 3); assert.deepEqual(Object.keys(JSON.parse(readFileSync(join(dir, "history.json"), "utf8")).days), ["2026-01-01"]);
+});

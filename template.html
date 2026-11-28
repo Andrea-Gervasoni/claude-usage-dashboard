@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Vibecrab</title>
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<script>try{if(localStorage.getItem("vc-skip")==="1"||/[?&]e2e=1/.test(location.search))document.documentElement.classList.add("nointro")}catch(e){}</script>
+<title>vibecrab</title>
 <meta name="description" content="My Claude Code usage, day by day: tokens, estimated cost, models. Local data read with ccusage.">
 <meta name="theme-color" content="#CFE2EC">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cg fill='%23DC6A32'%3E%3Crect x='4' y='5' width='16' height='10' rx='1.5'/%3E%3Crect x='1.5' y='9' width='21' height='3.4' rx='1'/%3E%3Crect x='5' y='15' width='2' height='4'/%3E%3Crect x='8.6' y='15' width='2' height='4'/%3E%3Crect x='13.4' y='15' width='2' height='4'/%3E%3Crect x='17' y='15' width='2' height='4'/%3E%3C/g%3E%3Crect x='8' y='7.4' width='1.8' height='3.6' fill='%230F1B24'/%3E%3Crect x='14.2' y='7.4' width='1.8' height='3.6' fill='%230F1B24'/%3E%3C/svg%3E">
@@ -35,14 +37,21 @@ button{font:inherit;color:inherit}
 main{position:relative;z-index:1}
 
 /* ── apertura ─────────────────────────────────────────────── */
-#cover{position:fixed;inset:0;z-index:60;background:var(--ink);color:#EAF1F5;display:grid;place-items:center;cursor:pointer}
+#cover{position:fixed;inset:0;z-index:60;background:radial-gradient(60% 46% at 50% 44%,#1D4260 0%,#0F1B24 72%);color:#EAF1F5;display:grid;place-items:center;cursor:pointer}
+.nointro #cover{display:none}
 #cover.gone{display:none}
 .boot{text-align:center;transition:opacity .25s}
 #cover.closing .boot{opacity:0}
 .boot svg{width:92px;height:auto;display:block;margin:0 auto 14px;animation:hop 1s var(--ease-io) infinite}
 .boot .eye{transform-box:fill-box;transform-origin:50% 50%;animation:blink 1.5s infinite}
 .boot b{display:block;font-family:var(--serif);font-weight:400;font-size:40px;line-height:1}
-.boot span{font-size:14px;color:#A9BCC9;font-variant-numeric:tabular-nums}
+.boot p{font-size:15px;color:#C5D4DE;font-variant-numeric:tabular-nums;height:1.6em;margin:14px 0 0}
+.boot p.in{animation:bl .35s var(--ease-out)} @keyframes bl{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.bar{width:min(240px,58vw);height:4px;border-radius:4px;background:rgba(234,241,245,.16);margin:12px auto 0;overflow:hidden}
+.bar i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:#DC6A32;border-radius:4px}
+.bootbtn{display:flex;gap:6px;justify-content:center;margin-top:18px;opacity:0;transition:opacity .4s}.bootbtn.on{opacity:1}
+.bootbtn button{appearance:none;border:0;background:none;color:#A9BCC9;font-size:14px;min-height:44px;padding:0 14px;cursor:pointer;border-radius:999px;transition:color .2s,background .2s}
+.bootbtn button:hover{color:#fff;background:rgba(255,255,255,.08)}
 @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
 @keyframes blink{0%,42%,50%,100%{transform:scaleY(1)}46%{transform:scaleY(.1)}}
 
@@ -234,6 +243,19 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
 .foot svg{width:34px;flex:none}
 .is-empty .sec,.is-empty .poke,.is-empty .ticker,.is-empty .cta,.is-empty .play{display:none}
 
+/* ── avvisi gentili: una volta per evento, mai insistenti ─── */
+.toast{position:fixed;z-index:45;left:50%;bottom:calc(max(18px,env(safe-area-inset-bottom,0px)) + 70px);width:min(420px,calc(100vw - 28px));translate:-50% 30px;opacity:0;pointer-events:none;
+  display:flex;align-items:center;gap:12px;padding:12px 12px 12px 18px;border-radius:22px;font-size:15px;line-height:1.35;color:var(--ink);
+  background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);
+  box-shadow:inset 0 1.5px 1px rgba(255,255,255,.9),inset 0 0 0 1px rgba(255,255,255,.4),0 18px 40px -16px rgba(15,27,36,.5);transition:opacity .45s,translate .6s var(--ease-out)}
+.toast.on{opacity:1;translate:-50% 0;pointer-events:auto}
+.toast b{display:block;font-family:var(--serif);font-weight:400;font-size:22px;line-height:1.1}
+.toast .tx{flex:1;min-width:0}.toast button{appearance:none;border:0;cursor:pointer;min-height:44px;border-radius:999px;padding:0 16px;font-weight:600;font-size:14px;background:var(--ink);color:#fff}
+.toast button.q{background:none;color:var(--ink-muted);padding:0 10px;font-size:20px;font-weight:400}
+#demoBar{position:fixed;z-index:46;left:0;right:0;top:0;height:36px;display:none;align-items:center;justify-content:center;gap:10px;background:#0F1B24;color:#EAF1F5;font-size:14px;padding:0 10px}
+#demoBar button{appearance:none;border:0;cursor:pointer;height:26px;border-radius:99px;padding:0 12px;font-size:13px;font-weight:600;background:#DC6A32;color:#0F1B24}
+.is-demo #demoBar{display:flex}.is-demo #brand,.is-demo #range{top:calc(max(16px,env(safe-area-inset-top,0px)) + 36px)}
+.foot button.lnk{appearance:none;border:0;background:none;cursor:pointer;color:var(--ink);text-decoration:underline;font-size:14px;min-height:44px;padding:0 6px}
 /* ── recap: storie a tutto schermo ────────────────────────── */
 #recap{position:fixed;inset:0;z-index:70;display:none;place-items:center;background:rgba(15,27,36,.72);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
 #recap.open{display:grid}
@@ -333,10 +355,12 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
 
 <canvas id="sky" aria-hidden="true"></canvas>
 
-<div id="cover" aria-hidden="true"><div class="boot">
+<div id="cover" role="status" aria-label="Loading vibecrab"><div class="boot">
   <svg viewBox="0 0 24 20"><g fill="#DC6A32"><rect x="4" y="2" width="16" height="10" rx="1.5"/><rect x="1.5" y="6" width="21" height="3.4" rx="1"/><rect x="5" y="12" width="2" height="4"/><rect x="8.6" y="12" width="2" height="4"/><rect x="13.4" y="12" width="2" height="4"/><rect x="17" y="12" width="2" height="4"/></g><rect class="eye" x="8" y="4.4" width="1.8" height="3.6" fill="#0F1B24"/><rect class="eye" x="14.2" y="4.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>
-  <b>vibecrab</b><span id="bootLine">reading 0 days</span>
+  <b>vibecrab</b><p id="bootLine"></p><div class="bar" aria-hidden="true"><i id="bootBar"></i></div><div class="bootbtn" id="bootBtn"><button id="bootSkip">Skip</button><button id="bootAlways">Always skip</button></div>
 </div></div>
+<div id="demoBar"><span>Sample data</span><button id="demoCopy">Copy the command for your own</button></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="recap" role="dialog" aria-label="Recap"><div class="rframe" id="rframe"><div class="rbars" id="rbars"></div><div class="rtop" id="rtop"></div><div id="rslide"></div></div></div>
 <div id="huz" role="dialog" aria-label="Secret clip"><div class="rframe"><canvas id="huzCv" width="1080" height="1920"></canvas><button class="rx" id="hzClose" aria-label="Close">×</button><p id="hzNote" aria-live="polite"></p><div class="hzbar"><button class="btn" id="hzSave" hidden>Save the clip</button><button class="btn ghost" id="hzAgain" hidden>Again</button></div></div></div>
 <svg id="defs" width="0" height="0" aria-hidden="true" style="position:absolute"></svg>
@@ -424,7 +448,7 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
         <div class="next"><div class="tube"><i id="nextBar" style="--w:0;--i:0;--c:var(--orange)"></i></div><p id="nextLine"></p></div>
         <ul class="ladder" id="ladder"></ul>
         <button id="ladMore" aria-expanded="false">Show all 7 levels</button>
-        <div class="btns"><button class="btn" id="save">Save for stories</button><button class="btn ghost" id="copy">Copy caption</button></div>
+        <div class="btns"><button class="btn" id="save">Save for stories</button><button class="btn ghost" id="copy">Copy caption</button><button class="btn ghost" id="badgeBtn" hidden>README badge</button></div>
         <p class="note" id="saveNote" aria-live="polite"></p>
       </div>
     </div>
@@ -432,7 +456,7 @@ tbody tr,tfoot tr{opacity:0;translate:-18px 0;transition:opacity .5s,translate .
   </div>
   <div class="foot">
     <svg viewBox="0 0 24 18" aria-hidden="true"><g fill="#DC6A32"><rect x="4" y="1" width="16" height="10" rx="1.5"/><rect x="1.5" y="5" width="21" height="3.4" rx="1"/><rect x="5" y="11" width="2" height="4"/><rect x="8.6" y="11" width="2" height="4"/><rect x="13.4" y="11" width="2" height="4"/><rect x="17" y="11" width="2" height="4"/></g><rect x="8" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/><rect x="14.2" y="3.4" width="1.8" height="3.6" fill="#0F1B24"/></svg>
-    <p id="foot"></p><a class="btn ghost" id="star" target="_blank" rel="noopener" hidden>Star it on GitHub</a>
+    <p id="foot"></p><button class="lnk" id="replay">Replay intro</button><a class="btn ghost" id="star" target="_blank" rel="noopener" hidden>Star it on GitHub</a>
   </div></section>
 </main>
 
@@ -503,15 +527,7 @@ function countTo(el, value, fmt) {
 }
 
 /* ── aura: livelli calcolati su tutta la storia, formula dichiarata ── */
-const LEVELS = [
-  { n: 1, name: "NPC", at: 0, tag: "No aura detected. Touch keyboard." },
-  { n: 2, name: "Vibe Rookie", at: 250, tag: "It compiles. Sometimes." },
-  { n: 3, name: "Vibe Coder", at: 1000, tag: "Reads the diff? Never heard of it." },
-  { n: 4, name: "Ship Machine", at: 2500, tag: "Pushes to main on a Friday." },
-  { n: 5, name: "Context Lord", at: 5000, tag: "200K context, zero fear." },
-  { n: 6, name: "Token Whale", at: 12000, tag: "Rate limits fear you." },
-  { n: 7, name: "Final Boss", at: 30000, tag: "The model asks you for help." },
-];
+const LEVELS = /*__LEVELS__*/[];
 const RARITY = ["", "Common", "Uncommon", "Rare", "Epic", "Legendary", "Mythic", "Secret"];
 const FRAME = [null, ["#C9D6DE", "#8FA7B6"], ["#B4CEDD", "#6E94AC"], ["#8CC8EC", "#3A82B2"], ["#40607A", "#0F1B24"], ["#F8BC92", "#D45E22"], ["#FAE6A8", "#C98F1E"], ["#FFE9A8", "#8FD0F5"]];
 const BADGES = [
@@ -697,7 +713,7 @@ function render() {
   $("#h1").setAttribute("aria-label", `${n} days. ${compact(t.total)} tokens. Zero regrets.`);
   $("#sub").innerHTML = `About <b class="num">${usd(t.cost)}</b> at API prices, across ${act.length} working ${act.length === 1 ? "day" : "days"}.` + (S.clipped ? ` Log starts ${longDate(allDates[0])}.` : "");
   AU = auraAll();
-  const hook = !AU.fresh ? "Check your aura" : AU.todayOn ? `Day ${AU.run} of your current streak` : AU.run > 0 ? `${AU.run}-day streak at risk. Code today` : "No streak yet. Start one today";
+  const hook = !AU.fresh ? "Check your aura" : AU.todayOn ? `Day ${AU.run} of your current streak` : AU.run > 0 ? `Welcome back. Last streak: ${AU.run} ${AU.run === 1 ? "day" : "days"}` : "Check your aura";
   $("#auraCta").innerHTML = `${mascotSVG(AU.level.n)}<span><b>Lv ${AU.level.n} ${AU.level.name}</b><small>${hook}</small></span>`;
   if (mascot) mascot.setLevel(AU.level.n);
   renderFlex(); renderAura();
@@ -707,6 +723,9 @@ function render() {
   const wd = [0, 0, 0, 0, 0, 0, 0]; act.forEach((d) => (wd[(parse(d.date).getDay() + 6) % 7] += d.total));
   $("#b-streak").dataset.v = best; $("#s-streak").textContent = (best === 1 ? "day in a row" : "days in a row") + ", best in this period";
   $("#l-streak").innerHTML = `<b>${act.length} of ${n}</b> days active. Peak: ${shortDate(top.date)}, ${compact(top.total)} tokens.` + (act.length > 13 ? ` You go hardest on ${WD[wd.indexOf(Math.max(...wd))]}.` : "");
+  { const lastI = allDates.length - 1; let ld = null, sum = 0, cnt = 0;
+    for (let k = lastI; k >= 0 && cnt < 8; k--) { const v = days[allDates[k]], tt = v.total || (v.input || 0) + (v.output || 0) + (v.cacheCreation || 0) + (v.cacheRead || 0); if (tt <= 0) continue; if (!ld) ld = { d: allDates[k], t: tt }; else { sum += tt; cnt++; } }
+    if (ld && cnt >= 3) { const avg = sum / cnt, dv = (ld.t / avg - 1) * 100; $("#l-streak").innerHTML += ` Last active day, ${shortDate(ld.d)}: ${compact(ld.t)} tokens, ${Math.abs(Math.round(dv))}% ${dv >= 0 ? "above" : "below"} your usual.`; } }
   renderHeat();
   const novels = t.output / 12e4;
   const items = [`<b>${compact(t.total)}</b> tokens`, `<b>${best}</b>-day streak`, `<b>${usd0(t.cost)}</b> bill`, `<b>${novels >= 10 ? Math.round(novels) : fx(novels, 1)}</b> novels of output`, `<b>${Math.round(t.output ? t.cacheRead / t.output : 0)}×</b> re-read`, `Lv <b>${AU.level.n}</b> ${AU.level.name}`, `<b>${int.format(AU.pts)}</b> aura`];
@@ -741,7 +760,7 @@ function render() {
   $("#ledgerBody").innerHTML = months.map((m, i) => `<tr style="--i:${i}">${row(monthLabel(m.key), m)}</tr>`).join("");
   $("#ledgerFoot").innerHTML = `<tr style="--i:${months.length}">${row("Total", t)}</tr>`;
   const up = DATA && DATA.updatedAt ? new Date(DATA.updatedAt) : null;
-  $("#foot").textContent = `Logging since ${longDate(allDates[0])}, ${allDates.length} days on file.` + (up ? ` Updated ${up.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}.` : "") + " Numbers come from ccusage reading local Claude Code logs.";
+  $("#foot").textContent = `Logging since ${longDate(allDates[0])}, ${allDates.length} days on file.` + (up ? ` Updated ${up.toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}.` : "") + " Numbers come from ccusage reading local Claude Code logs. Nothing leaves your machine: this page makes no network requests.";
 }
 function renderFlex() {
   const { list, t, act } = S;
@@ -776,13 +795,14 @@ function renderAura() {
   drawCard();
 }
 /* card da storie 1080×1920: una carta da collezione su cielo, dentro la zona sicura delle storie */
-const REPO = (DATA && DATA.repo) || "", NICK = (DATA && DATA.nick) || "";
+const REPO = (DATA && DATA.repo) || "", NICK = (DATA && DATA.nick) || "", DEMO = !!(DATA && DATA.demo);
+if (DEMO) document.body.classList.add("is-demo");
 let cardLv = 0;
 function fit(c, text, font, size, maxW) { do { c.font = font.replace("%", size + "px"); if (c.measureText(text).width <= maxW) break; size -= 3; } while (size > 18); return size; }
 async function drawCard(lv) {
   const cv = $("#card"); if (!cv || !AU) return;
   try { await Promise.all([document.fonts.load('80px "Instrument Serif"'), document.fonts.load('600 40px "Instrument Sans"'), document.fonts.load('40px "Instrument Sans"')]); } catch (_) {}
-  const a = AU, n = lv || a.level.n, L = LEVELS[n - 1], locked = n > a.level.n; cardLv = n;
+  const a = AU, n = lv || a.level.n, L = LEVELS[n - 1], locked = n > a.level.n, past = n < a.level.n; cardLv = n;
   const c = cv.getContext("2d"), W = 1080, H = 1920, INK = "#0F1B24", SOFT = "#2C3D4F", OR = "#9A3D14", F = FRAME[n], cx = W / 2, my = 770;
   const SER = '% "Instrument Serif", Georgia, serif', SAN = '% "Instrument Sans", system-ui, sans-serif';
   const font = (f, sz) => (c.font = f.replace("%", sz)), rr = (x, y, w, h, r) => { c.beginPath(); c.roundRect(x, y, w, h, r); };
@@ -807,11 +827,11 @@ async function drawCard(lv) {
   const mk = (x, y, k, eye) => { c.fillStyle = "#DC6A32"; [[4, 1, 16, 10], [1.5, 5, 21, 3.4], [5, 11, 2, 4], [8.6, 11, 2, 4], [13.4, 11, 2, 4], [17, 11, 2, 4]].forEach(([a1, b, w, h]) => c.fillRect(x + a1 * k, y + b * k, w * k, h * k)); c.fillStyle = eye; c.fillRect(x + 8 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); c.fillRect(x + 14.2 * k, y + 3.4 * k, 1.8 * k, 3.6 * k); };
   font(SER, "64px"); const ww = c.measureText("vibecrab").width, hx = cx - (ww + 104) / 2; mk(hx, 222, 3.4, INK); c.fillStyle = "#FFFFFF"; c.textAlign = "left"; c.fillText("vibecrab", hx + 104, 274);
   // una frase sola: chi, cosa, quanto
-  c.textAlign = "center"; c.fillStyle = INK; font(SAN, "600 50px"); c.fillText(locked ? (NICK ? `${NICK} is not yet a` : "Not yet a") : (NICK ? `${NICK} is a` : "Certified"), cx, 1192);
+  c.textAlign = "center"; c.fillStyle = INK; font(SAN, "600 50px"); c.fillText(locked ? (NICK ? `${NICK} is not yet a` : "Not yet a") : past ? (NICK ? `${NICK} was a` : "Once a") : (NICK ? `${NICK} is a` : "Certified"), cx, 1192);
   c.fillStyle = INK; const sn = fit(c, L.name, SER, 228, W - 110); font(SER, sn + "px"); c.fillText(L.name, cx, 1192 + sn * .84);
   const ny = 1192 + sn * .84 + 142;
   if (locked) { c.fillStyle = OR; font(SER, "118px"); c.fillText(`${int.format(Math.max(0, L.at - a.pts))} aura to go`, cx, ny); }
-  else { const num = "+" + int.format(a.pts); font(SER, "164px"); const nw = c.measureText(num).width; font(SER, "86px"); const lw = c.measureText(" aura").width, x0 = cx - (nw + lw) / 2;
+  else { const num = "+" + int.format(past ? L.at : a.pts); font(SER, "164px"); const nw = c.measureText(num).width; font(SER, "86px"); const lw = c.measureText(" aura").width, x0 = cx - (nw + lw) / 2;
     c.textAlign = "left"; c.fillStyle = OR; font(SER, "164px"); c.fillText(num, x0, ny); font(SER, "86px"); c.fillText(" aura", x0 + nw, ny); c.textAlign = "center"; }
   // la domanda che fa aprire
   const py = Math.min(1640, ny + 54), pw = 700; c.fillStyle = INK; rr(cx - pw / 2, py, pw, 112, 56); c.fill();
@@ -843,10 +863,13 @@ $("#save").addEventListener("click", async () => {
   const cv = $("#card"), note = $("#saveNote");
   if (cardLv !== AU.level.n) { await drawCard(AU.level.n); $("#ladder").querySelectorAll(".view").forEach((x) => x.classList.remove("view")); $("#ladder .cur")?.classList.add("view"); }
   const blob = await new Promise((r) => cv.toBlob(r, "image/png")); if (!blob) return;
-  try { const file = new File([blob], "vibecrab-aura.png", { type: "image/png" }); if (coarse && navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibecrab" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
+  try { const file = new File([blob], "vibecrab-aura.png", { type: "image/png" }); if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: "vibecrab" }); return; } } catch (e) { if (e && e.name === "AbortError") return; }
   const r = await saveFile(blob, "vibecrab-aura.png");
   note.textContent = r === "declined" ? "Not saved." : r === "host_unavailable" ? "This app cannot save files. Open the page in a browser to save the card." : "Saved as vibecrab-aura.png, 1080 by 1920. If nothing downloaded, right-click the card and save the image.";
 });
+// dove il browser sa condividere file, il tasto principale apre il foglio di condivisione del sistema
+try { if (navigator.canShare && navigator.canShare({ files: [new File(["x"], "a.png", { type: "image/png" })] })) $("#save").textContent = "Share card"; } catch (_) {}
+if (DATA && DATA.badge) { $("#badgeBtn").hidden = false; $("#badgeBtn").addEventListener("click", async () => { const r = await saveFile(new Blob([DATA.badge], { type: "image/svg+xml" }), "vibecrab-badge.svg"); $("#saveNote").textContent = r === "declined" ? "Not saved." : "Saved vibecrab-badge.svg. Put it in your profile README: ![vibecrab](vibecrab-badge.svg)"; }); }
 $("#copy").addEventListener("click", async () => {
   const a = AU, txt = `Lv ${a.level.n} ${a.level.name}, +${int.format(a.pts)} aura. ${compact(a.tot)} tokens, ${a.best}-day streak with Claude Code.` + (REPO ? ` github.com/${REPO}` : "");
   try { await navigator.clipboard.writeText(txt); $("#saveNote").textContent = "Caption copied."; } catch (_) { $("#saveNote").textContent = txt; }
@@ -1389,26 +1412,60 @@ $("#brand").addEventListener("click", () => goTo("top"));
 
 /* ── apertura: il logo saltella mentre conta i giorni, poi il buio si chiude sul granchio che atterra ── */
 function reveal() {
-  $("#top").classList.add("in"); if (mascot) mascot.go = true;
+  $("#top").classList.add("in"); if (mascot) mascot.go = true; setTimeout(milestones, 3200);
   setTimeout(() => glassEls.forEach((g, i) => setTimeout(() => g.classList.add("on"), i * 110)), 300);
   document.querySelectorAll(".panel").forEach((p) => io.observe(p));
 }
 function opening() {
-  const cover = $("#cover");
-  if (reduced) { cover.classList.add("gone"); reveal(); return; }
+  const cover = $("#cover"), de = document.documentElement;
+  if (reduced || S.empty || de.classList.contains("nointro")) { cover.classList.add("gone"); reveal(); try { localStorage.setItem("vc-seen", "1"); } catch (_) {} return; }
+  let returning = false; try { returning = localStorage.getItem("vc-seen") === "1"; } catch (_) {}
   const c = mascot ? mascot.center : { x: innerWidth / 2, y: innerHeight / 2 }, full = Math.hypot(Math.max(c.x, innerWidth - c.x), Math.max(c.y, innerHeight - c.y)) + 40;
-  const T1 = 1500, T2 = 850; let t0 = performance.now(), shown = false;
-  cover.addEventListener("pointerdown", () => { if (performance.now() - t0 < T1) t0 = performance.now() - T1; }, { once: true });
+  const T1 = returning ? 950 : 1750, T2 = 800, t = S.t;
+  // passi veri: ogni riga è un numero che la pagina ha appena calcolato, niente percentuali finte
+  const steps = [`Reading ${S.n} ${S.n === 1 ? "day" : "days"}`, `Counting ${compact(t.total)} tokens`, `Weighing ${usd0(t.cost)} at API prices`, `${NICK ? NICK + ", " : ""}level ${AU.level.n}: ${AU.level.name}`];
+  let t0 = performance.now(), shown = false, last = -1;
+  const skip = () => { if (performance.now() - t0 < T1) t0 = performance.now() - T1; };
+  cover.addEventListener("pointerdown", (e) => { if (e.target.id === "bootAlways") { try { localStorage.setItem("vc-skip", "1"); } catch (_) {} } skip(); });
+  addEventListener("keydown", (e) => { if (e.key === "Escape" || e.key === "Enter" || e.key === " ") skip(); }, { once: true });
+  setTimeout(() => $("#bootBtn").classList.add("on"), returning ? 300 : 650);
+  try { localStorage.setItem("vc-seen", "1"); } catch (_) {}
   (function tick(now) {
-    const t = now - t0; $("#bootLine").textContent = `reading ${Math.round((S.n || 0) * easeOut(clamp(t / (T1 - 150))))} days`;
-    if (t > T1 - 160) cover.classList.add("closing");
-    const q = clamp((t - T1) / T2);
+    const e = now - t0, k = Math.min(steps.length - 1, Math.floor(clamp(e / (T1 - 200)) * steps.length));
+    if (k !== last) { last = k; const p = $("#bootLine"); p.textContent = steps[k]; p.classList.remove("in"); void p.offsetWidth; p.classList.add("in"); }
+    $("#bootBar").style.transform = `scaleX(${easeOut(clamp(e / T1)).toFixed(3)})`;
+    if (e > T1 - 160) cover.classList.add("closing");
+    const q = clamp((e - T1) / T2);
     if (q > 0) cover.style.clipPath = `circle(${(full * (1 - easeIO(q))).toFixed(1)}px at ${c.x}px ${c.y}px)`;
     if (q > .3 && !shown) { shown = true; reveal(); }
     if (q < 1) return requestAnimationFrame(tick);
     cover.classList.add("gone");
   })(t0);
 }
+
+/* ── avvisi: un livello nuovo, trofei nuovi, e al massimo un invito a settimana a guardare il recap ── */
+let toastT = 0;
+function toast(html, label, fn) {
+  const el = $("#toast"); clearTimeout(toastT);
+  el.innerHTML = `<div class="tx">${html}</div>${label ? `<button id="toastGo">${label}</button>` : ""}<button class="q" id="toastX" aria-label="Dismiss">×</button>`;
+  requestAnimationFrame(() => el.classList.add("on")); const off = () => { el.classList.remove("on"); clearTimeout(toastT); };
+  $("#toastX").onclick = off; if (label) $("#toastGo").onclick = () => { off(); fn(); }; toastT = setTimeout(off, 9000);
+}
+function milestones() {
+  if (DEMO || S.empty || !AU) return;
+  let prev = null; try { prev = JSON.parse(localStorage.getItem("vc-state") || "null"); } catch (_) {}
+  const got = BADGES.filter((b) => { const [v, g] = b.p(AU); return v >= g; }).map((b) => b.name);
+  const wk = (() => { const d = new Date(today); d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7)); const y = d.getFullYear(), j = new Date(y, 0, 4); return y + "-W" + (1 + Math.round(((d - j) / 864e5 - 3 + ((j.getDay() + 6) % 7)) / 7)); })();
+  try { localStorage.setItem("vc-state", JSON.stringify({ level: AU.level.n, got, week: wk })); } catch (_) {}
+  if (!prev) return;   // prima visita: niente avvisi, solo il punto di partenza
+  if (AU.level.n > prev.level) return toast(`<b>Level ${AU.level.n}: ${AU.level.name}</b>${GEAR[AU.level.n] ? "Unlocked " + GEAR[AU.level.n] + "." : ""}`, "See card", () => goTo("aura"));
+  const fresh = got.filter((g) => !(prev.got || []).includes(g)); if (fresh.length) return toast(`<b>New trophy${fresh.length > 1 ? "s" : ""}</b>${esc(fresh.slice(0, 2).join(", "))}${fresh.length > 2 ? " and more" : ""}.`, "See trophies", () => goTo("aura"));
+  if (prev.week !== wk && S.act.length >= 3) toast(`<b>Your week is ready</b>A short recap, whenever you like.`, "Play", recapOpen);
+}
+$("#replay").addEventListener("click", () => { try { localStorage.removeItem("vc-skip"); } catch (_) {} location.search = ""; });
+$("#demoCopy").addEventListener("click", async (e) => { const cmd = `npx github:${REPO || "Andrea-Gervasoni/claude-usage-dashboard"}`; try { await navigator.clipboard.writeText(cmd); e.currentTarget.textContent = "Copied"; } catch (_) { e.currentTarget.textContent = cmd; } });
+/* con "--live" la pagina arriva da http://127.0.0.1: quando i numeri cambiano si ricarica da sola, ma mai durante un recap o una clip */
+if (/^https?:$/.test(location.protocol)) { let ver = null; setInterval(async () => { try { const v = await (await fetch("/__v", { cache: "no-store" })).text(); if (ver && v !== ver && !RC.on && !HZ.on) location.reload(); ver = v; } catch (_) {} }, 20000); }
 
 /* ── avvio ─────────────────────────────────────────────────── */
 try { const saved = localStorage.getItem("vibecrab-range"); if (saved && ["7d", "30d", "6m", "all"].includes(saved)) { S.range = saved; $("#range").querySelectorAll(".press").forEach((x) => x.setAttribute("aria-pressed", x.dataset.range === saved)); } } catch (_) {}

@@ -1,0 +1,8 @@
+name: Idea or feedback
+description: A feature, a better aura threshold, a trophy, a translation
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes: { label: What would you like, description: "If it is about the aura thresholds, say your level and roughly how long you have used Claude Code." }
+    validations: { required: true }

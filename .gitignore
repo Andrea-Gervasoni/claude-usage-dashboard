@@ -1,8 +1,9 @@
+.DS_Store
+.update.lock/
 history.json
 history.json.bak
 history.json.tmp
 index.html
 index.html.tmp
 logs/
-.update.lock/
-.DS_Store
+site/

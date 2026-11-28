@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="257" height="28" role="img" aria-label="vibecrab: Lv 1  NPC  61 aura">
+<title>vibecrab: Lv 1  NPC  61 aura</title>
+<clipPath id="r"><rect width="257" height="28" rx="8"/></clipPath>
+<g clip-path="url(#r)"><rect width="104" height="28" fill="#0F1B24"/><rect x="104" width="153" height="28" fill="#DC6A32"/></g>
+<g fill="#DC6A32" transform="translate(9 6)"><rect x="3" y="1" width="12" height="7.5" rx="1.2"/><rect x="1" y="4" width="16" height="2.6" rx=".8"/><rect x="4" y="8.5" width="1.5" height="3"/><rect x="7" y="8.5" width="1.5" height="3"/><rect x="10.5" y="8.5" width="1.5" height="3"/><rect x="13" y="8.5" width="1.5" height="3"/></g>
+<rect x="6.8" y="8.6" width="1.4" height="2.7" fill="#0F1B24" transform="translate(9 6) translate(-3.5 -3.5)"/>
+<g font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Helvetica,Arial,sans-serif" font-size="12" font-weight="600" text-anchor="start">
+<text x="32" y="18.5" fill="#EAF1F5">vibecrab</text><text x="114" y="18.5" fill="#0F1B24">Lv 1  NPC  61 aura</text></g></svg>

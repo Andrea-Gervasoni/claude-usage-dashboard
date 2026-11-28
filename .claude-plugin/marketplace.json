@@ -1,0 +1,13 @@
+{
+  "name": "vibecrab",
+  "owner": { "name": "Andrea Gervasoni" },
+  "metadata": { "description": "Your Claude Code usage as a playful local recap. Unofficial." },
+  "plugins": [
+    {
+      "name": "vibecrab",
+      "source": "./",
+      "description": "Turn your Claude Code usage into a local recap with a 3D mascot, aura levels, trophies and a share card. Runs on your machine, uploads nothing.",
+      "category": "productivity"
+    }
+  ]
+}
